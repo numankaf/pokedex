@@ -1,6 +1,5 @@
 /numan.kafadar.iml
 /.idea/
-Day1/.idea/misc.xml
-Day1/.idea/modules.xml
-Day1/.idea/runConfigurations.xml
+/out/
+Day1/.idea/
 Day1/Day1.iml
