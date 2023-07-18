@@ -1,3 +1,4 @@
+package Day2;
 public class ArrayExercise {
     static void reverse(int arr[], int size){
         int rarr[] = new int[size];
