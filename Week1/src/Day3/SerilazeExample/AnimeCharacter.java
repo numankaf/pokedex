@@ -3,7 +3,7 @@ package Day3.SerilazeExample;
 import java.io.Serializable;
 
 public class AnimeCharacter implements Serializable {
-    private String name;
+    transient private String name;
     private String anime;
     private int age;
 
