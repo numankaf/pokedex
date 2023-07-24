@@ -4,7 +4,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +13,10 @@ public class FirstServlet extends HttpServlet {
     @Override
     public void init() {
         characters = new ArrayList<>();
+        characters.add(new Person("https://i.pinimg.com/736x/51/9c/ff/519cffb8cb7dd9f31137cc4fee468c68.jpg","Itadori Yuuji", "Jujutsu Kaisen",17));
+        characters.add(new Person("https://ae01.alicdn.com/kf/H798bf54a4ae2429a8d4464c54679fa3et.png", "Minato Namikaze","Naruto",21));
+        characters.add(new Person("https://i.pinimg.com/736x/51/9c/ff/519cffb8cb7dd9f31137cc4fee468c68.jpg","Itadori Yuuji", "Jujutsu Kaisen",17));
+        characters.add(new Person("https://ae01.alicdn.com/kf/H798bf54a4ae2429a8d4464c54679fa3et.png", "Minato Namikaze","Naruto",21));
         characters.add(new Person("https://i.pinimg.com/736x/51/9c/ff/519cffb8cb7dd9f31137cc4fee468c68.jpg","Itadori Yuuji", "Jujutsu Kaisen",17));
         characters.add(new Person("https://ae01.alicdn.com/kf/H798bf54a4ae2429a8d4464c54679fa3et.png", "Minato Namikaze","Naruto",21));
     }
@@ -41,6 +44,11 @@ public class FirstServlet extends HttpServlet {
     @Override
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
         super.service(req, res);
+    }
+
+    @Override
+    public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doDelete(req, resp);
     }
 
     @Override
