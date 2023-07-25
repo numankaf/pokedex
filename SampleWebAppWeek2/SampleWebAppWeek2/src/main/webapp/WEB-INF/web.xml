@@ -4,7 +4,7 @@
 
 <web-app>
   <welcome-file-list>
-    <welcome-file>/WEB-INF/secureExample.jsp</welcome-file>
+    <welcome-file>/WEB-INF/includeExercise/main.jsp</welcome-file>
   </welcome-file-list>
 
   <display-name>Archetype Created Web Application</display-name>

@@ -37,10 +37,10 @@
 </head>
 <body>
 
-<h1>Withdraw </h1>
+<h1>Secure Example </h1>
 <form action="secure" method="GET">
     <div style="padding: 1rem; background-color: #f2f2f2; width: 20%;">
-        <input type="submit" value="send"/>
+        <input type="submit" value="Send Request"/>
     </div>
 </form>
 </body>
