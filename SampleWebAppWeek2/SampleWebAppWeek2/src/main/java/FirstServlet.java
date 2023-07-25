@@ -23,7 +23,8 @@ public class FirstServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.setAttribute("characters", characters);
-        request.getRequestDispatcher("characters.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/securejsp/characters.jsp").forward(request, response);
+
 
     }
 
@@ -34,9 +35,10 @@ public class FirstServlet extends HttpServlet {
         String name = request.getParameter("name").trim();
         String anime = request.getParameter("anime").trim();
         int age = Integer.parseInt(request.getParameter("age").trim());
+
         characters.add(new Person(imgUrl,name,anime,age));
         request.setAttribute("characters", characters);
-        request.getRequestDispatcher("characters.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/securejsp/characters.jsp").forward(request, response);
     }
 
 

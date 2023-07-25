@@ -4,6 +4,21 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <security-role>
+    <role-name>admin</role-name>
+  </security-role>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>A JSP page</web-resource-name>
+      <url-pattern>/WEB-INF/securejsp/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>BASIC</auth-method>
+  </login-config>
   <servlet-mapping>
     <servlet-name>FirstServlet</servlet-name>
     <url-pattern>/FirstServlet</url-pattern>
