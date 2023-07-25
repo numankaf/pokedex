@@ -1,6 +1,11 @@
-<%@ page import="Entity.Person" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: Numan
+  Date: 7/25/2023
+  Time: 1:47 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <style>
     input[type=text],input[type=number]  {
@@ -27,33 +32,36 @@
         background-color: #45a049;
     }
 </style>
+<head>
+    <title>ATM</title>
+</head>
 <body>
-<h1>First Servlet Example</h1>
 
-<a action="FirstServlet" method="GET" href="FirstServlet"> Get Characters</a>
-<h3>Add Character</h3>
-<form action="FirstServlet" method="POST">
+<h1>Withdraw </h1>
+<form action="atm" method="GET">
+
     <div style="padding: 1rem; background-color: #f2f2f2; width: 20%;">
         <div style="display: flex; flex-direction: column; justify-content: center;">
             <div style="display: flex;align-items: center;justify-content: space-between">
-                <h2>Image Url:</h2>
-                <input type="text" name="imgUrl">
-            </div>
-            <div style="display: flex;align-items: center;justify-content: space-between">
-                <h2> Name: </h2>
-                <input type="text" name="name">
-            </div>
-            <div style="display: flex;align-items: center;justify-content: space-between">
-                <h2>Anime:</h2>
-                <input type="text" name="anime">
-            </div>
-            <div style="display: flex;align-items: center;justify-content: space-between">
-                <h2>Age:</h2>
-                <input type="number" name="age">
+                <h2>Amount : </h2>
+                <input type="number" name="money">
             </div>
         </div>
+        <input type="submit" value="Withdraw"/>
+    </div>
+</form>
 
-        <input type="submit" value="Add Character"/>
+<h1>Deposite </h1>
+<form action="atm" method="POST">
+
+    <div style="padding: 1rem; background-color: #f2f2f2; width: 20%;">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+            <div style="display: flex;align-items: center;justify-content: space-between">
+                <h2>Amount : </h2>
+                <input type="number" name="money">
+            </div>
+        </div>
+        <input type="submit" value="Deposite"/>
     </div>
 </form>
 </body>

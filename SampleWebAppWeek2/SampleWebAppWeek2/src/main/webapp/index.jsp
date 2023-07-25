@@ -33,7 +33,6 @@
 <a action="FirstServlet" method="GET" href="FirstServlet"> Get Characters</a>
 <h3>Add Character</h3>
 <form action="FirstServlet" method="POST">
-
     <div style="padding: 1rem; background-color: #f2f2f2; width: 20%;">
         <div style="display: flex; flex-direction: column; justify-content: center;">
             <div style="display: flex;align-items: center;justify-content: space-between">

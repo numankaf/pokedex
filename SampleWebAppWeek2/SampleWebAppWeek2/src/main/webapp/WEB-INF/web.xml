@@ -3,6 +3,10 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
+  <welcome-file-list>
+    <welcome-file>/WEB-INF/atm.jsp</welcome-file>
+  </welcome-file-list>
+
   <display-name>Archetype Created Web Application</display-name>
   <security-role>
     <role-name>admin</role-name>
@@ -23,4 +27,10 @@
     <servlet-name>FirstServlet</servlet-name>
     <url-pattern>/FirstServlet</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>atm</servlet-name>
+    <url-pattern>/atm</url-pattern>
+  </servlet-mapping>
+
+
 </web-app>
