@@ -15,10 +15,9 @@ public class FirstServlet extends HttpServlet {
         characters = new ArrayList<>();
         characters.add(new Person("https://i.pinimg.com/736x/51/9c/ff/519cffb8cb7dd9f31137cc4fee468c68.jpg","Itadori Yuuji", "Jujutsu Kaisen",17));
         characters.add(new Person("https://ae01.alicdn.com/kf/H798bf54a4ae2429a8d4464c54679fa3et.png", "Minato Namikaze","Naruto",21));
-        characters.add(new Person("https://i.pinimg.com/736x/51/9c/ff/519cffb8cb7dd9f31137cc4fee468c68.jpg","Itadori Yuuji", "Jujutsu Kaisen",17));
-        characters.add(new Person("https://ae01.alicdn.com/kf/H798bf54a4ae2429a8d4464c54679fa3et.png", "Minato Namikaze","Naruto",21));
-        characters.add(new Person("https://i.pinimg.com/736x/51/9c/ff/519cffb8cb7dd9f31137cc4fee468c68.jpg","Itadori Yuuji", "Jujutsu Kaisen",17));
-        characters.add(new Person("https://ae01.alicdn.com/kf/H798bf54a4ae2429a8d4464c54679fa3et.png", "Minato Namikaze","Naruto",21));
+        characters.add(new Person("https://www.sosyncd.com/wp-content/uploads/2022/07/2.png","Kgusaki Nobara", "Jujutsu Kaisen",17));
+        characters.add(new Person("https://upload.wikimedia.org/wikipedia/tr/1/12/GaaraoftheDesert.jpg", "Gaara of the Sand","Naruto",14));
+        characters.add(new Person("https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/11/gojo-satoru.jpg","Gojo Satoru", "Jujutsu Kaisen",17));
     }
 
     @Override

@@ -13,7 +13,7 @@
 <body>
 <% List<Person> characters = (ArrayList<Person>) request.getAttribute("characters");%>
 <h3> Characters List </h3>
-<div style="display: flex; gap:2rem; align-items: center;flex-wrap: wrap; justify-content: center; flex-direction: row;">
+<div style="display: flex; gap:2rem; align-items: center;flex-wrap: wrap;  flex-direction: row;">
 
     <%
         for (Person c : characters) {
