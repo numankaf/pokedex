@@ -4,37 +4,50 @@
 
 <web-app>
   <welcome-file-list>
-    <welcome-file>/WEB-INF/includeExercise/main.jsp</welcome-file>
+    <welcome-file>/WEB-INF/day3Exercise1/index.jsp</welcome-file>
   </welcome-file-list>
-
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/day3Exercise1/error404.jsp</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/ServletExceptionHandler</location>
+  </error-page>
   <display-name>Archetype Created Web Application</display-name>
-  <security-role>
-    <role-name>admin</role-name>
-  </security-role>
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>A JSP page</web-resource-name>
-      <url-pattern>/WEB-INF/securejsp/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>admin</role-name>
-    </auth-constraint>
-  </security-constraint>
-  <login-config>
-    <auth-method>BASIC</auth-method>
-  </login-config>
+<!--  <security-role>-->
+<!--    <role-name>admin</role-name>-->
+<!--  </security-role>-->
+<!--  <security-constraint>-->
+<!--    <web-resource-collection>-->
+<!--      <web-resource-name>A JSP page</web-resource-name>-->
+<!--      <url-pattern>/WEB-INF/securejsp/*</url-pattern>-->
+<!--    </web-resource-collection>-->
+<!--    <auth-constraint>-->
+<!--      <role-name>admin</role-name>-->
+<!--    </auth-constraint>-->
+<!--  </security-constraint>-->
+<!--  <login-config>-->
+<!--    <auth-method>BASIC</auth-method>-->
+<!--  </login-config>-->
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>FirstServlet</servlet-name>-->
+<!--    <url-pattern>/FirstServlet</url-pattern>-->
+<!--  </servlet-mapping>-->
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>atm</servlet-name>-->
+<!--    <url-pattern>/atm</url-pattern>-->
+<!--  </servlet-mapping>-->
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>secure</servlet-name>-->
+<!--    <url-pattern>/secure</url-pattern>-->
+<!--  </servlet-mapping>-->
   <servlet-mapping>
-    <servlet-name>FirstServlet</servlet-name>
-    <url-pattern>/FirstServlet</url-pattern>
+    <servlet-name>exceptionExample</servlet-name>
+    <url-pattern>/exceptionExample</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>atm</servlet-name>
-    <url-pattern>/atm</url-pattern>
+    <servlet-name>ServletExceptionHandler</servlet-name>
+    <url-pattern>/ServletExceptionHandler</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>secure</servlet-name>
-    <url-pattern>/secure</url-pattern>
-  </servlet-mapping>
-
-
 </web-app>
