@@ -21,7 +21,7 @@ public class EditContactServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/jsp/edit-contact.jsp").forward(req,resp);
+        req.getRequestDispatcher("jsp/edit-contact.jsp").forward(req,resp);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class EditContactServlet extends HttpServlet {
         contact.setId(id);
         databaseOperations.updateContact(contact);
 
-        req.setAttribute("createdContact", contact);
-        req.getRequestDispatcher("/WEB-INF/jsp/operation-successful.jsp").forward(req,resp);
+        req.setAttribute("opSucMessage","Edited an existing contact successfully");
+        req.getRequestDispatcher("jsp/operation-successful.jsp").forward(req,resp);
     }
 }

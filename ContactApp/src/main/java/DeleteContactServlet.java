@@ -7,10 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
-@WebServlet(name = "createContact", value = "/createContact")
-public class CreateContactServlet  extends HttpServlet {
-    DatabaseOperations databaseOperations;
+@WebServlet(name = "deleteContact", value = "/deleteContact")
+public class DeleteContactServlet extends HttpServlet {
+    private DatabaseOperations databaseOperations;
     @Override
     public void init() throws ServletException {
         try {
@@ -22,17 +23,15 @@ public class CreateContactServlet  extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/jsp/create-contact.jsp").forward(req,resp);
+        //req.getRequestDispatcher("/WEB-INF/jsp/create-contact.jsp").forward(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name").trim();
-        String gsm = req.getParameter("gsm").trim();
-        Contact contact = new Contact(name,gsm);
-        databaseOperations.createContact(contact);
-
-        req.setAttribute("opSucMessage","Created a new Contact Successfully");
-        req.getRequestDispatcher("/jsp/operation-successful.jsp").forward(req,resp);
+        Integer id =Integer.parseInt( req.getParameter("id").trim());
+        databaseOperations.deleteContact(id);
+        List<Contact> contacts = databaseOperations.getAllContact();
+        req.setAttribute("searchedContacts", contacts);
+        req.getRequestDispatcher("/jsp/edit-contact.jsp").forward(req,resp);
     }
 }

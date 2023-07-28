@@ -11,6 +11,7 @@
     input[type=text],input[type=number]  {
         padding: 12px 20px;
         margin: 8px 0;
+        width: 80%;
         display: inline-block;
         border: 1px solid #ccc;
         border-radius: 4px;
@@ -41,7 +42,7 @@
     <title>Create Contact</title>
 </head>
 <body>
-<div >
+<div style="width: 50%">
     <h3 style="text-align: center">Create Contact</h3>
     <form action="createContact" method="POST" style="background-color: #f2f2f2;" >
         <div style="padding: 1rem; ">

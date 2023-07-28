@@ -42,17 +42,20 @@
 </head>
 <body>
 <div>
-    <h1> Welcome to Contact Crud App</h1>
-    <form action="createContact" method="GET">
-        <div style="padding: 1rem; ">
-            <input type="submit" value="Go to Create Contact"/>
-        </div>
-    </form>
-    <form action="searchContact" method="GET">
-        <div style="padding: 1rem; ">
-            <input type="submit" value="Go to Search Contact"/>
-        </div>
-    </form>
+    <% RequestDispatcher rd = request.getRequestDispatcher("/getAllContacts");
+        rd.forward(request, response); %>
+
+<%--    <h1> Welcome to Contact Crud App</h1>--%>
+<%--    <form action="searchContact" method="GET">--%>
+<%--        <div style="padding: 1rem; ">--%>
+<%--            <input type="submit" value="Go to Search Contact"/>--%>
+<%--        </div>--%>
+<%--    </form>--%>
+<%--    <form action="getAllContacts" method="GET">--%>
+<%--        <div style="padding: 1rem; ">--%>
+<%--            <input type="submit" value="Get All Contacts"/>--%>
+<%--        </div>--%>
+<%--    </form>--%>
 </div>
 
 </body>

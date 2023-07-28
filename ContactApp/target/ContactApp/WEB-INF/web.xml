@@ -1,42 +1,50 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
-  <servlet-mapping>
-    <servlet-name>createContact</servlet-name>
-    <url-pattern>/createContact</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>editContact</servlet-name>
-    <url-pattern>/editContact</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>searchContact</servlet-name>
-    <url-pattern>/searchContact</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>H2Console</servlet-name>
-    <servlet-class>org.h2.server.web.WebServlet</servlet-class>
-    <!--
-    <init-param>
-        <param-name>webAllowOthers</param-name>
-        <param-value></param-value>
-    </init-param>
-    <init-param>
-        <param-name>trace</param-name>
-        <param-value></param-value>
-    </init-param>
-    -->
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>H2Console</servlet-name>
-    <url-pattern>/console/*</url-pattern>
-  </servlet-mapping>
-  <welcome-file-list>
-    <welcome-file>/WEB-INF/jsp/menu.jsp</welcome-file>
-  </welcome-file-list>
+    <display-name>Archetype Created Web Application</display-name>
+    <servlet-mapping>
+        <servlet-name>createContact</servlet-name>
+        <url-pattern>/createContact</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editContact</servlet-name>
+        <url-pattern>/editContact</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>searchContact</servlet-name>
+        <url-pattern>/searchContact</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getAllContacts</servlet-name>
+        <url-pattern>/getAllContacts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteContact</servlet-name>
+        <url-pattern>/deleteContact</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>H2Console</servlet-name>
+        <servlet-class>org.h2.server.web.WebServlet</servlet-class>
+        <!--
+        <init-param>
+            <param-name>webAllowOthers</param-name>
+            <param-value></param-value>
+        </init-param>
+        <init-param>
+            <param-name>trace</param-name>
+            <param-value></param-value>
+        </init-param>
+        -->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>H2Console</servlet-name>
+        <url-pattern>/console/*</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>/jsp/menu.jsp</welcome-file>
+    </welcome-file-list>
 
 </web-app>

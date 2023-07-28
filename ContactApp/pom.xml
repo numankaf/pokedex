@@ -49,6 +49,11 @@
       <version>2.2.220</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>5.0.1</version>
+    </dependency>
   </dependencies>
 
   <build>

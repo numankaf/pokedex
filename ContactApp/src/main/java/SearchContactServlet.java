@@ -23,7 +23,7 @@ public class SearchContactServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/jsp/search-contact.jsp").forward(req,resp);
+        req.getRequestDispatcher("/jsp/search-contact.jsp").forward(req,resp);
     }
 
     @Override
@@ -32,6 +32,6 @@ public class SearchContactServlet extends HttpServlet {
         List<Contact> contacts = databaseOperations.searchContact(name);
 
         req.setAttribute("searchedContacts", contacts);
-        req.getRequestDispatcher("/WEB-INF/jsp/edit-contact.jsp").forward(req,resp);
+        req.getRequestDispatcher("/jsp/edit-contact.jsp").forward(req,resp);
     }
 }
