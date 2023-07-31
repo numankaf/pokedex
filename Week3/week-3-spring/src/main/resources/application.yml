@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev
+  main:
+    banner-mode: off
+server:
+  servlet:
+    context-path: /java-ignite
+  port: 8080
+application:
+  title: Java Ignite
+  version: 1.0.0
