@@ -4,9 +4,9 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import tr.org.ji.DTO.CreateUserRequestDTO;
+import tr.org.ji.DTO.UpdateUserRequestDTO;
 import tr.org.ji.DTO.UserResponseDTO;
 import tr.org.ji.service.UserService;
 
@@ -16,7 +16,6 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service("userCacheSingleton")
-@Primary
 public class UserCacheSingleton implements UserService {
     private final Logger logger = LoggerFactory.getLogger(UserCacheSingleton.class);
     public Map<String, CreateUserRequestDTO> users;
@@ -34,6 +33,11 @@ public class UserCacheSingleton implements UserService {
 
 
     @Override
+    public UserResponseDTO getUserById(Long id) {
+        return null;
+    }
+
+    @Override
     public UserResponseDTO saveUser(CreateUserRequestDTO dto) {
         users.put(dto.getUsername(), dto);
         UserResponseDTO responseDTO = new UserResponseDTO();
@@ -48,5 +52,15 @@ public class UserCacheSingleton implements UserService {
             responseDTO.setUsername(k.getUsername());
             return responseDTO;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserResponseDTO updateUser(Long id , UpdateUserRequestDTO dto) {
+        return null;
+    }
+
+    @Override
+    public UserResponseDTO deleteUser(Long id) {
+        return null;
     }
 }

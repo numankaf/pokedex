@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import tr.org.ji.DTO.CreateUserRequestDTO;
+import tr.org.ji.DTO.UpdateUserRequestDTO;
 import tr.org.ji.DTO.UserResponseDTO;
 import tr.org.ji.service.UserService;
 
@@ -35,6 +36,11 @@ public class UserCachePrototype implements UserService {
 
 
     @Override
+    public UserResponseDTO getUserById(Long id) {
+        return null;
+    }
+
+    @Override
     public UserResponseDTO saveUser(CreateUserRequestDTO dto) {
         users.put(dto.getUsername(), dto);
         UserResponseDTO responseDTO = new UserResponseDTO();
@@ -49,5 +55,15 @@ public class UserCachePrototype implements UserService {
             responseDTO.setUsername(k.getUsername());
             return responseDTO;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserResponseDTO updateUser(Long id  , UpdateUserRequestDTO dto) {
+        return null;
+    }
+
+    @Override
+    public UserResponseDTO deleteUser(Long id) {
+        return null;
     }
 }
