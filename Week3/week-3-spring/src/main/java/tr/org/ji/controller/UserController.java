@@ -87,7 +87,17 @@ public class UserController {
     }
 
     @GetMapping("/by-pagination")
-    public ResponseEntity<Page<UserResponseDTO>> getUserByUsername(@RequestParam( defaultValue = "0") int pageNumber, @RequestParam( defaultValue = "2") int pageSize){
+    public ResponseEntity<Page<UserResponseDTO>> getUsersWithJpaPagination(@RequestParam( defaultValue = "0") int pageNumber, @RequestParam( defaultValue = "2") int pageSize){
         return new ResponseEntity<>(userService.getUsers(pageNumber, pageSize), HttpStatus.OK);
+    }
+
+    @GetMapping("/by-dao-pagination")
+    public ResponseEntity<List<UserResponseDTO>> getUsersWithDaoPagination(@RequestParam( defaultValue = "0") int pageNumber, @RequestParam( defaultValue = "2") int pageSize){
+        return new ResponseEntity<>(userService.getUsersWithDao(pageNumber, pageSize), HttpStatus.OK);
+    }
+
+    @GetMapping("/users-with-role")
+    public ResponseEntity<List<UserResponseDTO>> getUsersWithRole(@RequestParam( defaultValue = "USER") String role){
+        return new ResponseEntity<>(userService.getUsersWithRole("ROLE_"+role), HttpStatus.OK);
     }
 }

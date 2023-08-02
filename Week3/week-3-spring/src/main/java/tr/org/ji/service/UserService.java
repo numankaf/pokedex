@@ -38,5 +38,11 @@ public interface UserService {
     default UserResponseDTO getUserByIdSql(Long id) {
         throw new NotImplementedException();
     }
+    default  List<UserResponseDTO> getUsersWithDao(int pageNumber, int pageSize){
+        throw new NotImplementedException();
+    }
+    default List<UserResponseDTO> getUsersWithRole(String role){
+        throw new NotImplementedException();
+    }
 }
 
