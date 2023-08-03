@@ -3,11 +3,14 @@ package tr.org.ji.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +27,7 @@ import tr.org.ji.repository.UserDao;
 import tr.org.ji.repository.UserRepository;
 import tr.org.ji.service.UserService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,6 +35,7 @@ import java.util.stream.Collectors;
 @Service
 @Primary
 public class UserServiceImpl implements UserService , UserDetailsService {
+    private static final Logger logger  =  LoggerFactory.getLogger(UserServiceImpl .class);
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final UserDao userDao;
@@ -179,5 +184,10 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         User user = userRepository.findByUsername(username).orElseThrow(()->new IllegalArgumentException(""));
         Hibernate.initialize(user.getRoles());
         return new UserDetailsImpl(user);
+    }
+
+    @Scheduled(cron = "*/2  * * * * *")
+    public void logScheduled(){
+        logger.info("Worked again at :" + new Date());
     }
 }
