@@ -1,6 +1,7 @@
 package com.pokedex.controller;
 
 import com.pokedex.dto.auth.LoginRequestDto;
+import com.pokedex.dto.auth.RegisterRequestDto;
 import com.pokedex.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +23,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto dto){
         return new ResponseEntity<>(authService.login(dto), HttpStatus.OK);
+    }
+
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequestDto dto){
+        return new ResponseEntity<>(authService.register(dto), HttpStatus.OK);
     }
 }

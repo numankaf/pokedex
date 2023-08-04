@@ -29,4 +29,11 @@ public class GlobalExceptionHandler {
         var map = Map.of("message","Username or password is wrong!");
         return  new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(PokedexDatabaseException.class)
+    public ResponseEntity<?> handlePokedexDatabaseException(HttpServletRequest servletRequest, PokedexDatabaseException runtimeException){
+        logger.error(runtimeException.getMessage(),runtimeException);
+        var map = Map.of("message",runtimeException.getMessage());
+        return  new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

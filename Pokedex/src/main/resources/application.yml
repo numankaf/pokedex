@@ -35,4 +35,5 @@ application:
 server:
   servlet:
     context-path: /pokedex
+  forward-headers-strategy: framework
 

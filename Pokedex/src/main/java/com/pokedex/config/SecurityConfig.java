@@ -40,10 +40,17 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter(tokenProvider, userDetailsService);
     }
 
+
     private static final String[] AUTH_WHITELIST = { //
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "/swagger-ui/index.html"
+            "/api/v1/h2-console", //
+            "/api/v1/h2-console/**", //
+            "/v3/api-docs/**", //
+            "/swagger-ui/**", //
+            "/swagger-ui.html", //
+            "/swagger-ui/index.html", //
+            "/api/v1/webjars/**", //
+            "/api/v1/graphiql", //
+            "/api/v1/api/graphql", //
     };
 
     @Bean
