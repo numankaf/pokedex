@@ -56,4 +56,16 @@ public class PokemonController {
         return ResponseEntity.ok(pokemonService.search(dto, pageable));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/catch/{id}")
+    public  ResponseEntity<?> getUsersWhoCatched(@PathVariable Long id){
+        return ResponseEntity.ok(pokemonService.getUsersWhoCatch(id));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/wish/{id}")
+    public  ResponseEntity<?> getUsersWhoAddedWishList(@PathVariable Long id){
+        return ResponseEntity.ok(pokemonService.getUsersWhoAddedWishList(id));
+    }
+
 }

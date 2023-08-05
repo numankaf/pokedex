@@ -1,8 +1,10 @@
 package com.pokedex.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pokedex.enums.PokemonType;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,6 +21,14 @@ public class Pokemon extends BaseEntity {
     @CollectionTable(name = "POKEMON_TYPE")
     @Column(name = "TYPES")
     private Set<PokemonType> types;
+
+    @ManyToMany(mappedBy = "pokemons")
+    @JsonIgnore
+    private List<CatchList>  catchLists;
+
+    @ManyToMany(mappedBy = "pokemons")
+    @JsonIgnore
+    private List<WishList>  wishLists;
 
     @Column(name = "WEIGHT")
     private Double weight;
@@ -152,5 +162,21 @@ public class Pokemon extends BaseEntity {
 
     public void setSpecialDefense(Integer specialDefense) {
         this.specialDefense = specialDefense;
+    }
+
+    public List<CatchList> getCatchLists() {
+        return catchLists;
+    }
+
+    public void setCatchLists(List<CatchList> catchLists) {
+        this.catchLists = catchLists;
+    }
+
+    public List<WishList> getWishLists() {
+        return wishLists;
+    }
+
+    public void setWishLists(List<WishList> wishLists) {
+        this.wishLists = wishLists;
     }
 }

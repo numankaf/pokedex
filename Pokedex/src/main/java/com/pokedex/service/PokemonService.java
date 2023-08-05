@@ -3,8 +3,11 @@ package com.pokedex.service;
 import com.pokedex.dto.pokemon.PokemonDetailDto;
 import com.pokedex.dto.pokemon.PokemonListDto;
 import com.pokedex.dto.pokemon.PokemonSearchDto;
+import com.pokedex.dto.user.UserListDto;
+import com.pokedex.entity.CatchList;
 import com.pokedex.entity.Pokemon;
 import com.pokedex.entity.User;
+import com.pokedex.entity.WishList;
 import com.pokedex.exception.PokedexDatabaseException;
 import com.pokedex.repository.PokemonRepository;
 import com.pokedex.repository.UserRepository;
@@ -90,10 +93,24 @@ public class PokemonService {
         return new PageImpl<>(dtos, pageable, pokemons.getTotalElements());
     }
 
-    public PokemonListDto toListDto(Pokemon pokemon){
+    public PokemonListDto toListDto(Pokemon pokemon) {
         PokemonListDto dto = modelMapper.map(pokemon, PokemonListDto.class);
         dto.setInCatchList(getCurrentUser().getCatchList().getPokemons().contains(pokemon));
         dto.setInWishList(getCurrentUser().getWishList().getPokemons().contains(pokemon));
         return dto;
+    }
+
+    public List<UserListDto> getUsersWhoCatch(Long id) {
+        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("Pokemon not found with id : " + id));
+        List<UserListDto> dtos = pokemon.getCatchLists().stream().map(CatchList::getUser)
+                .map(user -> modelMapper.map(user, UserListDto.class)).collect(Collectors.toList());
+        return dtos;
+    }
+
+    public List<UserListDto> getUsersWhoAddedWishList(Long id) {
+        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("Pokemon not found with id : " + id));
+        List<UserListDto> dtos = pokemon.getWishLists().stream().map(WishList::getUser)
+                .map(user -> modelMapper.map(user, UserListDto.class)).collect(Collectors.toList());
+        return dtos;
     }
 }

@@ -13,7 +13,6 @@ public class WishListController {
         this.wishListService = wishListService;
     }
 
-
     @PostMapping("/add/{id}")
     public ResponseEntity<?> add(@PathVariable Long id){
         wishListService.addToWishList(id);
@@ -30,4 +29,5 @@ public class WishListController {
     public ResponseEntity<?> getAllInCatchList(){
         return ResponseEntity.ok(wishListService.getPokemonsInWishList());
     }
+
 }

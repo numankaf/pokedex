@@ -303,11 +303,25 @@ INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 2, 4 );
 INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 2, 8 );
 INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 2, 6 );
 INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 2, 12 );
+INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 3, 2 );
+INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 3, 4 );
+INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 3, 8 );
+INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 4, 6 );
+INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 4, 12 );
+INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 4, 18 );
 
 INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 2, 1 );
 INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 2, 9 );
 INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 2, 19 );
 INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 2, 11 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 3, 1 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 3, 9 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 3, 19 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 5, 11 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 5, 1 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 5, 9 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 5, 19 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 5, 17 );
 
 
 
