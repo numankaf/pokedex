@@ -8,6 +8,7 @@ import com.pokedex.entity.User;
 import com.pokedex.enums.UserRole;
 import com.pokedex.exception.PokedexDatabaseException;
 import com.pokedex.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,14 +21,15 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
-    public AuthService(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider, UserRepository userRepository) {
+    public AuthService(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider, UserRepository userRepository, ModelMapper modelMapper) {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
-
 
     public String login(LoginRequestDto dto) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
@@ -40,14 +42,13 @@ public class AuthService {
         if (userRepository.existsByUsername(dto.getUsername())){
             throw new PokedexDatabaseException("This username already exists! Try another one");
         }
+        if (userRepository.existsByEmail(dto.getEmail())){
+            throw new PokedexDatabaseException("This email already exists! Try another one");
+        }
 
-        User user = new User();
-        user.setUsername(dto.getUsername());
-        user.setName(dto.getName());
-        user.setSurname(dto.getSurname());
+        User user = modelMapper.map(dto, User.class);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setActive(true);
-        user.setRole(UserRole.TRAINER);
         userRepository.save(user);
         return "Success";
     }

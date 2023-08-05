@@ -1,13 +1,16 @@
 package com.pokedex.controller;
 
-import com.pokedex.dto.auth.UserCreateRequestDto;
-import com.pokedex.entity.User;
+import com.pokedex.dto.user.UserCreateRequestDto;
+import com.pokedex.dto.user.UserDetailDto;
+import com.pokedex.dto.user.UserListDto;
+import com.pokedex.dto.user.UserUpdateRequestDto;
 import com.pokedex.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -18,10 +21,46 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id){
+        UserDetailDto userDetailDto = userService.getUserById(id);
+        return ResponseEntity.ok(userDetailDto);
+    }
+
     @PostMapping()
     public ResponseEntity<?> createUser(@RequestBody  UserCreateRequestDto dto){
-        User createdUser = userService.createUser(dto);
-        return ResponseEntity.ok("User created with username : "+ createdUser.getUsername());
+        UserDetailDto createdUser = userService.createUser(dto);
+        return ResponseEntity.ok(createdUser);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequestDto dto){
+        UserDetailDto updateUser = userService.updateUser(id, dto);
+        return ResponseEntity.ok(updateUser);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.ok("User deleted with id: "+id);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> findAllPageable(Pageable pageable){
+        Page<UserListDto> dtos = userService.findAll(pageable);
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(){
+        List<UserListDto> dtos = userService.findAll();
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestBody UserListDto searchDto, Pageable pageable){
+        Page<UserListDto> dtos = userService.search(searchDto, pageable);
+        return ResponseEntity.ok(dtos);
     }
 
 }

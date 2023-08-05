@@ -1,11 +1,15 @@
-package com.pokedex.dto.auth;
+package com.pokedex.dto.user;
 
-public class RegisterRequestDto {
+import com.pokedex.enums.UserRole;
+
+public class UserCreateRequestDto {
     private String username;
     private String email;
     private String name;
     private String surname;
     private String password;
+    private UserRole role;
+
     public String getUsername() {
         return username;
     }
@@ -46,4 +50,11 @@ public class RegisterRequestDto {
         this.password = password;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
 }

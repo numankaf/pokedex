@@ -1,35 +1,23 @@
-package com.pokedex.entity;
+package com.pokedex.dto.user;
 
+import com.pokedex.dto.base.BaseDto;
 import com.pokedex.enums.UserRole;
-import jakarta.persistence.*;
 
-@Entity
-@Table(name = "USERS")
-public class User extends BaseEntity {
+public class UserDetailDto extends BaseDto {
 
-    @Column(name = "USERNAME", length = 20, unique = true)
-    private String username;
+    String username;
 
-    @Column(name = "EMAIL", unique = true)
-    private String email;
+    String email;
 
-    @Column(name = "PASSWORD")
-    private String password;
+    String name;
 
-    @Column(name = "NAME")
-    private String name;
+    String surname;
 
-    @Column(name = "SURNAME")
-    private String surname;
+    String about;
 
-    @Column(name = "ABOUT")
-    private String about;
+    String thumbnail;
 
-    @Column(name = "THUMBNAIL")
-    private String thumbnail;
-
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    UserRole role;
 
     public String getUsername() {
         return username;
@@ -45,14 +33,6 @@ public class User extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getName() {
