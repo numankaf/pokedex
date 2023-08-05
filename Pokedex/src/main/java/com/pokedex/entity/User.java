@@ -31,6 +31,14 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "WISH_LIST_ID" ,referencedColumnName = "ID")
+    private WishList wishList;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "CATCH_LIST_ID" ,referencedColumnName = "ID")
+    private CatchList catchList;
+
     public String getUsername() {
         return username;
     }
@@ -93,5 +101,21 @@ public class User extends BaseEntity {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public WishList getWishList() {
+        return wishList;
+    }
+
+    public void setWishList(WishList wishList) {
+        this.wishList = wishList;
+    }
+
+    public CatchList getCatchList() {
+        return catchList;
+    }
+
+    public void setCatchList(CatchList catchList) {
+        this.catchList = catchList;
     }
 }

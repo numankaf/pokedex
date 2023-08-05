@@ -34,7 +34,7 @@ public class BaseEntity {
     private Date lastModifiedDate;
 
     @Column(name = "IS_ACTIVE")
-    private Boolean isActive = false;
+    private Boolean isActive = true;
 
 
     public Long getId() {

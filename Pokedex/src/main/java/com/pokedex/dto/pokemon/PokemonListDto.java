@@ -1,54 +1,41 @@
-package com.pokedex.entity;
+package com.pokedex.dto.pokemon;
 
 import com.pokedex.enums.PokemonType;
-import jakarta.persistence.*;
 
 import java.util.Set;
 
-@Entity
-@Table(name = "POKEMON")
-public class Pokemon extends BaseEntity {
-    @Column(name = "NAME")
+public class PokemonListDto {
+    private Long id;
+
     private String name;
 
-    @Column(name = "THUMBNAIL")
     private String thumbnail;
 
-    @ElementCollection(targetClass = PokemonType.class)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "POKEMON_TYPE")
-    @Column(name = "TYPES")
     private Set<PokemonType> types;
 
-    @Column(name = "WEIGHT")
-    private Double weight;
-
-    @Column(name = "HEIGHT")
-    private Double height;
-
-    @Column(name = "SPECIE")
-    private String specie;
-
-    @Column(name = "ABILITIES")
-    private String abilities;
-
-    @Column(name = "HP")
     private Integer hp;
 
-    @Column(name = "ATTACK")
     private Integer attack;
 
-    @Column(name = "DEFENSE")
     private Integer defense;
 
-    @Column(name = "SPEED")
     private Integer speed;
 
-    @Column(name = "SPECIAL_ATTACK")
     private Integer specialAttack;
 
-    @Column(name = "SPECIAL_DEFENSE")
     private Integer specialDefense;
+
+    private Boolean isInCatchList;
+
+    private Boolean isInWishList;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -72,38 +59,6 @@ public class Pokemon extends BaseEntity {
 
     public void setTypes(Set<PokemonType> types) {
         this.types = types;
-    }
-
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
-    public Double getHeight() {
-        return height;
-    }
-
-    public void setHeight(Double height) {
-        this.height = height;
-    }
-
-    public String getSpecie() {
-        return specie;
-    }
-
-    public void setSpecie(String specie) {
-        this.specie = specie;
-    }
-
-    public String getAbilities() {
-        return abilities;
-    }
-
-    public void setAbilities(String abilities) {
-        this.abilities = abilities;
     }
 
     public Integer getHp() {
@@ -152,5 +107,21 @@ public class Pokemon extends BaseEntity {
 
     public void setSpecialDefense(Integer specialDefense) {
         this.specialDefense = specialDefense;
+    }
+
+    public Boolean getInCatchList() {
+        return isInCatchList;
+    }
+
+    public void setInCatchList(Boolean inCatchList) {
+        isInCatchList = inCatchList;
+    }
+
+    public Boolean getInWishList() {
+        return isInWishList;
+    }
+
+    public void setInWishList(Boolean inWishList) {
+        isInWishList = inWishList;
     }
 }

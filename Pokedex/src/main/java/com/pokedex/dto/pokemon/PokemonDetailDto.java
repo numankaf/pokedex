@@ -1,53 +1,36 @@
-package com.pokedex.entity;
+package com.pokedex.dto.pokemon;
 
+import com.pokedex.dto.base.BaseDto;
 import com.pokedex.enums.PokemonType;
-import jakarta.persistence.*;
 
 import java.util.Set;
 
-@Entity
-@Table(name = "POKEMON")
-public class Pokemon extends BaseEntity {
-    @Column(name = "NAME")
+public class PokemonDetailDto extends BaseDto {
+
     private String name;
 
-    @Column(name = "THUMBNAIL")
     private String thumbnail;
 
-    @ElementCollection(targetClass = PokemonType.class)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "POKEMON_TYPE")
-    @Column(name = "TYPES")
     private Set<PokemonType> types;
 
-    @Column(name = "WEIGHT")
     private Double weight;
 
-    @Column(name = "HEIGHT")
     private Double height;
 
-    @Column(name = "SPECIE")
     private String specie;
 
-    @Column(name = "ABILITIES")
     private String abilities;
 
-    @Column(name = "HP")
     private Integer hp;
 
-    @Column(name = "ATTACK")
     private Integer attack;
 
-    @Column(name = "DEFENSE")
     private Integer defense;
 
-    @Column(name = "SPEED")
     private Integer speed;
 
-    @Column(name = "SPECIAL_ATTACK")
     private Integer specialAttack;
 
-    @Column(name = "SPECIAL_DEFENSE")
     private Integer specialDefense;
 
     public String getName() {
