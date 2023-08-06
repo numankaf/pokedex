@@ -1,6 +1,8 @@
 package com.pokedex.controller;
 
+import com.pokedex.repository.PokemonDao;
 import com.pokedex.service.CatchListService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +27,13 @@ public class CatchListController {
         return ResponseEntity.ok("Successfully removed to catch list with pokemon id : "+ id);
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<?> getAllInCatchList(){
         return ResponseEntity.ok(catchListService.getPokemonsInCatchList());
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getAllInCathListPageable(Pageable pageable){
+        return ResponseEntity.ok(catchListService.getPokemonsInCatchList(pageable));
     }
 }

@@ -2,6 +2,7 @@ package com.pokedex.controller;
 
 import com.pokedex.dto.pokemon.PokemonDetailDto;
 import com.pokedex.dto.pokemon.PokemonSearchDto;
+import com.pokedex.repository.PokemonDao;
 import com.pokedex.service.PokemonService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ public class PokemonController {
     public PokemonController(PokemonService pokemonService) {
         this.pokemonService = pokemonService;
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
@@ -67,5 +69,6 @@ public class PokemonController {
     public  ResponseEntity<?> getUsersWhoAddedWishList(@PathVariable Long id){
         return ResponseEntity.ok(pokemonService.getUsersWhoAddedWishList(id));
     }
+
 
 }

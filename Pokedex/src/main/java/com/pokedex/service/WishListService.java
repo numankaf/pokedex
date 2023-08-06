@@ -6,10 +6,13 @@ import com.pokedex.entity.Pokemon;
 import com.pokedex.entity.User;
 import com.pokedex.entity.WishList;
 import com.pokedex.exception.PokedexDatabaseException;
+import com.pokedex.repository.PokemonDao;
 import com.pokedex.repository.PokemonRepository;
 import com.pokedex.repository.UserRepository;
 import com.pokedex.repository.WishListRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +25,17 @@ public class WishListService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final WishListRepository wishListRepository;
+    private final PokemonDao pokemonDao;
 
-    public WishListService(PokemonRepository pokemonRepository, UserRepository userRepository, ModelMapper modelMapper, WishListRepository wishListRepository) {
+    public WishListService(PokemonRepository pokemonRepository, UserRepository userRepository, ModelMapper modelMapper,
+                           WishListRepository wishListRepository, PokemonDao pokemonDao) {
         this.pokemonRepository = pokemonRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.wishListRepository = wishListRepository;
+        this.pokemonDao = pokemonDao;
     }
+
 
     public User getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -66,6 +73,11 @@ public class WishListService {
     public List<PokemonListDto> getPokemonsInWishList() {
         WishList wishList = getCurrentUser().getWishList();
         return wishList.getPokemons().stream().map(p -> modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
+    }
+
+    public Page<PokemonListDto> getPokemonsInWishList(Pageable pageable) {
+        Long id = getCurrentUser().getWishList().getId();
+        return pokemonDao.getAllInWishList(id, pageable);
     }
 
 }
