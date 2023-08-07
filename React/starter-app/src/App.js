@@ -1,5 +1,7 @@
 import './App.css';
 import {ShoppingCart} from "./shopping-app/ShoppingCart";
+import ToDoAppPage from "./todoApp/ToDoAppPage";
+import UserList from "./crudAppExample/UserList";
 
 function App() {
   const  shoppingCartData = {
@@ -28,7 +30,7 @@ function App() {
     ]
   }
   return (
-    <ShoppingCart data={ shoppingCartData} />
+    <UserList></UserList>
   );
 }
 

@@ -11,6 +11,7 @@ import com.pokedex.entity.WishList;
 import com.pokedex.exception.PokedexDatabaseException;
 import com.pokedex.repository.PokemonRepository;
 import com.pokedex.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -61,7 +62,16 @@ public class PokemonService {
         return modelMapper.map(pokemon, PokemonDetailDto.class);
     }
 
+    @Transactional
     public void deletePokemon(Long id) {
+        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("Pokemon not found with id : " + id));
+        for(CatchList catchList: pokemon.getCatchLists()){
+            catchList.getPokemons().remove(pokemon);
+        }
+        for(WishList wishList: pokemon.getWishLists()){
+            wishList.getPokemons().remove(pokemon);
+        }
+
         pokemonRepository.deleteById(id);
     }
 
