@@ -57,7 +57,7 @@ const HomePage = () => {
                         </div>
                         <div className="col-12 md:col-5  mb-6 md:mb-0 ">
                             <img alt=""
-                                 className=" border-round shadow-2 animation-duration-1000 animation-ease-out moveinright"
+                                 className=" border-round  animation-duration-1000 animation-ease-out moveinright"
                                  src="/images/background.png"/>
                         </div>
                     </div>

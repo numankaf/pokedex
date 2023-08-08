@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -42,7 +43,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
-        return ResponseEntity.ok("User deleted with id: "+id);
+        return ResponseEntity.ok(Map.of("messages", "User deleted with id: "+id));
     }
 
     @GetMapping()

@@ -5,6 +5,22 @@ const UserList = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const onSubmit = async () => {
+        const res = fetch("http://localhost:8080/pokedex/auth/login", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username : "ashketchum",
+                password : "password"
+            }),
+        }).then(res => { return res.json()});
+        const response = await res;
+        console.log(response);
+        console.log(response);
+
+    }
     async function getUsers() {
         setLoading(true);
         const response = await fetch("https://randomuser.me/api/?results=5");
@@ -22,7 +38,7 @@ const UserList = () => {
     return (
         <>
             <div style={{"padding": "1rem 0rem"}}>
-                <button onClick={getUsers}  disabled={loading}> Reload</button>
+                <button onClick={onSubmit}  disabled={loading}> Reload</button>
             </div>
             {loading && <p>Loading...</p>}
             {!loading && <div>

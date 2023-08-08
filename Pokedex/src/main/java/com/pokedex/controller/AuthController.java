@@ -22,7 +22,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto dto){
-        System.out.println("called");
         return new ResponseEntity<>(authService.login(dto), HttpStatus.OK);
     }
 

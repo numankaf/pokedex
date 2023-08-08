@@ -2,14 +2,13 @@ import './globals.css'
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
-import {SessionProvider} from "next-auth/react";
 
 export const metadata = {
     title: 'Pokedex',
     description: 'Pokemon Management Application',
 }
 
-export default function RootLayout({children, session}) {
+export default function RootLayout({children}) {
     return (
         <html lang="en" suppressHydrationWarning>
             <head>

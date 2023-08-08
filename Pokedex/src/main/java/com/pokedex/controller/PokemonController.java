@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/pokemon")
 public class PokemonController {
@@ -40,33 +42,33 @@ public class PokemonController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         pokemonService.deletePokemon(id);
-        return ResponseEntity.ok("Successfully deleted pokemon with id: " + id);
+        return ResponseEntity.ok(Map.of("message", "Successfully deleted pokemon with id: " + id));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(pokemonService.findAll());
     }
 
     @GetMapping()
-    public ResponseEntity<?> findAllAsPageable(Pageable pageable){
+    public ResponseEntity<?> findAllAsPageable(Pageable pageable) {
         return ResponseEntity.ok(pokemonService.findAll(pageable));
     }
 
     @GetMapping("/search")
-    public  ResponseEntity<?> search(@RequestBody PokemonSearchDto dto, Pageable pageable){
+    public ResponseEntity<?> search(@RequestBody PokemonSearchDto dto, Pageable pageable) {
         return ResponseEntity.ok(pokemonService.search(dto, pageable));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/catch/{id}")
-    public  ResponseEntity<?> getUsersWhoCatched(@PathVariable Long id){
+    public ResponseEntity<?> getUsersWhoCatched(@PathVariable Long id) {
         return ResponseEntity.ok(pokemonService.getUsersWhoCatch(id));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/wish/{id}")
-    public  ResponseEntity<?> getUsersWhoAddedWishList(@PathVariable Long id){
+    public ResponseEntity<?> getUsersWhoAddedWishList(@PathVariable Long id) {
         return ResponseEntity.ok(pokemonService.getUsersWhoAddedWishList(id));
     }
 

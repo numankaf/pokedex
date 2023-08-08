@@ -2,11 +2,14 @@ package com.pokedex.service;
 
 
 import com.pokedex.auth.JwtTokenProvider;
+import com.pokedex.auth.UserDetailsImpl;
 import com.pokedex.dto.auth.LoginRequestDto;
+import com.pokedex.dto.auth.LoginResponseDto;
 import com.pokedex.dto.auth.RegisterRequestDto;
 import com.pokedex.entity.CatchList;
 import com.pokedex.entity.User;
 import com.pokedex.entity.WishList;
+import com.pokedex.enums.UserRole;
 import com.pokedex.exception.PokedexDatabaseException;
 import com.pokedex.repository.CatchListRepository;
 import com.pokedex.repository.UserRepository;
@@ -17,6 +20,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class AuthService {
@@ -40,14 +45,17 @@ public class AuthService {
         this.modelMapper = modelMapper;
     }
 
-    public String login(LoginRequestDto dto) {
+    public LoginResponseDto login(LoginRequestDto dto) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
         Authentication auth = authenticationManager.authenticate(token);
         String jwtToken = tokenProvider.generateToken(auth);
-        return "Bearer " + jwtToken;
+        LoginResponseDto loginResponseDto = new LoginResponseDto();
+        loginResponseDto.setUsername(((UserDetailsImpl) auth.getPrincipal()).getUsername());
+        loginResponseDto.setToken("Bearer " + jwtToken);
+        return  loginResponseDto;
     }
 
-    public String register(RegisterRequestDto dto) {
+    public Map<String, String> register(RegisterRequestDto dto) {
         if (userRepository.existsByUsername(dto.getUsername())) {
             throw new PokedexDatabaseException("This username already exists! Try another one");
         }
@@ -58,6 +66,7 @@ public class AuthService {
         User user = modelMapper.map(dto, User.class);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setActive(true);
+        user.setRole(UserRole.TRAINER);
         WishList wishList = new WishList();
         wishListRepository.save(wishList);
         user.setWishList(wishList);
@@ -65,6 +74,6 @@ public class AuthService {
         catchListRepository.save(catchList);
         user.setCatchList(catchList);
         userRepository.save(user);
-        return "Success";
+        return Map.of("message","Success");
     }
 }

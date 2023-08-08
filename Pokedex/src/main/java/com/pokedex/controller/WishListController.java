@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/wish-list")
 public class WishListController {
@@ -17,13 +19,13 @@ public class WishListController {
     @PostMapping("/add/{id}")
     public ResponseEntity<?> add(@PathVariable Long id) {
         wishListService.addToWishList(id);
-        return ResponseEntity.ok("Successfully added to wish list with pokemon id : " + id);
+        return ResponseEntity.ok(Map.of("messages", "Successfully added to wish list with pokemon id : " + id));
     }
 
     @PostMapping("/remove/{id}")
     public ResponseEntity<?> remove(@PathVariable Long id) {
         wishListService.removeFromWishList(id);
-        return ResponseEntity.ok("Successfully removed to wish list with pokemon id : " + id);
+        return ResponseEntity.ok(Map.of("messages", "Successfully removed to wish list with pokemon id : " + id));
     }
 
     @GetMapping("/all")

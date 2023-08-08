@@ -3,24 +3,27 @@ import {InputText} from "primereact/inputtext";
 import {Password} from 'primereact/password';
 import {Button} from "primereact/button";
 import Link from "next/link";
-import {signIn} from "next-auth/react";
 import {useState} from "react";
+import {useLogin} from "@/authHooks/useLogin";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const { login } = useLogin();
+    const onSubmit = () => {
+        if (!username || !password) {
+            alert("Please enter information");
+        } else {
+            login( { username: username, password: password})
+                .then((res) =>
+                    window.location.href = "/main")
+                .catch((e) => alert(e.message));
+        }
+    };
 
-    const onSubmit =  async () =>{
-        const result = await signIn("credentials", {
-            username : username,
-            password : password,
-            redirect: true,
-            callbackUrl:"/main"
-        })
-        console.log(result);
-    }
 
     return (
+
         <div className="flex flex-wrap" style={{"width": "100vw", "height": "100vh"}}>
             <div className="w-full lg:w-5"
                  style={{backgroundImage: "url('/images/background.jpg')", backgroundSize: "100% "}}>
@@ -46,7 +49,8 @@ const LoginPage = () => {
                 <div style={{"position": "relative", "top": " 50%", "transform": "translateY(-50%)"}}>
                     <div className="text-center font-medium text-2xl pt-5 pb-3">Login</div>
                     <div className="text-center text-lg"> {"Don't have an account? "}
-                        <Link href={"/auth/register"}><p className="text-primary cursor-pointer underline-link">Sign up </p></Link>
+                        <Link href={"/auth/register"}><p className="text-primary cursor-pointer underline-link">Sign
+                            up </p></Link>
 
                     </div>
                     <form>
@@ -65,7 +69,7 @@ const LoginPage = () => {
                                     </div>
                                 </div>
                                 <div className="mb-4 pt-2  " style={{"width": "90%"}}>
-                                    <label htmlFor="email" className="block text-base font-medium mb-2">Password</label>
+                                    <label htmlFor="password" className="block text-base font-medium mb-2">Password</label>
                                     <div className="p-input-icon-left inline">
                                         {/* eslint-disable-next-line react/jsx-no-undef */}
                                         <Password inputStyle={{width: "100%", "padding": "1rem"}}
