@@ -2,6 +2,7 @@ package com.pokedex.service;
 
 import com.pokedex.dto.account.AccountDetailDto;
 import com.pokedex.dto.account.ChangePasswordDto;
+import com.pokedex.dto.auth.AccountTopbarDto;
 import com.pokedex.dto.user.UserUpdateRequestDto;
 import com.pokedex.entity.User;
 import com.pokedex.exception.PokedexDatabaseException;
@@ -51,4 +52,11 @@ public class AccountService {
         user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(user);
     }
+
+    public AccountTopbarDto getDetailForTopbar(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+        return modelMapper.map(user, AccountTopbarDto.class);
+    }
+
 }

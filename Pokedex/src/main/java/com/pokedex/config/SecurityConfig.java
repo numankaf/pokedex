@@ -79,21 +79,21 @@ public class SecurityConfig {
 
     }
 
-    @Configuration
-    @EnableWebMvc
-    public static class WebConfig implements WebMvcConfigurer {
-
-        @Override
-        public void addCorsMappings(CorsRegistry corsRegistry) {
-            corsRegistry.addMapping("/**")
-                    .allowedOrigins("http://localhost:3000")
-                    .allowedMethods("*")
-                    .maxAge(3600L)
-                    .allowedHeaders("*")
-                    .exposedHeaders("Authorization")
-                    .allowCredentials(true);
-        }
-
-    }
+//    @Configuration
+//    @EnableWebMvc
+//    public static class WebConfig implements WebMvcConfigurer {
+//
+//        @Override
+//        public void addCorsMappings(CorsRegistry corsRegistry) {
+//            corsRegistry.addMapping("/**")
+//                    .allowedOrigins("http://localhost:3000")
+//                    .allowedMethods("*")
+//                    .maxAge(3600L)
+//                    .allowedHeaders("*")
+//                    .exposedHeaders("Authorization")
+//                    .allowCredentials(true);
+//        }
+//
+//    }
 
 }

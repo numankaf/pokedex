@@ -15,8 +15,15 @@ const LoginPage = () => {
             alert("Please enter information");
         } else {
             login( { username: username, password: password})
-                .then((res) =>
-                    window.location.href = "/main")
+                .then((res) => {
+                    if(res.role ==='TRAINER'){
+                        console.log(res.role)
+                        window.location.href = "/main"
+                    }
+                    if(res.role ==='ADMIN'){
+                        window.location.href = "/admin"
+                    }
+                })
                 .catch((e) => alert(e.message));
         }
     };

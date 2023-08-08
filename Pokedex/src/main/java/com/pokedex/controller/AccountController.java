@@ -2,6 +2,7 @@ package com.pokedex.controller;
 
 import com.pokedex.dto.account.AccountDetailDto;
 import com.pokedex.dto.account.ChangePasswordDto;
+import com.pokedex.dto.auth.AccountTopbarDto;
 import com.pokedex.dto.user.UserDetailDto;
 import com.pokedex.dto.user.UserUpdateRequestDto;
 import com.pokedex.service.AccountService;
@@ -36,4 +37,12 @@ public class AccountController {
         accountService.changePassword(dto);
         return ResponseEntity.ok(Map.of("message", "Updated Successfully"));
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/topbar")
+    public ResponseEntity<?> getDetailForTopbar(){
+        AccountTopbarDto responseDto = accountService.getDetailForTopbar();
+        return ResponseEntity.ok(responseDto);
+    }
+
 }

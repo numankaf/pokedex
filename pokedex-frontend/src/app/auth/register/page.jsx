@@ -57,9 +57,9 @@ const RegisterPage = () => {
             <div className="w-full lg:w-7 px-4 lg:px-7 surface-card">
                 <div style={{"position": "relative", "top": " 50%", "transform": "translateY(-50%)"}}>
                     <div className="text-center font-medium text-2xl pt-5 pb-3">Sign Up</div>
-                    <div className="text-center text-lg"> Already have an account?
+                    <div className="text-center text-lg"> {"Already have an account? "}
                         <Link href={"/auth/login"}><p
-                            className="text-primary cursor-pointer underline-link">Login </p></Link>
+                            className="text-primary cursor-pointer underline-link"> Login </p></Link>
 
                     </div>
                     <form>

@@ -51,7 +51,9 @@ public class AuthService {
         String jwtToken = tokenProvider.generateToken(auth);
         LoginResponseDto loginResponseDto = new LoginResponseDto();
         loginResponseDto.setUsername(((UserDetailsImpl) auth.getPrincipal()).getUsername());
+        User user = userRepository.findByUsername(((UserDetailsImpl) auth.getPrincipal()).getUsername());
         loginResponseDto.setToken("Bearer " + jwtToken);
+        loginResponseDto.setRole(user.getRole());
         return  loginResponseDto;
     }
 
