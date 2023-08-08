@@ -1,7 +1,8 @@
-import './globals.css'
+import './globals.scss'
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
+
 
 export const metadata = {
     title: 'Pokedex',
@@ -10,6 +11,7 @@ export const metadata = {
 
 export default function RootLayout({children}) {
     return (
+
         <html lang="en" suppressHydrationWarning>
             <head>
                 <link
@@ -20,7 +22,7 @@ export default function RootLayout({children}) {
 
                 <link rel="icon" href="/images/favicon.ico"/>
             </head>
-            <body style={{"margin": "0"}}>{children}</body>
+            <body >{children}</body>
         </html>
     )
 }

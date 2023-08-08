@@ -58,7 +58,7 @@ public class UserController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<?> search(@RequestBody UserListDto searchDto, Pageable pageable){
         Page<UserListDto> dtos = userService.search(searchDto, pageable);
         return ResponseEntity.ok(dtos);

@@ -57,3 +57,15 @@ a {
   margin-right: .55rem;
   border-radius: 50%;
 }
+
+.profile-avatar:hover{
+  border: 1px solid var(--primary-color);
+}
+
+
+.overlay-item:hover{
+  background: var(--surface-hover);
+}
+.p-inputswitch {
+  transform: scale(0.8);
+}

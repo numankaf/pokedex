@@ -1,41 +1,45 @@
-export  class AuthService {
+import axios from "axios";
+import Cookies from "js-cookie";
+
+export class AuthService {
+
     constructor(url) {
-        this.baseUrl = url;
-    }
-    login = async (credentials) => {
-        const res = await fetch(`${this.baseUrl}/auth/login`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(credentials),
+        this.instance = axios.create({
+            baseURL: url,
+            timeout: 30000,
+            timeoutErrorMessage: "Time out"
         })
-        const data = await res.json();
-        console.log(data)
-        if (!res.ok) {
-
-            throw new Error(data.message);
-        }
-        return {
-            username: data.username,
-            token: data.token,
-            role : data.role
-        }
     }
 
-    register = async (credentials) => {
-        const res = await fetch(`${this.baseUrl}/auth/register`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(credentials),
-        })
-        const data = await res.json();
-        if (!res.ok) {
-            throw new Error(data.message);
-        }
-        return data;
+    login = (credentials) => {
+        return this.instance.post("/auth/login", credentials)
+            .then((res) => {
+                const user = {
+                    username: res.data.username,
+                    token: res.data.token,
+                    role: res.data.role
+                };
+                Cookies.set("currentUser", JSON.stringify(user));
+                return user;
+            }).catch(function (error) {
+                throw new Error(error.response.data.message);
+            })
+
+
+    }
+
+    register = (credentials) => {
+        return this.instance.post("/auth/register", credentials)
+            .then((res) => {
+                return res.data.message;
+            })
+            .catch(function (error) {
+                throw new Error(error.response.data.message);
+            })
+    }
+
+    logout =() =>{
+        Cookies.remove("currentUser");
     }
 
 

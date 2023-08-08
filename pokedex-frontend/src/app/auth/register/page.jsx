@@ -21,13 +21,14 @@ const RegisterPage = () => {
             ...prev,
             [name]: value,
         }));
-        console.log(input);
     };
 
-    const onSubmit = () => {
-        authService.register(input)
-            .then((res) =>
-                window.location.href = "/main")
+    const onSubmit =  () => {
+         authService.register(input)
+            .then((res) => {
+
+                window.location.href = "/auth/login"
+            })
             .catch((e) => alert(e.message));
 
     };

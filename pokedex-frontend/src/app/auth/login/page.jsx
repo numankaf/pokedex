@@ -4,25 +4,27 @@ import {Password} from 'primereact/password';
 import {Button} from "primereact/button";
 import Link from "next/link";
 import {useState} from "react";
-import {useLogin} from "@/authHooks/useLogin";
+import {authService} from "@/services";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { login } = useLogin();
-    const onSubmit = () => {
+    const onSubmit =  () => {
         if (!username || !password) {
             alert("Please enter information");
         } else {
-            login( { username: username, password: password})
+            authService.login({username: username, password: password})
                 .then((res) => {
-                    if(res.role ==='TRAINER'){
-                        console.log(res.role)
+
+                    if (res.role === 'TRAINER') {
                         window.location.href = "/main"
                     }
-                    if(res.role ==='ADMIN'){
+                    if (res.role === 'ADMIN') {
                         window.location.href = "/admin"
                     }
+
+
+
                 })
                 .catch((e) => alert(e.message));
         }

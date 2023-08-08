@@ -16,9 +16,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Collections;
+
 
 @EnableWebSecurity
 @Configuration
@@ -35,6 +39,7 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
         this.handler = handler;
     }
+
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(tokenProvider, userDetailsService);
@@ -65,9 +70,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.headers(h-> h.frameOptions(f->f.disable()))
-                .csrf(csrf -> csrf.disable()).
-                exceptionHandling(t -> t.authenticationEntryPoint(handler))
+        http.headers(h -> h.frameOptions(f -> f.disable()));
+        return http
+                .csrf(csrf -> csrf.disable()).cors(cors->cors.disable()).
+                cors(customizer -> customizer
+                .configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                    config.setAllowedMethods(Collections.singletonList("*"));
+                    config.setAllowedHeaders(Collections.singletonList("*"));
+                    config.setAllowCredentials(true);
+                    config.setMaxAge(3600L);
+                    return config;
+                })).exceptionHandling(t -> t.authenticationEntryPoint(handler))
                 .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers(AUTH_WHITELIST).anonymous()
                         .requestMatchers("/auth/**").permitAll()
@@ -79,21 +94,20 @@ public class SecurityConfig {
 
     }
 
-//    @Configuration
-//    @EnableWebMvc
-//    public static class WebConfig implements WebMvcConfigurer {
-//
-//        @Override
-//        public void addCorsMappings(CorsRegistry corsRegistry) {
-//            corsRegistry.addMapping("/**")
-//                    .allowedOrigins("http://localhost:3000")
-//                    .allowedMethods("*")
-//                    .maxAge(3600L)
-//                    .allowedHeaders("*")
-//                    .exposedHeaders("Authorization")
-//                    .allowCredentials(true);
-//        }
-//
-//    }
+    @Configuration
+    @EnableWebMvc
+    public static class WebConfig implements WebMvcConfigurer {
 
+        @Override
+        public void addCorsMappings(CorsRegistry corsRegistry) {
+            corsRegistry.addMapping("/**")
+                    .allowedOrigins("http://localhost:3000/","http://localhost:4200")
+                    .allowedMethods("*")
+                    .maxAge(3600L)
+                    .allowedHeaders("*")
+                    .exposedHeaders("Authorization")
+                    .allowCredentials(true);
+        }
+
+    }
 }

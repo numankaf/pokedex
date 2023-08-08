@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+
+@CrossOrigin
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -38,7 +40,6 @@ public class AccountController {
         return ResponseEntity.ok(Map.of("message", "Updated Successfully"));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/topbar")
     public ResponseEntity<?> getDetailForTopbar(){
         AccountTopbarDto responseDto = accountService.getDetailForTopbar();

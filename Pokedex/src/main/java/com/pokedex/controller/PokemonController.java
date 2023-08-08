@@ -55,7 +55,7 @@ public class PokemonController {
         return ResponseEntity.ok(pokemonService.findAll(pageable));
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<?> search(@RequestBody PokemonSearchDto dto, Pageable pageable) {
         return ResponseEntity.ok(pokemonService.search(dto, pageable));
     }
