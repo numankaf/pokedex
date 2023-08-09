@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const HomePage = () => {
     return (
-        <div className="relative overflow-hidden flex flex-column justify-content-center ">
+        <div className="relative overflow-hidden flex flex-column justify-content-center surface-card ">
             <div
                 className="py-6 px-4 mx-0 lg:py-4 lg:mx-4 lg:px-4 flex align-items-center justify-content-between relative lg:static">
                 <img src="/images/pokedexlogo.png" alt="logo" width="30">

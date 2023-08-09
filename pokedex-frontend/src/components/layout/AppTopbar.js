@@ -8,7 +8,7 @@ import {accountService, authService} from "@/services";
 import {InputSwitch} from "primereact/inputswitch";
 
 
-const AppTopbar = () => {
+const AppTopbar = ({toggle}) => {
     const [user, setUser] = useState(null)
 
     useEffect(() => {
@@ -35,6 +35,11 @@ const AppTopbar = () => {
                 <img src="/images/pokedexlogo.png" alt="logo" width="30">
                 </img>
                 <span className="px-2  mr-5 text-3xl">POKEDEX</span>
+                <div className="px-6">
+                    <div  className="bars">
+                        <Button icon="pi pi-bars"  aria-label="Sidebar" onClick={toggle} />
+                    </div>
+                </div>
                 <div className="align-items-center  justify-content-between  lg:flex
                 lg:static w-full  px-6 lg:px-0 z-2">
                     <section></section>
