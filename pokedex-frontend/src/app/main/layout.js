@@ -4,7 +4,7 @@ import MainContainer from "@/components/layout/MainContainer";
 export default function MainLayout({children}) {
     const menuItem = [
         {
-            path: "/main",
+            path: "/main/pokemons",
             name: "Pokemons",
             icon: <img src="/images/pokemons.png" alt="logo" width="25"/>
         },

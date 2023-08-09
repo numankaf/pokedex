@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import {deleteCookie, setCookie} from "cookies-next";
 
 export class AuthService {
 
@@ -19,7 +20,7 @@ export class AuthService {
                     token: res.data.token,
                     role: res.data.role
                 };
-                Cookies.set("currentUser", JSON.stringify(user));
+                setCookie("currentUser", JSON.stringify(user));
                 return user;
             }).catch(function (error) {
                 throw new Error(error.response.data.message);
@@ -39,7 +40,7 @@ export class AuthService {
     }
 
     logout =() =>{
-        Cookies.remove("currentUser");
+        deleteCookie("currentUser");
     }
 
 

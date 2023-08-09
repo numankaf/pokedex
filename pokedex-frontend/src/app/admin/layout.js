@@ -4,11 +4,6 @@ import MainContainer from "@/components/layout/MainContainer";
 export default function AdminLayout({children}) {
     const menuItem = [
         {
-            path: "/admin",
-            name: "Admin Page",
-            icon: <img src="/images/pokemons.png" alt="logo" width="25"/>
-        },
-        {
             path: "/admin/users",
             name: "Users",
             icon: <img src="/images/pokemonwishlist.png" alt="logo" width="25"/>

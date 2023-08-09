@@ -7,7 +7,7 @@ import java.util.Set;
 public class PokemonSearchDto {
     private String name;
 
-    private Set<PokemonType> types;
+    private PokemonType type;
 
     public String getName() {
         return name;
@@ -17,11 +17,11 @@ public class PokemonSearchDto {
         this.name = name;
     }
 
-    public Set<PokemonType> getTypes() {
-        return types;
+    public PokemonType getType() {
+        return type;
     }
 
-    public void setTypes(Set<PokemonType> types) {
-        this.types = types;
+    public void setType(PokemonType type) {
+        this.type = type;
     }
 }

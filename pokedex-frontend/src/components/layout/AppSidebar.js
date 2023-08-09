@@ -7,7 +7,7 @@ const AppSidebar = ({isOpen, menuItem}) => {
 
 
     return (
-        <div className={isOpen ? "sidebar-open" : "sidebar-close"}>
+        <div className={isOpen ? "sidebar-open fixed" : "sidebar-close"}>
             <div className="flex sidebar-container ">
                 <div style={{width: isOpen ? "250px" : "0px"}} className="sidebar shadow-2 ">
 

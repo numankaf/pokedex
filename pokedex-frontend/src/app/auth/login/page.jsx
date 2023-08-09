@@ -17,10 +17,10 @@ const LoginPage = () => {
                 .then((res) => {
 
                     if (res.role === 'TRAINER') {
-                        window.location.href = "/main"
+                        window.location.href = "/main/pokemons"
                     }
                     if (res.role === 'ADMIN') {
-                        window.location.href = "/admin"
+                        window.location.href = "/admin/users"
                     }
 
 

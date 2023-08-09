@@ -95,7 +95,6 @@ public class PokemonService {
     public Page<PokemonListDto> search(PokemonSearchDto dto, Pageable pageable) {
         Pokemon examplePokemon = new Pokemon();
         examplePokemon.setName(dto.getName());
-        examplePokemon.setTypes(dto.getTypes());
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase().withIgnorePaths("isActive").withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example<Pokemon> example = Example.of(examplePokemon, matcher);
         Page<Pokemon> pokemons = pokemonRepository.findAll(example, pageable);

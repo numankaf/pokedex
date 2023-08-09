@@ -88,7 +88,7 @@ a {
 .sidebar {
   border-radius: 15px;
   background: var(--surface-card);
-  height: 88vh;
+  height: calc(100vh - 7rem);
   padding: 1rem ;
 }
 
@@ -117,4 +117,9 @@ a {
 }
 .link-active{
   color: var(--primary-color)
+}
+.main-wrapper-open{
+  margin: 0rem 1rem 1rem 285px;
+  width: 100%;
+
 }

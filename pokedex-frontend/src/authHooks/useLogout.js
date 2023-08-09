@@ -1,8 +1,9 @@
 import Cookies from "js-cookie";
+import {deleteCookie} from "cookies-next";
 
 export const useLogout = () => {
     const logout = () => {
-        Cookies.remove("currentUser");
+        deleteCookie("currentUser");
     };
 
     return { logout };

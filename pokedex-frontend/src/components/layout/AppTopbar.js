@@ -30,8 +30,8 @@ const AppTopbar = ({toggle}) => {
     if (!user) return <p>No profile data</p>
     return (
         <>
-            <div
-                className="py-3 px-3 mx-0 surface-card flex align-items-center justify-content-between relative lg:static">
+            <div style={{zIndex:"1000"}}
+                className="py-3 px-3 mx-0 surface-card flex align-items-center justify-content-between fixed w-full shadow-2 ">
                 <img src="/images/pokedexlogo.png" alt="logo" width="30">
                 </img>
                 <span className="px-2  mr-5 text-3xl">POKEDEX</span>
@@ -63,7 +63,7 @@ const AppTopbar = ({toggle}) => {
             <OverlayPanel ref={op}>
                 <div className={"flex flex-column align-items-start justify-content-start"}>
                     <div className={"overlay-item pr-5 pl-2 py-2 w-full"}>
-                        <Link href={"/profile"}>
+                        <Link href={"/profile/account"}>
                             <span className="pi pi-user pr-2"></span>
                             <span className="text-color text-base"> Profile</span>
                         </Link>

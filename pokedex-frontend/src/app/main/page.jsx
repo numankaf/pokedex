@@ -1,8 +1,43 @@
 const MainPage = () =>{
     return (
-       <div className={"card"}>
-           <h1>This is main page</h1>
-       </div>
+      <div>
+          <div className={"card"}>
+              <h1>This is main page</h1>
+          </div>
+          <div className={"card"}>
+              <h1>This is main page</h1>
+          </div> <div className={"card"}>
+          <h1>This is main page</h1>
+      </div>
+          <div className={"card"}>
+              <h1>This is main page</h1>
+          </div>
+          <div className={"card"}>
+              <h1>This is main page</h1>
+          </div> <div className={"card"}>
+          <h1>This is main page</h1>
+      </div>
+          <div className={"card"}>
+              <h1>This is main page</h1>
+          </div>
+          <div className={"card"}>
+              <h1>This is main page</h1>
+          </div>
+          <div className={"card"}>
+              <h1>This is main page</h1>
+          </div>
+          <div className={"card"}>
+              <h1>This is main page</h1>
+          </div>
+          <div className={"card"}>
+              <h1>This is main page</h1>
+          </div>
+          <div className={"card"}>
+              <h1>This is main page</h1>
+          </div>
+
+
+      </div>
     )
 }
 

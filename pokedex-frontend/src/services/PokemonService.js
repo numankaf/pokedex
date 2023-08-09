@@ -70,7 +70,7 @@ export class PokemonService {
     }
 
     search = ( searchDto,page, pageSize, sort) => {
-        return this.instance.post( `/user/search?page=${page}&size=${pageSize}` + (sort ? `&sort=${sort}` : ''), searchDto)
+        return this.instance.post( `/pokemon/search?page=${page}&size=${pageSize}` + (sort ? `&sort=${sort}` : ''), searchDto)
             .then((res) => {
                 return res.data;
             })

@@ -1,7 +1,8 @@
 import Cookies from "js-cookie";
+import {getCookie} from "cookies-next";
 
 export function getAuthorizationHeader() {
-  const currentUser = Cookies.get("currentUser");
+  const currentUser = getCookie("currentUser");
   if(currentUser){
     return {
       Authorization: `${JSON.parse(currentUser || "")?.token || ""}`,
