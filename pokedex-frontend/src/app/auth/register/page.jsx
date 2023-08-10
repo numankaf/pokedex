@@ -9,23 +9,35 @@ import {Toast} from "primereact/toast";
 
 const RegisterPage = () => {
     const toast = useRef(null);
+    const [loading, setLoading] = useState(false);
     const [input, setInput] = useState({
         name: '',
         surname: '',
         username: '',
         email: '',
         password: '',
+        confirmPassword: '',
     });
 
+    const [error, setError] = useState({
+        name: '  ',
+        surname: '',
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    })
     const onInputChange = (e) => {
         const {name, value} = e.target;
         setInput((prev) => ({
             ...prev,
             [name]: value,
         }));
+        validateInput(e);
     };
 
     const onSubmit =  (e) => {
+        setLoading(true);
         e.preventDefault();
          authService.register(input)
             .then((res) => {
@@ -41,8 +53,64 @@ const RegisterPage = () => {
                     life: 3000
                 });
             });
-
+        setLoading(false);
     };
+
+    const validateInput = e => {
+        let { name, value } = e.target;
+        setError(prev => {
+            const stateObj = { ...prev, [name]: "" };
+
+            switch (name) {
+                case "name":
+                    if (!value) {
+                        stateObj[name] = "Please enter Name.";
+                    }
+                    break;
+                case "surname":
+                    if (!value) {
+                        stateObj[name] = "Please enter Surname.";
+                    }
+                    break;
+                case "email":
+                    if (!value) {
+                        stateObj[name] = "Please enter Email.";
+                    }else if( !(/\S+@\S+\.\S+/.test(input.email))){
+                        stateObj[name] = "Email is invalid.";
+                    }
+                    break;
+                case "username":
+                    if (!value) {
+                        stateObj[name] = "Please enter Username.";
+                    }
+                    break;
+
+                case "password":
+                    if (!value) {
+                        stateObj[name] = "Please enter Password.";
+                    } else if (input.confirmPassword && value !== input.confirmPassword) {
+                        stateObj["confirmPassword"] = "Password and Confirm Password does not match.";
+                    } else {
+                        stateObj["confirmPassword"] = input.confirmPassword ? "" : error.confirmPassword;
+                    }
+                    break;
+
+                case "confirmPassword":
+                    if (!value) {
+                        stateObj[name] = "Please enter Confirm Password.";
+                    } else if (input.password && value !== input.password) {
+                        stateObj[name] = "Password and Confirm Password does not match.";
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            return stateObj;
+        });
+    }
+
     return (
 
         <div className="flex flex-wrap" style={{"width": "100vw", "height": "100vh"}}>
@@ -88,9 +156,11 @@ const RegisterPage = () => {
                                                        type={"text"}
                                                        name={"name"}
                                                        value={input.name}
+                                                       onBlur={validateInput}
                                                        onChange={onInputChange}
                                                        className="w-full py-2 "/>
                                         </div>
+                                        {error.name && <span className={"text-red-500"}>{error.name}</span>}
                                     </span>
                                         <span style={{"width": "49%"}}>
                                         <label htmlFor="surname"
@@ -99,9 +169,11 @@ const RegisterPage = () => {
                                             <InputText id="surname" placeholder="Surname"
                                                        name={"surname"}
                                                        value={input.surname}
+                                                       onBlur={validateInput}
                                                        onChange={onInputChange}
                                                        className="w-full py-2 "/>
                                         </div>
+                                            {error.surname && <span className={"text-red-500"}>{error.surname}</span>}
                                     </span>
                                     </div>
                                     <label htmlFor="username"
@@ -110,9 +182,11 @@ const RegisterPage = () => {
                                         <InputText id="username" placeholder="Username"
                                                    name={"username"}
                                                    value={input.username}
+                                                   onBlur={validateInput}
                                                    onChange={onInputChange}
                                                    aria-describedby="username-help" className="w-full py-2 "/>
                                     </div>
+                                    {error.username && <span className={"text-red-500"}>{error.username}</span>}
                                 </div>
                                 <div className="mb-3 pt-2  " style={{"width": "90%"}}>
                                     <label htmlFor="email" className="block text-base font-medium mb-2">Email</label>
@@ -122,8 +196,10 @@ const RegisterPage = () => {
                                         <InputText id="email" placeholder="Email"
                                                    name={"email"}
                                                    value={input.email}
+                                                   onBlur={validateInput}
                                                    onChange={onInputChange} className="w-full py-2 "/>
                                     </div>
+                                    {error.email && <span className={"text-red-500"}>{error.email}</span>}
                                 </div>
                                 <div className="mb-4 pt-2  " style={{"width": "90%"}}>
                                     <label htmlFor="password"
@@ -135,14 +211,32 @@ const RegisterPage = () => {
                                                   value={input.password}
                                                   onChange={onInputChange}
                                                   style={{width: "100%"}} toggleMask feedback={false}
+                                                  onBlur={validateInput}
                                                   className="w-full " placeholder="Password"/>
                                     </div>
+                                    {error.password && <span className={"text-red-500"}>{error.password}</span>}
+                                </div>
+                                <div className="mb-4 pt-2  " style={{"width": "90%"}}>
+                                    <label htmlFor="confirmPassword"
+                                           className="block text-base font-medium mb-2">Confirm Password</label>
+                                    <div className="p-input-icon-left inline">
+                                        {/* eslint-disable-next-line react/jsx-no-undef */}
+                                        <Password inputStyle={{width: "100%", "padding": "0.6rem"}}
+                                                  name={"confirmPassword"}
+                                                  value={input.confirmPassword}
+                                                  onChange={onInputChange}
+                                                  style={{width: "100%"}} toggleMask feedback={false}
+                                                  onBlur={validateInput}
+                                                  className="w-full " placeholder="Confirm Password"/>
+                                    </div>
+                                    {error.confirmPassword && <span className={"text-red-500"}>{error.confirmPassword}</span>}
                                 </div>
                             </div>
 
                         </div>
                         <div className="flex align-items-center justify-content-center">
                             <Button type={"submit"} style={{"width": "65%"}} label="Register"
+                                    disabled={loading || error.username || error.password|| error.confirmPassword || error.name|| error.surname || error.email}
                                     onClick={onSubmit}
                                     className="mb-4 p-3"/>
                         </div>

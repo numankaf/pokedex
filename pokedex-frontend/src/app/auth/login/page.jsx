@@ -3,17 +3,57 @@ import {InputText} from "primereact/inputtext";
 import {Password} from 'primereact/password';
 import {Button} from "primereact/button";
 import Link from "next/link";
-import {useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {authService} from "@/services";
 import {Toast} from "primereact/toast";
 
 const LoginPage = () => {
     const toast = useRef(null);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [input, setInput] = useState({
+        username: '',
+        password: '',
+    });
+    const [error, setError] = useState({
+        username: '  ',
+        password: '',
+    });
+    const onInputChange = (e) => {
+        const {name, value} = e.target;
+        setInput((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+        validateInput(e);
+    };
+
+    const validateInput = e => {
+        let { name, value } = e.target;
+        setError(prev => {
+            const stateObj = { ...prev, [name]: "" };
+            switch (name) {
+                case "username":
+                    if (!value) {
+                        stateObj[name] = "Please enter Username.";
+                    }
+                    break;
+
+                case "password":
+                    if (!value) {
+                        stateObj[name] = "Please enter Password.";
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return stateObj;
+        });
+    }
     const onSubmit = (e) => {
+        setLoading(true)
         e.preventDefault();
-        authService.login({username: username, password: password})
+        authService.login(input)
             .then((res) => {
 
                 if (res.role === 'TRAINER') {
@@ -34,6 +74,7 @@ const LoginPage = () => {
                     life: 3000
                 });
             });
+        setLoading(false);
 
     };
 
@@ -80,10 +121,13 @@ const LoginPage = () => {
                                         {/* eslint-disable-next-line react/jsx-no-undef */}
                                         <i className="pi pi-envelope pr-2"></i>
                                         <InputText id="username" placeholder="Username or Email"
-                                                   value={username}
-                                                   onChange={(e) => setUsername(e.target.value)}
+                                                   name={"username"}
+                                                   value={input.username}
+                                                   onBlur={validateInput}
+                                                   onChange={onInputChange}
                                                    aria-describedby="username-help" className="w-full py-3 "/>
                                     </div>
+                                    {error.username && <span className={"text-red-500"}>{error.username}</span>}
                                 </div>
                                 <div className="mb-4 pt-2  " style={{"width": "90%"}}>
                                     <label htmlFor="password"
@@ -91,11 +135,14 @@ const LoginPage = () => {
                                     <div className="p-input-icon-left inline">
                                         {/* eslint-disable-next-line react/jsx-no-undef */}
                                         <Password inputStyle={{width: "100%", "padding": "1rem"}}
-                                                  value={password}
-                                                  onChange={(e) => setPassword(e.target.value)}
+                                                  name={"password"}
+                                                  value={input.password}
+                                                  onChange={onInputChange}
+                                                  onBlur={validateInput}
                                                   style={{width: "100%"}} toggleMask feedback={false}
                                                   className="w-full " placeholder="Password"/>
                                     </div>
+                                    {error.password && <span className={"text-red-500"}>{error.password}</span>}
                                 </div>
                             </div>
                             <div className="flex justify-content-between flex-wrap" style={{"width": "95%"}}>
@@ -112,7 +159,7 @@ const LoginPage = () => {
                         </div>
                         <div className="flex align-items-center justify-content-center">
                             <Button type={"submit"} style={{"width": "65%"}} label="Log in"
-                                    onClick={onSubmit}
+                                    onClick={onSubmit} disabled={loading || error.username || error.password}
                                     className="mb-4 p-3"/>
                         </div>
                     </form>

@@ -102,7 +102,7 @@ const HomePage = () => {
             </div>
             <div id={"apps"} className={"flex align-items-center justify-content-center p-5 m-5"}>
                 <div className={"w-10"}>
-                    <Carousel value={items} numVisible={1} numScroll={1} className="custom-carousel" circular
+                    <Carousel value={items} numVisible={1} numScroll={1} circular autoFocus={true}
                               autoplayInterval={3000} itemTemplate={carouselItemTemplate} />
                 </div>
             </div>

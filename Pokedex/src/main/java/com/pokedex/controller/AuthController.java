@@ -1,5 +1,6 @@
 package com.pokedex.controller;
 
+import com.pokedex.dto.auth.ForgotPasswordDto;
 import com.pokedex.dto.auth.LoginRequestDto;
 import com.pokedex.dto.auth.RegisterRequestDto;
 import com.pokedex.service.AuthService;
@@ -29,5 +30,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequestDto dto){
         return new ResponseEntity<>(authService.register(dto), HttpStatus.OK);
+    }
+
+    @PostMapping("/forgotpassword")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordDto dto){
+        return new ResponseEntity<>(authService.forgotPassword(dto), HttpStatus.OK);
     }
 }

@@ -38,6 +38,15 @@ export class AuthService {
                 throw new Error(error.response.data.message);
             })
     }
+    forgotPassword = (credentials) => {
+        return this.instance.post("/auth/forgotpassword", credentials)
+            .then((res) => {
+                return res.data.message;
+            })
+            .catch(function (error) {
+                throw new Error(error.response.data.message);
+            })
+    }
 
     logout =() =>{
         deleteCookie("currentUser");
