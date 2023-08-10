@@ -63,7 +63,7 @@ const HomePage = () => {
                             <Button label="Log in" text/>
                         </Link>
                         <Link href={"/auth/register"}>
-                            <Button label="Register" raised/>
+                            <Button label="Sign Up" raised/>
                         </Link>
 
                     </div>
