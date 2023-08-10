@@ -3,37 +3,45 @@ import {InputText} from "primereact/inputtext";
 import {Password} from 'primereact/password';
 import {Button} from "primereact/button";
 import Link from "next/link";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {authService} from "@/services";
+import {Toast} from "primereact/toast";
 
 const LoginPage = () => {
+    const toast = useRef(null);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const onSubmit =  () => {
-        if (!username || !password) {
-            alert("Please enter information");
-        } else {
-            authService.login({username: username, password: password})
-                .then((res) => {
+    const onSubmit = (e) => {
+        e.preventDefault();
+        authService.login({username: username, password: password})
+            .then((res) => {
 
-                    if (res.role === 'TRAINER') {
-                        window.location.href = "/main/pokemons"
-                    }
-                    if (res.role === 'ADMIN') {
-                        window.location.href = "/admin/users"
-                    }
+                if (res.role === 'TRAINER') {
+                    window.location.href = "/main/pokemons"
+                }
+                if (res.role === 'ADMIN') {
+                    window.location.href = "/admin/users"
+                }
 
 
+            })
+            .catch((e) => {
 
-                })
-                .catch((e) => alert(e.message));
-        }
+                toast.current.show({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: e.message,
+                    life: 3000
+                });
+            });
+
     };
 
 
     return (
 
         <div className="flex flex-wrap" style={{"width": "100vw", "height": "100vh"}}>
+            <Toast ref={toast}/>
             <div className="w-full lg:w-5"
                  style={{backgroundImage: "url('/images/background.jpg')", backgroundSize: "100% "}}>
 
@@ -78,7 +86,8 @@ const LoginPage = () => {
                                     </div>
                                 </div>
                                 <div className="mb-4 pt-2  " style={{"width": "90%"}}>
-                                    <label htmlFor="password" className="block text-base font-medium mb-2">Password</label>
+                                    <label htmlFor="password"
+                                           className="block text-base font-medium mb-2">Password</label>
                                     <div className="p-input-icon-left inline">
                                         {/* eslint-disable-next-line react/jsx-no-undef */}
                                         <Password inputStyle={{width: "100%", "padding": "1rem"}}

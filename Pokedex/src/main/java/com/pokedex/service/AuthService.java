@@ -68,6 +68,7 @@ public class AuthService {
         User user = modelMapper.map(dto, User.class);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setActive(true);
+        user.setThumbnail("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png");
         user.setRole(UserRole.TRAINER);
         WishList wishList = new WishList();
         wishListRepository.save(wishList);

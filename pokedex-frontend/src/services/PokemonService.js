@@ -23,7 +23,7 @@ export class PokemonService {
         })
     }
 
-    updatePokemon = (pokemonData) => {
+    updatePokemon = (id,pokemonData) => {
         return this.instance.post(`/pokemon/${id}`, pokemonData).then((res) => {
             return res.data
         }).catch(function (error) {

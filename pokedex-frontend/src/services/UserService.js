@@ -16,7 +16,7 @@ export class UserService {
     }
 
     createUser = (userData) => {
-        return this.instance.post("/user", userData).then((res) => {
+        return this.instance.post("/users", userData).then((res) => {
             return res.data
         }).catch(function (error) {
             throw new Error(error.response.data.message);
@@ -24,7 +24,7 @@ export class UserService {
     }
 
     updateUser = (userData) => {
-        return this.instance.post(`/user/${id}`, userData).then((res) => {
+        return this.instance.post(`/users/${id}`, userData).then((res) => {
             return res.data
         }).catch(function (error) {
             throw new Error(error.response.data.message);
@@ -32,7 +32,7 @@ export class UserService {
     }
 
     getById = (id) => {
-        return this.instance.get(`/user/${id}`).then((res) => {
+        return this.instance.get(`/users/${id}`).then((res) => {
             return res.data
         }).catch(function (error) {
             throw new Error(error.response.data.message);
@@ -40,7 +40,7 @@ export class UserService {
     }
 
     deleteUserByID = (id) => {
-        return this.instance.delete(`/user/${id}`)
+        return this.instance.delete(`/users/${id}`)
             .then((res) => {
                 return res.data.message;
             })
@@ -50,7 +50,7 @@ export class UserService {
     }
 
     findAllPageable = (page, pageSize, sort) => {
-        return this.instance.get( `/user?page=${page}&size=${pageSize}` + (sort ? `&sort=${sort}` : ''))
+        return this.instance.get( `/users?page=${page}&size=${pageSize}` + (sort ? `&sort=${sort}` : ''))
             .then((res) => {
                 return res.data;
             })
@@ -60,7 +60,7 @@ export class UserService {
     }
 
     findAll = () => {
-        return this.instance.get( `/user/all`)
+        return this.instance.get( `/users/all`)
             .then((res) => {
                 return res.data;
             })
@@ -70,7 +70,7 @@ export class UserService {
     }
 
     search = ( searchDto,page, pageSize, sort) => {
-        return this.instance.post( `/user/search?page=${page}&size=${pageSize}` + (sort ? `&sort=${sort}` : ''), searchDto)
+        return this.instance.post( `/users/search?page=${page}&size=${pageSize}` + (sort ? `&sort=${sort}` : ''), searchDto)
             .then((res) => {
                 return res.data;
             })

@@ -6,7 +6,7 @@ export default function AdminLayout({children}) {
         {
             path: "/admin/users",
             name: "Users",
-            icon: <img src="/images/pokemonwishlist.png" alt="logo" width="25"/>
+            icon: <img src="/images/users.png" alt="logo" width="25"/>
         },
         {
             path: "/admin/pokemons",

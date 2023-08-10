@@ -3,10 +3,12 @@ import {InputText} from "primereact/inputtext";
 import {Password} from 'primereact/password';
 import {Button} from "primereact/button";
 import Link from "next/link";
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {authService} from "@/services";
+import {Toast} from "primereact/toast";
 
 const RegisterPage = () => {
+    const toast = useRef(null);
     const [input, setInput] = useState({
         name: '',
         surname: '',
@@ -29,12 +31,21 @@ const RegisterPage = () => {
 
                 window.location.href = "/auth/login"
             })
-            .catch((e) => alert(e.message));
+            .catch((e) => {
+
+                toast.current.show({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: e.message,
+                    life: 3000
+                });
+            });
 
     };
     return (
 
         <div className="flex flex-wrap" style={{"width": "100vw", "height": "100vh"}}>
+            <Toast ref={toast}/>
             <div className="w-full lg:w-5"
                  style={{backgroundImage: "url('/images/background.jpg')", backgroundSize: "100% "}}>
 

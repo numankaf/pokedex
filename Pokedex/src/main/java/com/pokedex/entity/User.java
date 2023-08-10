@@ -25,7 +25,7 @@ public class User extends BaseEntity {
     @Column(name = "ABOUT")
     private String about;
 
-    @Column(name = "THUMBNAIL")
+    @Column(name = "THUMBNAIL",  columnDefinition = "LONGTEXT")
     private String thumbnail;
 
     @Enumerated(EnumType.STRING)

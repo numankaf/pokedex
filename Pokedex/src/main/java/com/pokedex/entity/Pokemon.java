@@ -13,7 +13,7 @@ public class Pokemon extends BaseEntity {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "THUMBNAIL")
+    @Column(name = "THUMBNAIL",  columnDefinition = "LONGTEXT")
     private String thumbnail;
 
     @ElementCollection(targetClass = PokemonType.class)
