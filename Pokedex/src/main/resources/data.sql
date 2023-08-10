@@ -298,6 +298,48 @@ VALUES ('Heatran', 'https://img.pokemondb.net/artwork/large/heatran.jpg',1.7, 43
 INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (43, 'FIRE');
 INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (43, 'STEEL');
 
+INSERT INTO POKEMON (NAME,THUMBNAIL,HEIGHT,WEIGHT,SPECIE,ABILITIES,HP,ATTACK,DEFENSE,SPEED,SPECIAL_ATTACK,SPECIAL_DEFENSE, IS_ACTIVE, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY,LAST_MODIFIED_DATE )
+VALUES ('Ninetales', 'https://img.pokemondb.net/artwork/large/ninetales.jpg',1.1 , 19.9,'Fox Pokemon','Flash Fire, Drought (hidden ability)', 73,76,75,100,81,100 , true, 'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE() );
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (44, 'FIRE');
+
+INSERT INTO POKEMON (NAME,THUMBNAIL,HEIGHT,WEIGHT,SPECIE,ABILITIES,HP,ATTACK,DEFENSE,SPEED,SPECIAL_ATTACK,SPECIAL_DEFENSE, IS_ACTIVE, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY,LAST_MODIFIED_DATE )
+VALUES ('Alolan Ninetales', 'https://img.pokemondb.net/artwork/large/ninetales-alolan.jpg',1.1 , 19.9,'Fox Pokemon','Snow Cloak, Snow Warning (hidden ability)', 73,67,75,109,81,100 , true, 'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE() );
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (45, 'ICE');
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (45, 'FAIRY');
+
+INSERT INTO POKEMON (NAME,THUMBNAIL,HEIGHT,WEIGHT,SPECIE,ABILITIES,HP,ATTACK,DEFENSE,SPEED,SPECIAL_ATTACK,SPECIAL_DEFENSE, IS_ACTIVE, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY,LAST_MODIFIED_DATE )
+VALUES ('Jigglypuff', 'https://img.pokemondb.net/artwork/large/jigglypuff.jpg',0.5 , 5.5,'Balloon Pokemon','Cute Charm,Competitive, Friend Guard (hidden ability)', 115,45,20,20,25,45 , true, 'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE() );
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (46, 'NORMAL');
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (46, 'FAIRY');
+
+INSERT INTO POKEMON (NAME,THUMBNAIL,HEIGHT,WEIGHT,SPECIE,ABILITIES,HP,ATTACK,DEFENSE,SPEED,SPECIAL_ATTACK,SPECIAL_DEFENSE, IS_ACTIVE, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY,LAST_MODIFIED_DATE )
+VALUES ('Wigglytuff', 'https://img.pokemondb.net/artwork/large/wigglytuff.jpg',1.0 , 12.0,'Balloon Pokemon','Cute Charm,Competitive,Frisk (hidden ability)', 140,70,45,45,85,50 , true, 'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE() );
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (47, 'NORMAL');
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (47, 'FAIRY');
+
+INSERT INTO POKEMON (NAME,THUMBNAIL,HEIGHT,WEIGHT,SPECIE,ABILITIES,HP,ATTACK,DEFENSE,SPEED,SPECIAL_ATTACK,SPECIAL_DEFENSE, IS_ACTIVE, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY,LAST_MODIFIED_DATE )
+VALUES ('Zubat', 'https://img.pokemondb.net/artwork/large/zubat.jpg',0.8 , 7.5,'Balloon Pokemon','Inner Focus,Infiltrator (hidden ability)', 40,45,35,55,40,30 , true, 'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE() );
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (48, 'POISON');
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (48, 'FLYING');
+
+INSERT INTO POKEMON (NAME,THUMBNAIL,HEIGHT,WEIGHT,SPECIE,ABILITIES,HP,ATTACK,DEFENSE,SPEED,SPECIAL_ATTACK,SPECIAL_DEFENSE, IS_ACTIVE, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY,LAST_MODIFIED_DATE )
+VALUES ('Tentacool', 'https://img.pokemondb.net/artwork/large/tentacool.jpg',0.9 , 45.5,'Jellyfish  Pokemon','Clear Body,Liquid Ooze, Rain Dish (hidden ability)', 40,40,35,70,50,100 , true, 'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE() );
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (49, 'WATER');
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (49, 'POISON');
+
+INSERT INTO POKEMON (NAME,THUMBNAIL,HEIGHT,WEIGHT,SPECIE,ABILITIES,HP,ATTACK,DEFENSE,SPEED,SPECIAL_ATTACK,SPECIAL_DEFENSE, IS_ACTIVE, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY,LAST_MODIFIED_DATE )
+VALUES ('Tentacruel', 'https://img.pokemondb.net/artwork/large/tentacruel.jpg',1.6 , 55.0,'Jellyfish  Pokemon','Clear Body,Liquid Ooze, Rain Dish (hidden ability)', 80,70,65,100,80,120 , true, 'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE() );
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (50, 'WATER');
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (50, 'POISON');
+
+INSERT INTO POKEMON (NAME,THUMBNAIL,HEIGHT,WEIGHT,SPECIE,ABILITIES,HP,ATTACK,DEFENSE,SPEED,SPECIAL_ATTACK,SPECIAL_DEFENSE, IS_ACTIVE, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY,LAST_MODIFIED_DATE )
+VALUES ('Golem', 'https://img.pokemondb.net/artwork/large/golem.jpg',1.4 , 300.0,'Megaton  Pokemon','Rock Head,Sturdy, Sand Veil (hidden ability)', 80,120,130,45,55,65 , true, 'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE() );
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (51, 'ROCK');
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (51, 'GROUND');
+
+INSERT INTO POKEMON (NAME,THUMBNAIL,HEIGHT,WEIGHT,SPECIE,ABILITIES,HP,ATTACK,DEFENSE,SPEED,SPECIAL_ATTACK,SPECIAL_DEFENSE, IS_ACTIVE, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY,LAST_MODIFIED_DATE )
+VALUES ('Ponyta', 'https://img.pokemondb.net/artwork/large/ponyta.jpg',1.0 , 30.0,'Fire Horse Pokemon','Run Away, Flash Fire,Flame Body (hidden ability)', 50,85,55,90,65,65 , true, 'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE() );
+INSERT INTO POKEMON_TYPE (POKEMON_ID, TYPES) VALUES (52, 'FIRE');
 
 INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 2, 4 );
 INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 2, 8 );
@@ -309,6 +351,9 @@ INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 3, 8 );
 INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 4, 6 );
 INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 4, 12 );
 INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 4, 18 );
+INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 4, 1 );
+INSERT INTO wish_list_pokemons (wish_list_id, pokemons_id) VALUES ( 8, 1 );
+
 
 INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 2, 1 );
 INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 2, 9 );
@@ -320,10 +365,10 @@ INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 3, 19 );
 INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 5, 11 );
 INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 5, 1 );
 INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 5, 9 );
-INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 5, 19 );
-INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 5, 17 );
-
-
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 6, 19 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 7, 24 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 7, 1 );
+INSERT INTO catch_list_pokemons (catch_list_id, pokemons_id) VALUES ( 10, 1 );
 
 
 
