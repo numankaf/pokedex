@@ -23,7 +23,7 @@ export class UserService {
         })
     }
 
-    updateUser = (userData) => {
+    updateUser = (id,userData) => {
         return this.instance.post(`/users/${id}`, userData).then((res) => {
             return res.data
         }).catch(function (error) {

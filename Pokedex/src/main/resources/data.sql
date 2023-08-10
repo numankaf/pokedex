@@ -81,7 +81,7 @@ VALUES ('hapu','hapu@gmail.com', 7,7,'Hapu', '', 'https://gamepress.gg/pokemonma
         'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE());
 
 INSERT INTO USERS (USERNAME,EMAIL,WISH_LIST_ID,CATCH_LIST_ID, NAME, SURNAME,THUMBNAIL, PASSWORD, ROLE, IS_ACTIVE, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY,LAST_MODIFIED_DATE)
-VALUES ('blueoak','blueoak@gmail.com', 8,8,'Blue', 'Oak', 'https://static.wikia.nocookie.net/pokemonfanon/images/e/ef/Blue_Generations.png/revision/latest?cb=20160923221422',
+VALUES ('blueoak','blueoak@gmail.com', 8,8,'Blue', 'Oak', 'https://i.pinimg.com/474x/62/ae/12/62ae12ac11437d7bc007bbe6edad3101.jpg',
         '$2a$10$JKJKCH4/v67.0I2ETLbj8utWedgMNlkS3Zl3okF4uGt0Gx80OWXZe', 'TRAINER', true,
         'SYSTEM', CURRENT_DATE(), 'SYSTEM', CURRENT_DATE());
 

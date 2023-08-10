@@ -127,7 +127,7 @@ const CreatePokemonPage = () => {
                                 <div className={"shadow-2 w-15rem h-15rem "}
                                      onClick={() => imageUploader.current.click()}>
                                     <img ref={uploadedImage} className={"img-input"}
-                                         src={"https://www.pngall.com/wp-content/uploads/2/Upload-Transparent.png"}
+                                         src={"https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"}
                                          style={{
                                         width: "inherit",
                                         height: "inherit",

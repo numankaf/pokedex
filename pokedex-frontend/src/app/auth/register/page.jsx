@@ -25,7 +25,8 @@ const RegisterPage = () => {
         }));
     };
 
-    const onSubmit =  () => {
+    const onSubmit =  (e) => {
+        e.preventDefault();
          authService.register(input)
             .then((res) => {
 

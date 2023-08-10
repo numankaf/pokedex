@@ -1,82 +1,35 @@
 "use client"
 
-import React, {useEffect, useRef, useState} from "react";
-import {accountService} from "@/services";
+import React, {useEffect, useState} from "react";
+import {userService} from "@/services";
 import {Button} from "primereact/button";
-import {Toast} from "primereact/toast";
 import {InputText} from "primereact/inputtext";
 import {InputTextarea} from 'primereact/inputtextarea';
+import {useRouter} from "next/navigation";
 
-const AccountPage = () => {
-    const toast = useRef(null);
-    const [edit, setEdit] = useState(false);
+const UserDetailPage = ({params}) => {
+    const router = useRouter()
+    const id = params.id;
     const [user, setUser] = useState({});
-    const [editData, setEditData] = useState({
-        name: '',
-        surname: '',
-        about: '',
-        thumbnail: ''
-    })
+
     useEffect(() => {
         getUser();
     }, []);
 
     const getUser = async () => {
-        await accountService.getAccountDetail().then((data) => {
+        await userService.getById(id).then((data) => {
             setUser(data);
-            setEditData({
-                name: data.name,
-                surname: data.surname,
-                about: data.about,
-                thumbnail: data.thumbnail
-            })
+
         })
-    }
-
-    const uploadedImage = React.useRef(null);
-    const imageUploader = React.useRef(null);
-
-    const handleImageUpload = e => {
-        const [file] = e.target.files;
-        if (file) {
-            const reader = new FileReader();
-            const {current} = uploadedImage;
-            current.file = file;
-            reader.onload = e => {
-                current.src = e.target.result;
-                setEditData({...editData, thumbnail: current.src})
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const onSubmit =() =>{
-       accountService.update(editData).then((res) =>{
-           window.location.reload();
-       }).catch((e) =>{
-           toast.current.show({
-               severity: 'error',
-               summary: 'Error',
-               detail: e.message,
-               life: 3000
-           });
-       })
     }
 
     return (
         <div className={"card"}>
-            <Toast ref={toast}/>
+            <a className={"underline-link text-primary cursor-pointer"} onClick={()=>router.back()}>Back to List</a>
             <div className={"flex gap-5"}>
                 <div className={"my-5 py-5"}>
-                    {edit && <input
-                        type="file" accept="image/*" onChange={handleImageUpload} ref={imageUploader}
-                        style={{
-                            display: "none"
-                        }}
-                    />}
-                    <div className={"w-15rem h-15rem"}
-                         onClick={() => edit ? imageUploader.current.click() : ""}>
-                        <img ref={uploadedImage}
+                    <div className={"w-15rem h-15rem"}>
+                        <img
                              src={user.thumbnail}
                              className={"border-circle img-input"}
                              style={{
@@ -88,19 +41,58 @@ const AccountPage = () => {
                     </div>
                 </div>
                 <div className={"w-full"}>
-                    <div className={"flex justify-content-end"}>
-                        {!edit && <Button label="Edit" icon={"pi pi-pencil"} severity={"info"}
-                                          onClick={() => setEdit(true)}/>}
-                        {edit && <div className={"flex flex-row gap-2"}>
-                            <Button label="Cancel" severity={"danger"} icon={"pi pi-times"}
-                                    onClick={() => {
-                                        setEdit(false)
-                                        window.location.reload();
-                                    }}/>
-                            <Button label="Save" severity={"success"} icon={"pi pi-check" }
-                                    onClick={()=>onSubmit()}
-                            />
-                        </div>}
+                    <div className=" pt-2  " style={{"width": "90%"}}>
+                        <div className="py-3 flex justify-content-between flex-wrap">
+                                    <span style={{"width": "24%"}}>
+                                        <label htmlFor="createdby"
+                                                   className="block text-base font-medium mb-2">Created By</label>
+                                        <div className=" inline">
+                                            <InputText id="createdby" placeholder="createdby"
+                                                       type={"text"}
+                                                       name={"createdby"}
+                                                       disabled={true}
+                                                       value={user.createdBy || ''}
+                                                       className="w-full py-2 "/>
+                                        </div>
+                                    </span>
+                            <span style={{"width": "24%"}}>
+                                        <label htmlFor="createdDate"
+                                               className="block text-base font-medium mb-2">Created Date</label>
+                                        <div className=" inline">
+                                            <InputText id="createdDate" placeholder="Surname"
+                                                       type={"text"}
+                                                       name={"createdDate"}
+                                                       disabled={true}
+                                                       value={user.createdDate || ''}
+                                                       className="w-full py-2 "/>
+                                        </div>
+                                    </span>
+                            <span style={{"width": "24%"}}>
+                                        <label htmlFor="lastModifiedBy"
+                                               className="block text-base font-medium mb-2">Last Modified By</label>
+                                        <div className=" inline">
+                                            <InputText id="lastModifiedBy" placeholder="lastModifiedBy"
+                                                       type={"text"}
+                                                       name={"lastModifiedBy"}
+                                                       disabled={true}
+                                                       value={user.lastModifiedBy || ''}
+                                                       className="w-full py-2 "/>
+                                        </div>
+                                    </span>
+                            <span style={{"width": "24%"}}>
+                                        <label htmlFor="lastModifiedDate"
+                                               className="block text-base font-medium mb-2">Last Modified Date</label>
+                                        <div className=" inline">
+                                            <InputText id="lastModifiedDate" placeholder="lastModifiedDate"
+                                                       type={"text"}
+                                                       name={"lastModifiedDate"}
+                                                       disabled={true}
+                                                       value={user.lastModifiedDate || ''}
+                                                       className="w-full py-2 "/>
+                                        </div>
+                                    </span>
+                        </div>
+
                     </div>
                     <div className=" pt-2  " style={{"width": "90%"}}>
                         <div className="py-3 flex justify-content-between flex-wrap">
@@ -111,12 +103,8 @@ const AccountPage = () => {
                                             <InputText id="name" placeholder="Name"
                                                        type={"text"}
                                                        name={"name"}
-                                                       disabled={!edit}
-                                                       value={editData.name || ''}
-                                                       onChange={(e) => setEditData({
-                                                           ...editData,
-                                                           name: e.target.value
-                                                       })}
+                                                       disabled={true}
+                                                       value={user.name || ''}
                                                        className="w-full py-2 "/>
                                         </div>
                                     </span>
@@ -127,12 +115,8 @@ const AccountPage = () => {
                                             <InputText id="surname" placeholder="Surname"
                                                        type={"text"}
                                                        name={"surname"}
-                                                       disabled={!edit}
-                                                       value={editData.surname || ''}
-                                                       onChange={(e) => setEditData({
-                                                           ...editData,
-                                                           surname: e.target.value
-                                                       })}
+                                                       disabled={true}
+                                                       value={user.surname || ''}
                                                        className="w-full py-2 "/>
                                         </div>
                                     </span>
@@ -171,8 +155,7 @@ const AccountPage = () => {
                                         <div className=" inline">
                                             <InputText id="email" placeholder="Email"
                                                        type={"text"}
-                                                       name={"email"}
-                                                       disabled={true}
+                                                       name={"email"}  disabled={true}
                                                        value={user.email || ''}
                                                        className="w-full py-2 "/>
                                         </div>
@@ -187,10 +170,8 @@ const AccountPage = () => {
                         <div className=" inline">
                             <InputTextarea id="about"
                                            type={"text"} rows={5} cols={30}
-                                           name={"about"}
-                                           disabled={!edit}
-                                           value={editData.about || ''}
-                                           onChange={(e) => setEditData({...editData, about: e.target.value})}
+                                           name={"about"}  disabled={true}
+                                           value={user.about || ''}
                                            className="w-full py-2 "/>
                         </div>
 
@@ -202,4 +183,4 @@ const AccountPage = () => {
     )
 }
 
-export default AccountPage;
+export default UserDetailPage;
