@@ -1,8 +1,43 @@
 "use client"
 import {Button} from "primereact/button";
 import Link from "next/link";
+import { Carousel } from 'primereact/carousel';
 
 const HomePage = () => {
+    const items =[
+        {
+            content: "Complete Pokemon List",
+            image:"landing1.PNG"
+        },
+        {
+            content: "Add Pokemons in Your Catch List and Wish List",
+            image:"landing2.PNG"
+        },
+        {
+            content: "View Pokemons In Detail",
+            image:"landing3.PNG"
+        },
+        {
+            content: "Edit Your Profile",
+            image:"landing4.PNG"
+        },
+        {
+            content: "Admin Panel For System Managment",
+            image:"landing5.PNG"
+        },
+
+    ]
+
+    const carouselItemTemplate = (item) => {
+        return (
+            <div className="surface-border border-round m-2 text-center py-5 px-3">
+                <h1 className={"m-4"}>{item.content}</h1>
+                <div className="mb-3">
+                    <img src={`/images/${item.image}`}  className=" shadow-2" width={840} height={450}/>
+                </div>
+            </div>
+        );
+    };
     return (
         <div className="relative overflow-hidden flex flex-column justify-content-center surface-card ">
             <div
@@ -10,12 +45,12 @@ const HomePage = () => {
                 <img src="/images/pokedexlogo.png" alt="logo" width="30">
                 </img>
                 <span className="px-2  mr-5 text-3xl">POKEDEX</span>
-                {/*<a className="m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 cursor-pointer" href="#home">*/}
-                {/*    Home*/}
-                {/*</a>*/}
-                {/*<a className="m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 cursor-pointer" href="#apps">*/}
-                {/*    Apps*/}
-                {/*</a>*/}
+                <a className="m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 cursor-pointer" href="#home">
+                    Home
+                </a>
+                <a className="m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 cursor-pointer" href="#apps">
+                    Apps
+                </a>
                 {/*<a className="m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 cursor-pointer"*/}
                 {/*   href="#development-team" style={{"width": "300px"}}>*/}
                 {/*    Development Team*/}
@@ -61,13 +96,21 @@ const HomePage = () => {
                                  src="/images/background.png"/>
                         </div>
                     </div>
+
+                </div>
+
+            </div>
+            <div id={"apps"} className={"flex align-items-center justify-content-center p-5 m-5"}>
+                <div className={"w-10"}>
+                    <Carousel value={items} numVisible={1} numScroll={1} className="custom-carousel" circular
+                              autoplayInterval={3000} itemTemplate={carouselItemTemplate} />
                 </div>
             </div>
 
 
-           <div   style={{position: "fixed", left: "0", bottom:"0", textAlign:"center"}} className={"w-full surface-card"}>
+           <div   style={{position: "fixed", left: "0", bottom:"0", textAlign:"center"}} className={"w-full shadow-2 surface-card"}>
                <div className="flex justify-content-center align-items-center my-1 pb-1">
-                   <span className="text-900 block text-xl mb-2 mt-2 text-center">© 2023 Pokedex. All rights reserved.</span>
+                   <span className="text-900 block text-xl mb-2 mt-2 text-center">© 2023 Numan Kafadar. All rights reserved.</span>
                </div>
            </div>
         </div>

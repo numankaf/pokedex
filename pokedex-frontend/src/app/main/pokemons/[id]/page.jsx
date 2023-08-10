@@ -56,7 +56,7 @@ const PokemonDetailPage = ({params}) => {
                         <p>{pokemon.height} m</p>
                     </div>
                     <div className={"flex align-items-center gap-3"}>
-                        <h3>Abilities :</h3>
+                        <h3>Abilities:</h3>
                         <p>{pokemon.abilities}</p>
                     </div>
 

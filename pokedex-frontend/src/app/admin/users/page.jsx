@@ -11,7 +11,6 @@ import {InputText} from 'primereact/inputtext';
 import {ConfirmDialog, confirmDialog} from 'primereact/confirmdialog';
 import {Toast} from 'primereact/toast';
 import {Password} from "primereact/password";
-import Link from "next/link";
 import {Dropdown} from "primereact/dropdown";
 
 const UsersPage = () => {
@@ -19,7 +18,6 @@ const UsersPage = () => {
     const pathname = usePathname();
     const router = useRouter();
     const [visible, setVisible] = useState(false);
-    const [name, setName] = useState('');
     const [users, setUsers] = useState(null);
     const [loading, setLoading] = useState(false);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -30,6 +28,12 @@ const UsersPage = () => {
         page: 0,
         sortField: null,
         sortOrder: null,
+        filters: {
+            name: {value: ''},
+            surname: {value: ''},
+            email: {value: ''},
+            username: {value: ''}
+        }
     });
 
     const [createUser, setCreateUser] = useState({
@@ -44,7 +48,7 @@ const UsersPage = () => {
     const dt = useRef(null);
     useEffect(() => {
         loadLazyData();
-    }, [lazyState, name]);
+    }, [lazyState]);
 
     let networkTimeout = null;
 
@@ -57,14 +61,25 @@ const UsersPage = () => {
 
         networkTimeout = setTimeout(() => {
             const sort = lazyState.sortField ? (lazyState.sortField + ',' + (lazyState.sortOrder === 1 ? 'asc' : 'desc')) : undefined;
-            if (name !== "") {
-                const searchDto = {name: name};
+
+            const isFilterTrue = lazyState.filters && ((lazyState.filters.name && lazyState.filters.name.value && lazyState.filters.name.value !== '')
+            || (lazyState.filters.surname && lazyState.filters.surname.value && lazyState.filters.surname.value !== '')
+            || (lazyState.filters.email && lazyState.filters.email.value && lazyState.filters.email.value !== '')
+            || (lazyState.filters.username && lazyState.filters.username.value && lazyState.filters.username.value !== ''));
+            if (isFilterTrue) {
+                const searchDto = {
+                    name: lazyState.filters.name.value || '',
+                    surname: lazyState.filters.surname.value || '',
+                    email: lazyState.filters.email.value || '',
+                    username: lazyState.filters.username.value || '',
+                };
                 userService.search(searchDto, (lazyState.first / lazyState.rows), lazyState.rows, sort).then((data) => {
                     setTotalRecords(data.totalElements);
-                    setPokemons(data.content);
+                    setUsers(data.content);
                     setLoading(false);
                 })
             } else {
+
                 userService.findAllPageable((lazyState.first / lazyState.rows), lazyState.rows, sort).then((data) => {
                     setTotalRecords(data.totalElements);
                     setUsers(data.content);
@@ -87,15 +102,16 @@ const UsersPage = () => {
                 sortOrder: event.sortOrder,
                 sortField: event.sortField,
                 rows: event.rows,
-                first: event.first
+                first: event.first,
+                filters: {}
             }
         )
     };
 
-    // const onFilter = (event) => {
-    //     event['first'] = 0;
-    //     setlazyState(event);
-    // };
+    const onFilter = (event) => {
+        event['first'] = 0;
+        setlazyState(event);
+    };
 
 
     const thumbnailBodyTemplate = (rowData) => {
@@ -278,15 +294,11 @@ const UsersPage = () => {
             <h1>User List</h1>
             <div className={"flex flex-column  py-3 "}>
                 <div className={"flex  justify-content-between"}>
+                    <div></div>
                     <div>
                         <Button size="small" icon="pi pi-plus" severity="success" label={"Create a User"}
                                 onClick={() => setVisible(true)}
                                 tooltip={"Create a User"}/>
-                    </div>
-                    <div className={"flex gap-3 "}>
-                        <InputText placeholder={"Search By Name"} value={name} onChange={(e) => {
-                            setName(e.target.value);
-                        }}/>
                     </div>
                 </div>
 
@@ -294,15 +306,24 @@ const UsersPage = () => {
             <DataTable value={users} lazy loading={loading} filterDisplay="row" paginator
                        onPage={onPage} totalRecords={totalRecords} first={lazyState.first} rows={lazyState.rows}
                        onSort={onSort} sortField={lazyState.sortField} sortOrder={lazyState.sortOrder}
+                       onFilter={onFilter} filters={lazyState.filters}
                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                        dataKey="id" rowsPerPageOptions={[5, 10, 25]}>
                 <Column field="thumbnail" header="Image" style={{minWidth: '3rem'}}
                         body={thumbnailBodyTemplate}></Column>
-                <Column field="username" header="Username" sortable style={{minWidth: '7rem'}}></Column>
-                <Column field="email" header="Email" sortable style={{minWidth: '7rem'}}></Column>
-                <Column field="name" header="Name" sortable style={{minWidth: '5rem'}}></Column>
-                <Column field="surname" header="Surname" sortable style={{minWidth: '5rem'}}></Column>
+                <Column field="username" header="Username" filter showFilterMenu={false}
+                        filterPlaceholder="Search by username" sortable
+                        style={{minWidth: '7rem'}}></Column>
+                <Column field="email" header="Email" filter showFilterMenu={false} filterPlaceholder="Search by email"
+                        sortable
+                        style={{minWidth: '7rem'}}></Column>
+                <Column field="name" header="Name" filter showFilterMenu={false} filterPlaceholder="Search by name"
+                        sortable
+                        style={{minWidth: '5rem'}}></Column>
+                <Column field="surname" header="Surname" showFilterMenu={false} filterPlaceholder="Search by surname"
+                        filter sortable
+                        style={{minWidth: '5rem'}}></Column>
                 <Column field="role" header="Role" sortable style={{minWidth: '5rem'}}></Column>
                 <Column field="operations" header="Operations" style={{minWidth: '3rem'}}
                         body={operationsBodyTemplate}></Column>
