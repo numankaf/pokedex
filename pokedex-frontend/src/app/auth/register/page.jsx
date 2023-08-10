@@ -3,9 +3,10 @@ import {InputText} from "primereact/inputtext";
 import {Password} from 'primereact/password';
 import {Button} from "primereact/button";
 import Link from "next/link";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {authService} from "@/services";
 import {Toast} from "primereact/toast";
+import PrimeReact from "primereact/api";
 
 const RegisterPage = () => {
     const toast = useRef(null);
@@ -18,7 +19,6 @@ const RegisterPage = () => {
         password: '',
         confirmPassword: '',
     });
-
     const [error, setError] = useState({
         name: '  ',
         surname: '   ',
@@ -27,6 +27,12 @@ const RegisterPage = () => {
         password: '   ',
         confirmPassword: '   ',
     })
+    useEffect(() => {
+        const localTheme =localStorage.getItem("theme");
+        PrimeReact?.changeTheme?.(`light`, `${localTheme}`, 'theme-css', () => {
+            }
+        );
+    }, [])
     const onInputChange = (e) => {
         const {name, value} = e.target;
         setInput((prev) => ({

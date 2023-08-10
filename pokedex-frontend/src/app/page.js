@@ -2,6 +2,8 @@
 import {Button} from "primereact/button";
 import Link from "next/link";
 import { Carousel } from 'primereact/carousel';
+import {useEffect} from "react";
+import PrimeReact from "primereact/api";
 
 const HomePage = () => {
     const items =[
@@ -27,7 +29,12 @@ const HomePage = () => {
         },
 
     ]
-
+    useEffect(() => {
+        const localTheme =localStorage.getItem("theme");
+        PrimeReact?.changeTheme?.(`light`, `${localTheme}`, 'theme-css', () => {
+            }
+        );
+    }, [])
     const carouselItemTemplate = (item) => {
         return (
             <div className="surface-border border-round m-2 text-center py-5 px-3">

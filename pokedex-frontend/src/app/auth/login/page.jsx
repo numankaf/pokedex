@@ -3,9 +3,10 @@ import {InputText} from "primereact/inputtext";
 import {Password} from 'primereact/password';
 import {Button} from "primereact/button";
 import Link from "next/link";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {authService} from "@/services";
 import {Toast} from "primereact/toast";
+import PrimeReact from "primereact/api";
 
 const LoginPage = () => {
     const toast = useRef(null);
@@ -26,6 +27,12 @@ const LoginPage = () => {
         }));
         validateInput(e);
     };
+    useEffect(() => {
+        const localTheme =localStorage.getItem("theme");
+        PrimeReact?.changeTheme?.(`light`, `${localTheme}`, 'theme-css', () => {
+            }
+        );
+    }, [])
 
     const validateInput = e => {
         let { name, value } = e.target;

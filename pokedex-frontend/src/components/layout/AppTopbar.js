@@ -5,13 +5,19 @@ import {OverlayPanel} from 'primereact/overlaypanel';
 import {Button} from 'primereact/button';
 import Link from "next/link";
 import {accountService, authService} from "@/services";
-import {InputSwitch} from "primereact/inputswitch";
-
+import PrimeReact from 'primereact/api';
+import { InputSwitch } from 'primereact/inputswitch';
 
 const AppTopbar = ({toggle}) => {
-    const [user, setUser] = useState(null)
 
+    const [user, setUser] = useState(null)
+    const [checked, setChecked] = useState(false);
     useEffect(() => {
+        const localTheme =localStorage.getItem("theme");
+        PrimeReact?.changeTheme?.(`light`, `${localTheme}`, 'theme-css', () => {
+            }
+        );
+        setChecked(localTheme ==="dark")
         accountService.getAccountDetailTopbar()
             .then((res) => {
                 setUser(res.data)
@@ -24,6 +30,16 @@ const AppTopbar = ({toggle}) => {
         authService.logout()
         window.location.href = "/auth/login"
 
+    };
+
+    const changeMyTheme = (e) => {
+        setChecked(e.value);
+        const newTheme = !checked  ? 'dark' : 'light';
+        const oldTheme = checked  ? 'dark' : 'light';
+        PrimeReact?.changeTheme?.(`${oldTheme}`, `${newTheme}`, 'theme-css', () => {
+                localStorage.setItem("theme", newTheme);
+            }
+        );
     };
 
     const op = useRef(null);
@@ -68,12 +84,12 @@ const AppTopbar = ({toggle}) => {
                             <span className="text-color text-base"> Profile</span>
                         </Link>
                     </div>
-                    {/*<div*/}
-                    {/*    className={"cursor-pointer overlay-item pl-2 pr-2  py-2 w-full flex align-items-center justify-content-center"}>*/}
-                    {/*    <span className="pi pi-moon  pr-2"></span>*/}
-                    {/*    <span className="text-color text-base pr-5"> Dark Mode</span>*/}
-                    {/*    <InputSwitch checked={checked} onChange={(e) => setChecked(e.value)}/>*/}
-                    {/*</div>*/}
+                    <div
+                        className={"cursor-pointer overlay-item pl-2 pr-2  py-2 w-full flex align-items-center justify-content-center"}>
+                        <span className="pi pi-moon  pr-2"></span>
+                        <span className="text-color text-base pr-5"> Dark Mode</span>
+                        <InputSwitch checked={checked} onChange={(e) => changeMyTheme(e)}/>
+                    </div>
                     <div onClick={onLogout} className={"cursor-pointer overlay-item pl-2 pr-5 py-2 w-full"}>
                         <span className="pi pi-sign-out pr-2"></span>
                         <span className="text-color text-base"> Logout</span>

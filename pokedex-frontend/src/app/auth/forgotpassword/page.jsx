@@ -2,11 +2,13 @@
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
 import Link from "next/link";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {authService} from "@/services";
 import {Toast} from "primereact/toast";
 import { Dialog } from 'primereact/dialog';
+import PrimeReact from "primereact/api";
 const ForgotPasswordPage = () => {
+
     const toast = useRef(null);
     const [loading, setLoading] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -16,6 +18,12 @@ const ForgotPasswordPage = () => {
     const [error, setError] = useState({
         email: '  '
     });
+    useEffect(() => {
+        const localTheme =localStorage.getItem("theme");
+        PrimeReact?.changeTheme?.(`light`, `${localTheme}`, 'theme-css', () => {
+            }
+        );
+    }, [])
     const onInputChange = (e) => {
         const {name, value} = e.target;
         setInput((prev) => ({
