@@ -16,7 +16,7 @@ const LoginPage = () => {
     });
     const [error, setError] = useState({
         username: '  ',
-        password: '',
+        password: '   ',
     });
     const onInputChange = (e) => {
         const {name, value} = e.target;

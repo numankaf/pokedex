@@ -21,11 +21,11 @@ const RegisterPage = () => {
 
     const [error, setError] = useState({
         name: '  ',
-        surname: '',
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
+        surname: '   ',
+        username: '   ',
+        email: '   ',
+        password: '   ',
+        confirmPassword: '   ',
     })
     const onInputChange = (e) => {
         const {name, value} = e.target;
