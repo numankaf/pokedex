@@ -49,7 +49,7 @@ const CatchListPage = () => {
         loadLazyData();
     }
     const goToDetail = (id) => {
-        const pt = pathname.replace("/wishlist", "");
+        const pt = pathname.replace("/catchlist", "");
         router.push(pt + "/pokemons/" + id)
     }
 

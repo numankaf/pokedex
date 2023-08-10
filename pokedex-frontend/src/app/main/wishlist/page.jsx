@@ -95,9 +95,7 @@ const WishListPage = () => {
         <div className="card">
             <h1>Wish List</h1>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
-            <p className={"py-2"}>Embark on a thrilling journey to catch 'em all as you explore the vast and diverse
-                Pokémon catch list, filled with captivating creatures waiting to be discovered and captured in the
-                enchanting world of Pokémon.</p>
+
             <DataView value={pokemons} paginator rows={lazyState.rows} lazy first={lazyState.first}
                       rowsPerPageOptions={[3, 6, 12, 24]} loading={loading}
                       paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
