@@ -13,6 +13,11 @@ import com.pokedex.repository.PokemonRepository;
 import com.pokedex.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -26,12 +31,15 @@ public class PokemonService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(PokemonService.class);
+
     public PokemonService(PokemonRepository pokemonRepository, ModelMapper modelMapper, UserRepository userRepository) {
         this.pokemonRepository = pokemonRepository;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
     }
 
+    @Cacheable(cacheNames = "currentUser")
     public User getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByUsername(username);
@@ -43,7 +51,9 @@ public class PokemonService {
         return modelMapper.map(pokemon, PokemonDetailDto.class);
     }
 
+    @CachePut(cacheNames = "pokemons", key = "#id")
     public PokemonDetailDto updatePokemon(Long id, PokemonDetailDto dto) {
+        logger.info("UPDATE pokemon by id : " + id);
         Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("Pokemon not found with id : " + id));
         pokemon.setName(dto.getName());
         pokemon.setThumbnail(dto.getThumbnail());
@@ -63,19 +73,22 @@ public class PokemonService {
     }
 
     @Transactional
+    @CacheEvict(cacheNames = "pokemons", key = "#id")
     public void deletePokemon(Long id) {
         Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("Pokemon not found with id : " + id));
-        for(CatchList catchList: pokemon.getCatchLists()){
+        for (CatchList catchList : pokemon.getCatchLists()) {
             catchList.getPokemons().remove(pokemon);
         }
-        for(WishList wishList: pokemon.getWishLists()){
+        for (WishList wishList : pokemon.getWishLists()) {
             wishList.getPokemons().remove(pokemon);
         }
 
         pokemonRepository.deleteById(id);
     }
 
+    @Cacheable(cacheNames = "pokemons", key = "#id")
     public PokemonDetailDto getById(Long id) {
+        logger.info("GET pokemon by id : " + id);
         Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("Pokemon not found with id : " + id));
         return modelMapper.map(pokemon, PokemonDetailDto.class);
     }
@@ -87,6 +100,7 @@ public class PokemonService {
     }
 
     public Page<PokemonListDto> findAll(Pageable pageable) {
+        logger.info("FIND ALL pokemons pageable. Page : " + pageable.getPageNumber());
         Page<Pokemon> pokemons = pokemonRepository.findAll(pageable);
         List<PokemonListDto> dtos = pokemons.stream().map(this::toListDto).collect(Collectors.toList());
         return new PageImpl<>(dtos, pageable, pokemons.getTotalElements());
@@ -109,14 +123,18 @@ public class PokemonService {
         return dto;
     }
 
+    @Cacheable(cacheNames = "whoCatched", key = "#id")
     public List<UserListDto> getUsersWhoCatch(Long id) {
+        logger.info("GET USERS who catched  with pokemon id:" + id);
         Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("Pokemon not found with id : " + id));
         List<UserListDto> dtos = pokemon.getCatchLists().stream().map(CatchList::getUser)
                 .map(user -> modelMapper.map(user, UserListDto.class)).collect(Collectors.toList());
         return dtos;
     }
 
+    @Cacheable(cacheNames = "whoWished", key = "#id")
     public List<UserListDto> getUsersWhoAddedWishList(Long id) {
+        logger.info("GET USERS who wished  with pokemon id:" + id);
         Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("Pokemon not found with id : " + id));
         List<UserListDto> dtos = pokemon.getWishLists().stream().map(WishList::getUser)
                 .map(user -> modelMapper.map(user, UserListDto.class)).collect(Collectors.toList());
