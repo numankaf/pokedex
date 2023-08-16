@@ -16,7 +16,7 @@ spring:
   jpa:
     defer-datasource-initialization: true
   profiles:
-    active: dev
+    active: prod
   main:
     banner-mode: console
   datasource:
