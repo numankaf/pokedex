@@ -40,7 +40,7 @@ public class PokemonService {
         this.userRepository = userRepository;
     }
 
-    @Cacheable(cacheNames = "currentUser")
+
     public User getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByUsername(username);

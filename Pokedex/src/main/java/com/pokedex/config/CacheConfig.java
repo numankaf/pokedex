@@ -1,6 +1,7 @@
 package com.pokedex.config;
 
 
+import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
 
 import org.springframework.context.annotation.Bean;
@@ -23,5 +24,7 @@ public class CacheConfig {
                 .disableCachingNullValues()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
     }
+
+
 }
 
