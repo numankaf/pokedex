@@ -60,10 +60,7 @@ public class UserService {
 
     public UserDetailDto updateUser(Long id, UserUpdateRequestDto dto) {
         User user = userRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("User not found with id :" + id));
-        user.setName(dto.getName());
-        user.setSurname(dto.getSurname());
-        user.setThumbnail(dto.getThumbnail());
-        user.setAbout(dto.getAbout());
+        modelMapper.map(dto, user);
         userRepository.save(user);
         UserDetailDto responseDto = modelMapper.map(user, UserDetailDto.class);
         return responseDto;
@@ -94,11 +91,7 @@ public class UserService {
 
     public Page<UserListDto> search(UserListDto dto, Pageable pageable) {
         User exampleUser = new User();
-        exampleUser.setUsername(dto.getUsername());
-        exampleUser.setName(dto.getName());
-        exampleUser.setSurname(dto.getSurname());
-        exampleUser.setEmail(dto.getEmail());
-        exampleUser.setRole(dto.getRole());
+        modelMapper.map(dto, exampleUser);
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase().withIgnorePaths("isActive").withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example<User> example = Example.of(exampleUser, matcher);
         Page<User> users = userRepository.findAll(example, pageable);

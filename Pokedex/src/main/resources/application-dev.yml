@@ -7,11 +7,6 @@ spring:
         show_sql: false
         format_sql: false
         use_sql_comments: false
-  data:
-    redis:
-      host: localhostt
-
-
 
 application:
   title: Pokedex - dev
