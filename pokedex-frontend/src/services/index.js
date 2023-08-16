@@ -5,7 +5,7 @@ import {PokemonService} from "@/services/PokemonService";
 import {CatchListService} from "@/services/CatchListService";
 import {WishListService} from "@/services/WishListService";
 
-const baseUrl = "http://localhost:8080/pokedex";
+const baseUrl = "http://localhost:9080/pokedex";
 
 
 export const authService = new AuthService(baseUrl);

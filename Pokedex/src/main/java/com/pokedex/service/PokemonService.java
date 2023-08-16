@@ -99,6 +99,7 @@ public class PokemonService {
         return dtos;
     }
 
+    @Cacheable("pokemonsPageable")
     public Page<PokemonListDto> findAll(Pageable pageable) {
         logger.info("FIND ALL pokemons pageable. Page : " + pageable.getPageNumber());
         Page<Pokemon> pokemons = pokemonRepository.findAll(pageable);
