@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: user-service
   sql:
     init:
       mode: always
@@ -30,3 +32,7 @@ server:
   port: 8082
   servlet:
     context-path: /pokedex
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka

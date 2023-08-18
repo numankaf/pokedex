@@ -1,14 +1,12 @@
 package com.pokedex.userservice.controller;
 
-import com.pokedex.userservice.dto.UserCreateRequestDto;
-import com.pokedex.userservice.dto.UserDetailDto;
-import com.pokedex.userservice.dto.UserListDto;
-import com.pokedex.userservice.dto.UserUpdateRequestDto;
+import com.pokedex.userservice.dto.*;
 import com.pokedex.userservice.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -17,10 +15,13 @@ import java.util.Map;
 @RequestMapping("users")
 public class UserController {
     private final UserService userService;
+    private final RestTemplate restTemplate;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RestTemplate restTemplate) {
         this.userService = userService;
+        this.restTemplate = restTemplate;
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id){
@@ -63,4 +64,13 @@ public class UserController {
         Page<UserListDto> dtos = userService.search(searchDto, pageable);
         return ResponseEntity.ok(dtos);
     }
+
+    @GetMapping("/test/{id}")
+    public ResponseEntity<?> test(@PathVariable Long id){
+        PokemonDetailDto res=restTemplate.getForObject("http://pokemon-service/pokedex/pokemon/{id}",
+                PokemonDetailDto.class,
+                id);
+        return ResponseEntity.ok(res);
+    }
+
 }
