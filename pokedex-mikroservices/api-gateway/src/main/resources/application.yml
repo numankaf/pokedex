@@ -1,0 +1,26 @@
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/pokedex/users/**
+        - id: pokemon-service
+          uri: lb://pokemon-service
+          predicates:
+            - Path=/pokedex/pokemon/**
+
+application:
+  title: Pokedex - Api Gateway
+  version: 1.0.0
+
+server:
+  port: 8080

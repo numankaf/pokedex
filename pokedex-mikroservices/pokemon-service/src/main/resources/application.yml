@@ -30,7 +30,7 @@ application:
   version: 1.0.0
 
 server:
-  port: 8081
+  port: ${SERVER_PORT}
   servlet:
     context-path: /pokedex
 
