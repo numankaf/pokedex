@@ -54,9 +54,38 @@ public class PokemonController {
         return ResponseEntity.ok(pokemonService.search(dto, pageable));
     }
 
-    @GetMapping("/catchlist/{id}")
-    public ResponseEntity<?> getCatchListPokemonsByUserId(@PathVariable Long id) {
-        return ResponseEntity.ok(pokemonService.getCatchListPokemonsByUserId(id));
+    @GetMapping("/catchlist")
+    public ResponseEntity<?> getCatchListPokemonsCurrentUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(pokemonService.getCatchListPokemonsCurrentUser(token));
+    }
+
+    @GetMapping("/wishlist")
+    public ResponseEntity<?> getWishListPokemonsCurrentUser(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(pokemonService.getWishListPokemonsCurrentUser(token));
+    }
+
+    @PostMapping("/catchlist/{id}")
+    public ResponseEntity<?> addToCatchList(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        pokemonService.addToCatchList(id,token);
+        return ResponseEntity.ok(Map.of("message", "Successfully added to catch list with pokemon id : "+ id));
+    }
+
+    @DeleteMapping("/catchlist/{id}")
+    public ResponseEntity<?> deleteFromCatchList(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        pokemonService.removeFromCatchList(id,token);
+        return ResponseEntity.ok(Map.of("message", "Successfully removed to catch list with pokemon id : "+ id));
+    }
+
+    @PostMapping("/wishlist/{id}")
+    public ResponseEntity<?> addToWishList(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        pokemonService.addToWishList(id, token);
+        return ResponseEntity.ok(Map.of("message", "Successfully added to wish list with pokemon id : "+ id));
+    }
+
+    @DeleteMapping("/wishlist/{id}")
+    public ResponseEntity<?> deleteFromWishList(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        pokemonService.removeFromWishList(id, token);
+        return ResponseEntity.ok(Map.of("message", "Successfully removed to wish list with pokemon id : "+ id));
     }
 
 

@@ -73,4 +73,15 @@ public class UserController {
         return ResponseEntity.ok(res);
     }
 
+    @GetMapping("/catched/{id}")
+    public ResponseEntity<?> getUsersWhoCatched(@PathVariable Long id){
+        List<UserListDto> dtos = userService.getUsersWhoCatched(id);
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/wished/{id}")
+    public ResponseEntity<?> getUsersWhoWished(@PathVariable Long id){
+        List<UserListDto> dtos = userService.getUsersWhoWished(id);
+        return ResponseEntity.ok(dtos);
+    }
 }

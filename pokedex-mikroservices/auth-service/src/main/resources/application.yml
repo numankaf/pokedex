@@ -26,7 +26,7 @@ db:
 
 application:
   jwt_secret: 551EAB3DDF696B8C3D5CCA520CED5980E79CFCEBBD15A42587983E22EBBC4E0B
-  jwt_expires_in: 6048000
+  jwt_expires_in: 604800000
   title: Pokedex- Auth Microservice
   version: 1.0.0
 

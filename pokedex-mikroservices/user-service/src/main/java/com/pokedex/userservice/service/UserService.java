@@ -1,10 +1,13 @@
 package com.pokedex.userservice.service;
 
+import com.pokedex.userservice.config.JwtTokenProvider;
 import com.pokedex.userservice.dto.UserCreateRequestDto;
 import com.pokedex.userservice.dto.UserDetailDto;
 import com.pokedex.userservice.dto.UserListDto;
 import com.pokedex.userservice.dto.UserUpdateRequestDto;
+import com.pokedex.userservice.entity.PokemonId;
 import com.pokedex.userservice.entity.User;
+import com.pokedex.userservice.repository.PokemonIdRepository;
 import com.pokedex.userservice.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
@@ -19,11 +22,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider tokenProvider;
+    private final PokemonIdRepository pokemonIdRepository;
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper,
+                       PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider, PokemonIdRepository pokemonIdRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
+        this.tokenProvider = tokenProvider;
+        this.pokemonIdRepository = pokemonIdRepository;
     }
 
     public UserDetailDto createUser(UserCreateRequestDto dto) {
@@ -61,6 +69,13 @@ public class UserService {
 
 
     public void deleteUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found with id"+id));
+        for(PokemonId pokemonId: user.getCatchListIds()){
+            pokemonId.getCatchLists().remove(pokemonId);
+        }
+        for(PokemonId pokemonId: user.getWishListIds()){
+            pokemonId.getWishLists().remove(pokemonId);
+        }
         userRepository.deleteById(id);
     }
 
@@ -86,4 +101,17 @@ public class UserService {
         List<UserListDto> userListDtos = users.stream().map(u -> modelMapper.map(u, UserListDto.class)).collect(Collectors.toList());
         return new PageImpl<>(userListDtos, pageable, users.getTotalElements());
     }
+
+    public List<UserListDto> getUsersWhoCatched(Long pokemonId){
+        PokemonId pokemon = pokemonIdRepository.findById(pokemonId).orElseThrow(() -> new RuntimeException("Pokemon not found with id : " + pokemonId));
+        List<UserListDto> dtos = pokemon.getCatchLists().stream().map(u -> modelMapper.map(u, UserListDto.class)).collect(Collectors.toList());
+        return dtos;
+    }
+
+    public List<UserListDto> getUsersWhoWished(Long pokemonId){
+        PokemonId pokemon = pokemonIdRepository.findById(pokemonId).orElseThrow(() -> new RuntimeException("Pokemon not found with id : " + pokemonId));
+        List<UserListDto> dtos = pokemon.getWishLists().stream().map(u -> modelMapper.map(u, UserListDto.class)).collect(Collectors.toList());
+        return dtos;
+    }
+
 }
