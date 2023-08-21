@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Component
 public class JwtTokenProvider {
+
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
     @Value("${application.jwt_secret}")
     private String jwtSecret;
@@ -18,6 +21,12 @@ public class JwtTokenProvider {
     public String getUsernameFromToken(String token){
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         return claims.getSubject();
+    }
+
+    public String getRoleFromToken(String token){
+        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+        List<LinkedHashMap<String,String>> roles = claims.get("auth",List.class);
+        return roles.get(0).get("authority");
     }
 
     public boolean validateToken(String token){

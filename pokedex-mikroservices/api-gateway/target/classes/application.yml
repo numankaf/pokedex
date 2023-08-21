@@ -18,13 +18,13 @@ spring:
           predicates:
             - Path=/pokedex/users/**
           filters:
-            - AuthenticationFilter
+            - AuthenticationFilter=ADMIN
         - id: pokemon-service
           uri: lb://pokemon-service
           predicates:
             - Path=/pokedex/pokemon/**
           filters:
-            - AuthenticationFilter
+            - AuthenticationFilter= TRAINER;ADMIN
 
 application:
   jwt_secret: 551EAB3DDF696B8C3D5CCA520CED5980E79CFCEBBD15A42587983E22EBBC4E0B
