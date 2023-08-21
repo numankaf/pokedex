@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: auth-service
+  sql:
+    init:
+      mode: always
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      globally_quoted_identifiers: true
+      ddl-auto: create
+      properties:
+        hibernate:
+          show_sql: false
+          format_sql: false
+          use_sql_comments: false
+  main:
+    banner-mode: console
+  datasource:
+    url: jdbc:mysql://localhost:${db.port}/pokedex_auth
+    username: root
+    password: Hoo.s5zi
+
+db:
+  port: 3306
+
+application:
+  jwt_secret: 551EAB3DDF696B8C3D5CCA520CED5980E79CFCEBBD15A42587983E22EBBC4E0B
+  jwt_expires_in: 6048000
+  title: Pokedex- Auth Microservice
+  version: 1.0.0
+
+server:
+  port: 8089
+  servlet:
+    context-path: /pokedex
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka

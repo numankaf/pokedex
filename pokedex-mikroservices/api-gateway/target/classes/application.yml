@@ -9,16 +9,25 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/pokedex/auth/**
         - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/pokedex/users/**
+          filters:
+            - AuthenticationFilter
         - id: pokemon-service
           uri: lb://pokemon-service
           predicates:
             - Path=/pokedex/pokemon/**
+          filters:
+            - AuthenticationFilter
 
 application:
+  jwt_secret: 551EAB3DDF696B8C3D5CCA520CED5980E79CFCEBBD15A42587983E22EBBC4E0B
   title: Pokedex - Api Gateway
   version: 1.0.0
 
