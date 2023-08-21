@@ -54,5 +54,11 @@ public class PokemonController {
         return ResponseEntity.ok(pokemonService.search(dto, pageable));
     }
 
+    @GetMapping("/catchlist/{id}")
+    public ResponseEntity<?> getCatchListPokemonsByUserId(@PathVariable Long id) {
+        return ResponseEntity.ok(pokemonService.getCatchListPokemonsByUserId(id));
+    }
+
+
 
 }

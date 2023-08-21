@@ -4,7 +4,9 @@ import com.pokedex.pokemonservice.dto.PokemonDetailDto;
 import com.pokedex.pokemonservice.dto.PokemonListDto;
 import com.pokedex.pokemonservice.dto.PokemonSearchDto;
 import com.pokedex.pokemonservice.entity.Pokemon;
+import com.pokedex.pokemonservice.entity.UserId;
 import com.pokedex.pokemonservice.repository.PokemonRepository;
+import com.pokedex.pokemonservice.repository.UserIdRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
@@ -17,10 +19,12 @@ import java.util.stream.Collectors;
 public class PokemonService {
     private final PokemonRepository pokemonRepository;
     private final ModelMapper modelMapper;
+    private final UserIdRepository userIdRepository;
 
-    public PokemonService(PokemonRepository pokemonRepository, ModelMapper modelMapper) {
+    public PokemonService(PokemonRepository pokemonRepository, ModelMapper modelMapper, UserIdRepository userIdRepository) {
         this.pokemonRepository = pokemonRepository;
         this.modelMapper = modelMapper;
+        this.userIdRepository = userIdRepository;
     }
 
     public PokemonDetailDto createPokemon(PokemonDetailDto pokemonDetailDto) {
@@ -50,14 +54,14 @@ public class PokemonService {
 
     public List<PokemonListDto> findAll() {
         List<Pokemon> pokemons = pokemonRepository.findAll();
-        List<PokemonListDto> dtos = pokemons.stream().map(p ->modelMapper.map(p,PokemonListDto.class)).collect(Collectors.toList());
+        List<PokemonListDto> dtos = pokemons.stream().map(p -> modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
         return dtos;
     }
 
     public Page<PokemonListDto> findAll(Pageable pageable) {
 
         Page<Pokemon> pokemons = pokemonRepository.findAll(pageable);
-        List<PokemonListDto> dtos = pokemons.stream().map(p ->modelMapper.map(p,PokemonListDto.class)).collect(Collectors.toList());
+        List<PokemonListDto> dtos = pokemons.stream().map(p -> modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
         return new PageImpl<>(dtos, pageable, pokemons.getTotalElements());
     }
 
@@ -67,10 +71,15 @@ public class PokemonService {
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase().withIgnorePaths("isActive").withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example<Pokemon> example = Example.of(examplePokemon, matcher);
         Page<Pokemon> pokemons = pokemonRepository.findAll(example, pageable);
-        List<PokemonListDto> dtos = pokemons.stream().map(p ->modelMapper.map(p,PokemonListDto.class)).collect(Collectors.toList());
+        List<PokemonListDto> dtos = pokemons.stream().map(p -> modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
         return new PageImpl<>(dtos, pageable, pokemons.getTotalElements());
     }
 
+
+    public List<PokemonListDto> getCatchListPokemonsByUserId(Long id) {
+        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        return userId.getCatchLists().stream().map(p->modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
+    }
 
 
 }

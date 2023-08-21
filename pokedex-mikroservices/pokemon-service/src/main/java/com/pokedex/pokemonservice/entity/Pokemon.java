@@ -4,6 +4,7 @@ import com.pokedex.pokemonservice.enums.PokemonType;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -53,4 +54,16 @@ public class Pokemon extends BaseEntity{
 
     @Column(name = "SPECIAL_DEFENSE")
     private Integer specialDefense;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "POKEMON_WISHLIST_IDS",
+            joinColumns = {@JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")})
+    private List<UserId> wishListIds;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "POKEMON_CATCHLIST_IDS",
+            joinColumns = {@JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")})
+    private List<UserId> catchListIds;
 }
