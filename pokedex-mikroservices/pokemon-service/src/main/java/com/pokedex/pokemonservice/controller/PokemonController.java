@@ -24,8 +24,8 @@ public class PokemonController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> create(@RequestBody PokemonDetailDto dto) {
-        return ResponseEntity.ok(pokemonService.createPokemon(dto));
+    public ResponseEntity<?> create(@RequestBody PokemonDetailDto dto , @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(pokemonService.createPokemon(dto, token));
     }
 
     @PostMapping("/{id}")
@@ -34,8 +34,8 @@ public class PokemonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        pokemonService.deletePokemon(id);
+    public ResponseEntity<?> delete(@PathVariable Long id ,@RequestHeader("Authorization") String token) {
+        pokemonService.deletePokemon(id, token);
         return ResponseEntity.ok(Map.of("message", "Successfully deleted pokemon with id: " + id));
     }
 

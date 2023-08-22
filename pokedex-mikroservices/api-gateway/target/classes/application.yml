@@ -19,6 +19,12 @@ spring:
             - Path=/pokedex/users/**
           filters:
             - AuthenticationFilter=ADMIN
+        - id: user-feign-service
+          uri: lb://user-service
+          predicates:
+            - Path=/pokedex/feign/**
+          filters:
+            - AuthenticationFilter=ADMIN;TRAINER
         - id: account-service
           uri: lb://user-service
           predicates:

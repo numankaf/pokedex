@@ -6,10 +6,12 @@ import com.pokedex.pokemonservice.dto.PokemonListDto;
 import com.pokedex.pokemonservice.dto.PokemonSearchDto;
 import com.pokedex.pokemonservice.entity.Pokemon;
 import com.pokedex.pokemonservice.entity.UserId;
+import com.pokedex.pokemonservice.feign.UserFeignClient;
 import com.pokedex.pokemonservice.repository.PokemonRepository;
 import com.pokedex.pokemonservice.repository.UserIdRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +24,21 @@ public class PokemonService {
     private final ModelMapper modelMapper;
     private final UserIdRepository userIdRepository;
     private final JwtTokenProvider tokenProvider;
+    private final UserFeignClient feignClient;
 
-    public PokemonService(PokemonRepository pokemonRepository, ModelMapper modelMapper, UserIdRepository userIdRepository, JwtTokenProvider tokenProvider) {
+    public PokemonService(PokemonRepository pokemonRepository, ModelMapper modelMapper,
+                          UserIdRepository userIdRepository, JwtTokenProvider tokenProvider, UserFeignClient feignClient) {
         this.pokemonRepository = pokemonRepository;
         this.modelMapper = modelMapper;
         this.userIdRepository = userIdRepository;
         this.tokenProvider = tokenProvider;
+        this.feignClient = feignClient;
     }
 
-    public PokemonDetailDto createPokemon(PokemonDetailDto pokemonDetailDto) {
+    public PokemonDetailDto createPokemon(PokemonDetailDto pokemonDetailDto,String token) {
         Pokemon pokemon = modelMapper.map(pokemonDetailDto, Pokemon.class);
         pokemonRepository.save(pokemon);
+        feignClient.addPokemon(token);
         return modelMapper.map(pokemon, PokemonDetailDto.class);
     }
 
@@ -45,7 +51,7 @@ public class PokemonService {
     }
 
     @Transactional
-    public void deletePokemon(Long id) {
+    public void deletePokemon(Long id ,String token) {
         Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new RuntimeException("Pokemon not found with id : " + id));
         for (UserId userId:pokemon.getCatchListIds()){
             userId.getCatchLists().remove(pokemon);
@@ -53,6 +59,7 @@ public class PokemonService {
         for (UserId userId:pokemon.getWishListIds()){
             userId.getWishLists().remove(pokemon);
         }
+        feignClient.deletePokemonId(id, token);
         pokemonRepository.deleteById(id);
     }
 
@@ -111,6 +118,7 @@ public class PokemonService {
         List<Pokemon> catchListPokemons = userId.getCatchLists();
         catchListPokemons.add(pokemon);
         userId.setCatchLists(catchListPokemons);
+        feignClient.addToCatchList(id,pokemonId, token);
         userIdRepository.save(userId);
     }
 
@@ -119,6 +127,7 @@ public class PokemonService {
         UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
         Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new RuntimeException("Pokemon 0not found with id: " + id));
         userId.getCatchLists().remove(pokemon);
+        feignClient.removeFromCatchList(id,pokemonId, token);
         userIdRepository.save(userId);
     }
 
@@ -133,6 +142,7 @@ public class PokemonService {
             throw new RuntimeException("Pokemon already exist in wishlist with id: "+pokemonId);
         }
         userId.getWishLists().add(pokemon);
+        feignClient.addToWishList(id,pokemonId, token);
         userIdRepository.save(userId);
     }
 
@@ -141,6 +151,7 @@ public class PokemonService {
         UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
         Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new RuntimeException("Pokemon 0not found with id: " + id));
         userId.getWishLists().remove(pokemon);
+        feignClient.removeFromWishList(id,pokemonId, token);
         userIdRepository.save(userId);
     }
 
