@@ -30,8 +30,8 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createUser(@RequestBody UserCreateRequestDto dto){
-        UserDetailDto createdUser = userService.createUser(dto);
+    public ResponseEntity<?> createUser(@RequestBody UserCreateRequestDto dto, @RequestHeader("Authorization") String token){
+        UserDetailDto createdUser = userService.createUser(dto, token);
         return ResponseEntity.ok(createdUser);
     }
 
@@ -42,8 +42,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
+    public ResponseEntity<?> deleteUser(@PathVariable Long id, @RequestHeader("Authorization") String token){
+        userService.deleteUser(id, token);
         return ResponseEntity.ok(Map.of("messages", "User deleted with id: "+id));
     }
 

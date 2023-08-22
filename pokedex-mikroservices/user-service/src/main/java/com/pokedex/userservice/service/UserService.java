@@ -7,6 +7,8 @@ import com.pokedex.userservice.dto.UserListDto;
 import com.pokedex.userservice.dto.UserUpdateRequestDto;
 import com.pokedex.userservice.entity.PokemonId;
 import com.pokedex.userservice.entity.User;
+import com.pokedex.userservice.feign.AuthFeignClient;
+import com.pokedex.userservice.feign.PokemonFeignClient;
 import com.pokedex.userservice.repository.PokemonIdRepository;
 import com.pokedex.userservice.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -21,20 +23,21 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider tokenProvider;
     private final PokemonIdRepository pokemonIdRepository;
+    private final PokemonFeignClient pokemonFeignClient;
+    private final AuthFeignClient authFeignClient;
 
     public UserService(UserRepository userRepository, ModelMapper modelMapper,
-                       PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider, PokemonIdRepository pokemonIdRepository) {
+                       PokemonIdRepository pokemonIdRepository, PokemonFeignClient pokemonFeignClient,
+                       AuthFeignClient authFeignClient) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
-        this.passwordEncoder = passwordEncoder;
-        this.tokenProvider = tokenProvider;
         this.pokemonIdRepository = pokemonIdRepository;
+        this.pokemonFeignClient = pokemonFeignClient;
+        this.authFeignClient = authFeignClient;
     }
 
-    public UserDetailDto createUser(UserCreateRequestDto dto) {
+    public UserDetailDto createUser(UserCreateRequestDto dto, String token) {
         if (userRepository.existsByUsername(dto.getUsername())) {
             throw new RuntimeException("This username already exists! Try another one");
         }
@@ -42,11 +45,12 @@ public class UserService {
             throw new RuntimeException("This email already exists! Try another one");
         }
         User user = modelMapper.map(dto, User.class);
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setIsActive(true);
         user.setThumbnail("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png");
         userRepository.save(user);
         UserDetailDto responseDto = modelMapper.map(user, UserDetailDto.class);
+        pokemonFeignClient.addUserId(token);
+        authFeignClient.createUser(dto, token);
         return responseDto;
     }
 
@@ -68,7 +72,7 @@ public class UserService {
     }
 
 
-    public void deleteUser(Long id) {
+    public void deleteUser(Long id, String token) {
         User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found with id"+id));
         for(PokemonId pokemonId: user.getCatchListIds()){
             pokemonId.getCatchLists().remove(pokemonId);
@@ -76,6 +80,8 @@ public class UserService {
         for(PokemonId pokemonId: user.getWishListIds()){
             pokemonId.getWishLists().remove(pokemonId);
         }
+        pokemonFeignClient.deleteUserId(id, token);
+        authFeignClient.deleteUser(id, token);
         userRepository.deleteById(id);
     }
 

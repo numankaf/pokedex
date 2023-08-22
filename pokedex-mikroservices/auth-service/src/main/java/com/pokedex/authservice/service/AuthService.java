@@ -7,6 +7,7 @@ import com.pokedex.authservice.dto.LoginResponseDto;
 import com.pokedex.authservice.dto.RegisterRequestDto;
 import com.pokedex.authservice.entity.User;
 import com.pokedex.authservice.enums.UserRole;
+import com.pokedex.authservice.feign.UserFeignClient;
 import com.pokedex.authservice.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,14 +25,16 @@ public class AuthService {
     private final JwtTokenProvider tokenProvider;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final UserFeignClient userFeignClient;
 
-    public AuthService(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager,
-                       JwtTokenProvider tokenProvider, UserRepository userRepository, ModelMapper modelMapper) {
+    public AuthService(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider,
+                       UserRepository userRepository, ModelMapper modelMapper, UserFeignClient userFeignClient) {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.userFeignClient = userFeignClient;
     }
 
     public LoginResponseDto login(LoginRequestDto dto) {
@@ -60,6 +63,10 @@ public class AuthService {
         user.setThumbnail("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png");
         user.setRole(UserRole.TRAINER);
         userRepository.save(user);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
+        Authentication auth = authenticationManager.authenticate(token);
+        String jwtToken = tokenProvider.generateToken(auth);
+        userFeignClient.register(dto,"Bearer " + jwtToken);
         return Map.of("message", "Success");
     }
 
