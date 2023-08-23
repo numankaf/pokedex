@@ -55,13 +55,13 @@ public class PokemonController {
     }
 
     @GetMapping("/catchlist")
-    public ResponseEntity<?> getCatchListPokemonsCurrentUser(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(pokemonService.getCatchListPokemonsCurrentUser(token));
+    public ResponseEntity<?> getCatchListPokemonsCurrentUser(@RequestHeader("Authorization") String token, Pageable pageable) {
+        return ResponseEntity.ok(pokemonService.getCatchListPokemonsCurrentUser(token, pageable));
     }
 
     @GetMapping("/wishlist")
-    public ResponseEntity<?> getWishListPokemonsCurrentUser(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(pokemonService.getWishListPokemonsCurrentUser(token));
+    public ResponseEntity<?> getWishListPokemonsCurrentUser(@RequestHeader("Authorization") String token, Pageable pageable) {
+        return ResponseEntity.ok(pokemonService.getWishListPokemonsCurrentUser(token, pageable));
     }
 
     @PostMapping("/catchlist/{id}")

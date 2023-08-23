@@ -92,16 +92,18 @@ public class PokemonService {
     }
 
 
-    public List<PokemonListDto> getCatchListPokemonsCurrentUser(String token) {
+    public Page<PokemonListDto> getCatchListPokemonsCurrentUser(String token, Pageable pageable) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
-        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        return userId.getCatchLists().stream().map(p->modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
+        Page<Pokemon> pokemons = pokemonRepository.getCatchListPokemons(id, pageable);
+        List<PokemonListDto> dtos = pokemons.stream().map(p -> modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
+        return new PageImpl<>(dtos, pageable, pokemons.getTotalElements());
     }
 
-    public List<PokemonListDto> getWishListPokemonsCurrentUser(String token) {
+    public Page<PokemonListDto> getWishListPokemonsCurrentUser(String token, Pageable pageable) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
-        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        return userId.getWishLists().stream().map(p->modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
+        Page<Pokemon> pokemons = pokemonRepository.getWishlistPokemons(id, pageable);
+        List<PokemonListDto> dtos = pokemons.stream().map(p -> modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
+        return new PageImpl<>(dtos, pageable, pokemons.getTotalElements());
     }
 
     public void addToCatchList(Long pokemonId,String token){
