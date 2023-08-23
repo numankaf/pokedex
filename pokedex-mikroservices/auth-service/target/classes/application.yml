@@ -21,6 +21,17 @@ spring:
     username: root
     password: Hoo.s5zi
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: emailForgotPasswordTopic
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: event:com.pokedex.authservice.dto.ForgotPasswordEmailDto
+
+
 db:
   port: 3306
 

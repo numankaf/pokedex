@@ -2,14 +2,13 @@ package com.pokedex.authservice.service;
 
 import com.pokedex.authservice.auth.JwtTokenProvider;
 import com.pokedex.authservice.auth.UserDetailsImpl;
-import com.pokedex.authservice.dto.LoginRequestDto;
-import com.pokedex.authservice.dto.LoginResponseDto;
-import com.pokedex.authservice.dto.RegisterRequestDto;
+import com.pokedex.authservice.dto.*;
 import com.pokedex.authservice.entity.User;
 import com.pokedex.authservice.enums.UserRole;
 import com.pokedex.authservice.feign.UserFeignClient;
 import com.pokedex.authservice.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class AuthService {
@@ -26,15 +26,18 @@ public class AuthService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final UserFeignClient userFeignClient;
+    private final KafkaTemplate<String, ForgotPasswordEmailDto> kafkaTemplate;
 
-    public AuthService(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider,
-                       UserRepository userRepository, ModelMapper modelMapper, UserFeignClient userFeignClient) {
+    public AuthService(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager,
+                       JwtTokenProvider tokenProvider, UserRepository userRepository, ModelMapper modelMapper,
+                       UserFeignClient userFeignClient, KafkaTemplate<String, ForgotPasswordEmailDto> kafkaTemplate) {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.userFeignClient = userFeignClient;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public LoginResponseDto login(LoginRequestDto dto) {
@@ -70,5 +73,29 @@ public class AuthService {
         return Map.of("message", "Success");
     }
 
+    public Map<String, String> forgotPassword(ForgotPasswordDto dto) {
+        User user = userRepository.findByEmail(dto.getEmail());
+        if (user == null) {
+            throw new RuntimeException("User not found with email :" + dto.getEmail());
+        }
+
+        String newPassword =generatePassword();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        ForgotPasswordEmailDto forgotPasswordEmailDto = new ForgotPasswordEmailDto();
+        forgotPasswordEmailDto.setToEmail(user.getEmail());
+        forgotPasswordEmailDto.setName(user.getName());
+        forgotPasswordEmailDto.setNewPassword(newPassword);
+        kafkaTemplate.send("emailForgotPasswordTopic", forgotPasswordEmailDto);
+
+        return Map.of("message", "Success");
+
+    }
+    public String generatePassword() {
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+
+        return String.format("%06d", number);
+    }
 
 }
