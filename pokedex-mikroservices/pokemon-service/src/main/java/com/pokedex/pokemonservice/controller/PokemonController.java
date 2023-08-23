@@ -40,18 +40,18 @@ public class PokemonController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(pokemonService.findAll());
+    public ResponseEntity<?> findAll(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(pokemonService.findAll(token));
     }
 
     @GetMapping()
-    public ResponseEntity<?> findAllAsPageable(Pageable pageable) {
-        return ResponseEntity.ok(pokemonService.findAll(pageable));
+    public ResponseEntity<?> findAllAsPageable(Pageable pageable ,@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(pokemonService.findAll(pageable,token));
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> search(@RequestBody PokemonSearchDto dto, Pageable pageable) {
-        return ResponseEntity.ok(pokemonService.search(dto, pageable));
+    public ResponseEntity<?> search(@RequestBody PokemonSearchDto dto, Pageable pageable, @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(pokemonService.search(dto, pageable, token));
     }
 
     @GetMapping("/catchlist")
