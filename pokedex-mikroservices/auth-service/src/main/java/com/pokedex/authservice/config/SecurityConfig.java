@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -63,13 +65,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.headers(h -> h.frameOptions(f -> f.disable()));
+        http.headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         return http
-                .csrf(csrf -> csrf.disable()).cors(cors->cors.disable()).
+                .csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).
                 cors(customizer -> customizer
                         .configurationSource(request -> {
                             CorsConfiguration config = new CorsConfiguration();
-                            config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                            config.setAllowedOrigins(Collections.singletonList("http://localhost:3000/"));
                             config.setAllowedMethods(Collections.singletonList("*"));
                             config.setAllowedHeaders(Collections.singletonList("*"));
                             config.setAllowCredentials(true);

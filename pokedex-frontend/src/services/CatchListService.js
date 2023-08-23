@@ -17,7 +17,7 @@ export class CatchListService {
 
 
     addToCatchList = (id) => {
-        return this.instance.post(`/catch-list/add/${id}`,null).then((res) => {
+        return this.instance.post(`/pokemon/catchlist/${id}`,null).then((res) => {
             return res.data
         }).catch(function (error) {
             throw new Error(error.response.data.message);
@@ -25,7 +25,7 @@ export class CatchListService {
     }
 
     removeFromCatchList = (id) => {
-        return this.instance.post(`/catch-list/remove/${id}`,null).then((res) => {
+        return this.instance.delete(`/pokemon/catchlist/${id}`,null).then((res) => {
             return res.data
         }).catch(function (error) {
             throw new Error(error.response.data.message);
@@ -44,7 +44,7 @@ export class CatchListService {
     }
 
     getAllInCatchListPageable = (page, pageSize, sort) => {
-        return this.instance.get( `/catch-list?page=${page}&size=${pageSize}` + (sort ? `&sort=${sort}` : ''))
+        return this.instance.get( `/pokemon/catchlist?page=${page}&size=${pageSize}` + (sort ? `&sort=${sort}` : ''))
             .then((res) => {
                 return res.data;
             })

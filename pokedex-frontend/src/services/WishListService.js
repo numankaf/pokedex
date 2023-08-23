@@ -17,7 +17,7 @@ export class WishListService {
 
 
     addToWishList = (id) => {
-        return this.instance.post(`/wish-list/add/${id}`,null).then((res) => {
+        return this.instance.post(`/pokemon/wishlist/${id}`,null).then((res) => {
             return res.data
         }).catch(function (error) {
             throw new Error(error.response.data.message);
@@ -25,7 +25,7 @@ export class WishListService {
     }
 
     removeFromWishList = (id) => {
-        return this.instance.post(`/wish-list/remove/${id}`,null).then((res) => {
+        return this.instance.delete(`/pokemon/wishlist/${id}`,null).then((res) => {
             return res.data
         }).catch(function (error) {
             throw new Error(error.response.data.message);
@@ -44,7 +44,7 @@ export class WishListService {
     }
 
     getAllInWishListPageable = (page, pageSize, sort) => {
-        return this.instance.get( `/wish-list?page=${page}&size=${pageSize}` + (sort ? `&sort=${sort}` : ''))
+        return this.instance.get( `/pokemon/wishlist?page=${page}&size=${pageSize}` + (sort ? `&sort=${sort}` : ''))
             .then((res) => {
                 return res.data;
             })
