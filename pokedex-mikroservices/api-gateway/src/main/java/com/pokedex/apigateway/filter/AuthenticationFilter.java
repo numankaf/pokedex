@@ -2,6 +2,7 @@ package com.pokedex.apigateway.filter;
 
 
 import com.pokedex.apigateway.config.JwtTokenProvider;
+import com.pokedex.apigateway.exception.PokedexGatewayAuthException;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -15,23 +16,20 @@ import java.util.List;
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
-    private final RouteValidator routeValidator;
     private final JwtTokenProvider tokenProvider;
 
-    public AuthenticationFilter(RouteValidator routeValidator, JwtTokenProvider tokenProvider) {
+    public AuthenticationFilter(JwtTokenProvider tokenProvider) {
         super(Config.class);
-        this.routeValidator = routeValidator;
         this.tokenProvider = tokenProvider;
     }
 
 
     @Override
     public GatewayFilter apply(Config config) {
-        return (((exchange, chain) -> {
-            if(routeValidator.isSecured.test(exchange.getRequest())){
-                if(!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)){
-                    throw new RuntimeException("Authorization header is missing!");
-                }
+        return ((exchange, chain) -> {
+            if(RouteValidator.isSecured.test(exchange.getRequest()) &&!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)){
+                throw new PokedexGatewayAuthException("Authorization header is missing!");
+
             }
             String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
             if(authHeader!=null && authHeader.startsWith("Bearer ")){
@@ -39,7 +37,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             }
 
             if (!tokenProvider.validateToken(authHeader)){
-                throw new RuntimeException("Unauthorized access");
+                throw new PokedexGatewayAuthException("Unauthorized access");
             }
 
             List<String> roles = Arrays.asList(config.getRole().split(";"));
@@ -49,7 +47,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 return response.setComplete();
             }
             return chain.filter(exchange);
-        }));
+        });
     }
 
 

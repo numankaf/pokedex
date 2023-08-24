@@ -1,6 +1,6 @@
 package com.pokedex.pokemonservice.repository;
 
-import com.pokedex.pokemonservice.dto.PokemonListDto;
+
 import com.pokedex.pokemonservice.entity.Pokemon;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

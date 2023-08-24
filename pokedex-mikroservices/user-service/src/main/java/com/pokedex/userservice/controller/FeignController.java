@@ -16,39 +16,39 @@ public class FeignController {
     }
 
     @PostMapping("/catchlist/{userId}/{pokemonId}")
-    public ResponseEntity<?> addToCatchList(@PathVariable  Long userId, @PathVariable Long pokemonId, @RequestHeader("Authorization") String token){
+    public ResponseEntity<String> addToCatchList(@PathVariable  Long userId, @PathVariable Long pokemonId, @RequestHeader("Authorization") String token){
         feignService.addToCatchList(userId, pokemonId);
         return ResponseEntity.ok("Success");
     }
 
     @DeleteMapping("/catchlist/{userId}/{pokemonId}")
-    public ResponseEntity<?> removeFromCatchList(@PathVariable  Long userId, @PathVariable Long pokemonId, @RequestHeader("Authorization") String token){
+    public ResponseEntity<String> removeFromCatchList(@PathVariable  Long userId, @PathVariable Long pokemonId, @RequestHeader("Authorization") String token){
         feignService.removeFromCatchList(userId, pokemonId);
         return ResponseEntity.ok("Success");
     }
 
 
     @PostMapping("/wishlist/{userId}/{pokemonId}")
-    public ResponseEntity<?> addToWishList(@PathVariable  Long userId, @PathVariable Long pokemonId, @RequestHeader("Authorization") String token){
+    public ResponseEntity<String> addToWishList(@PathVariable  Long userId, @PathVariable Long pokemonId, @RequestHeader("Authorization") String token){
         feignService.addToWishList(userId, pokemonId);
         return ResponseEntity.ok("Success");
     }
 
     @DeleteMapping("/wishlist/{userId}/{pokemonId}")
-    public ResponseEntity<?> removeFromWishList(@PathVariable  Long userId, @PathVariable Long pokemonId, @RequestHeader("Authorization") String token){
+    public ResponseEntity<String> removeFromWishList(@PathVariable  Long userId, @PathVariable Long pokemonId, @RequestHeader("Authorization") String token){
         feignService.removeFromWishList(userId, pokemonId);
         return ResponseEntity.ok("Success");
     }
 
 
     @PostMapping("/pokemon")
-    public ResponseEntity<?> addPokemon(@RequestHeader("Authorization") String token){
+    public ResponseEntity<String> addPokemon(@RequestHeader("Authorization") String token){
         feignService.addPokemonId();
         return ResponseEntity.ok("Success");
     }
 
     @DeleteMapping("/pokemon/{id}")
-    public ResponseEntity<?> deletePokemonId(@PathVariable  Long id, @RequestHeader("Authorization") String token){
+    public ResponseEntity<String> deletePokemonId(@PathVariable  Long id, @RequestHeader("Authorization") String token){
         feignService.deletePokemonId(id);
         return ResponseEntity.ok("Success");
     }

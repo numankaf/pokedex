@@ -15,13 +15,13 @@ public class UserFeignClient {
     }
 
     @PostMapping()
-    public ResponseEntity<?> addUserId() {
+    public ResponseEntity<String> addUserId() {
         feignService.addUserId();
         return ResponseEntity.ok("Success");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUserId(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUserId(@PathVariable Long id) {
         feignService.removeUserId(id);
         return ResponseEntity.ok("Success");
     }

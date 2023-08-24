@@ -6,8 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.List;
 import java.util.Map;
 
@@ -15,72 +13,63 @@ import java.util.Map;
 @RequestMapping("users")
 public class UserController {
     private final UserService userService;
-    private final RestTemplate restTemplate;
 
-    public UserController(UserService userService, RestTemplate restTemplate) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.restTemplate = restTemplate;
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id){
+    public ResponseEntity<UserDetailDto> getById(@PathVariable Long id){
         UserDetailDto userDetailDto = userService.getUserById(id);
         return ResponseEntity.ok(userDetailDto);
     }
 
     @PostMapping()
-    public ResponseEntity<?> createUser(@RequestBody UserCreateRequestDto dto, @RequestHeader("Authorization") String token){
+    public ResponseEntity<UserDetailDto> createUser(@RequestBody UserCreateRequestDto dto, @RequestHeader("Authorization") String token){
         UserDetailDto createdUser = userService.createUser(dto, token);
         return ResponseEntity.ok(createdUser);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequestDto dto){
+    public ResponseEntity<UserDetailDto> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequestDto dto){
         UserDetailDto updateUser = userService.updateUser(id, dto);
         return ResponseEntity.ok(updateUser);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id, @RequestHeader("Authorization") String token){
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long id, @RequestHeader("Authorization") String token){
         userService.deleteUser(id, token);
         return ResponseEntity.ok(Map.of("messages", "User deleted with id: "+id));
     }
 
     @GetMapping()
-    public ResponseEntity<?> findAllPageable(Pageable pageable){
+    public ResponseEntity<Page<UserListDto>> findAllPageable(Pageable pageable){
         Page<UserListDto> dtos = userService.findAll(pageable);
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<List<UserListDto>> findAll(){
         List<UserListDto> dtos = userService.findAll();
         return ResponseEntity.ok(dtos);
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> search(@RequestBody UserListDto searchDto, Pageable pageable){
+    public ResponseEntity<Page<UserListDto>> search(@RequestBody UserListDto searchDto, Pageable pageable){
         Page<UserListDto> dtos = userService.search(searchDto, pageable);
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/test/{id}")
-    public ResponseEntity<?> test(@PathVariable Long id){
-        PokemonDetailDto res=restTemplate.getForObject("http://pokemon-service/pokedex/pokemon/{id}",
-                PokemonDetailDto.class,
-                id);
-        return ResponseEntity.ok(res);
-    }
 
     @GetMapping("/catched/{id}")
-    public ResponseEntity<?> getUsersWhoCatched(@PathVariable Long id){
+    public ResponseEntity<List<UserListDto>> getUsersWhoCatched(@PathVariable Long id){
         List<UserListDto> dtos = userService.getUsersWhoCatched(id);
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/wished/{id}")
-    public ResponseEntity<?> getUsersWhoWished(@PathVariable Long id){
+    public ResponseEntity<List<UserListDto>> getUsersWhoWished(@PathVariable Long id){
         List<UserListDto> dtos = userService.getUsersWhoWished(id);
         return ResponseEntity.ok(dtos);
     }

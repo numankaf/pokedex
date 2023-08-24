@@ -2,6 +2,7 @@ package com.pokedex.pokemonservice.service;
 
 import com.pokedex.pokemonservice.entity.Pokemon;
 import com.pokedex.pokemonservice.entity.UserId;
+import com.pokedex.pokemonservice.exception.PokedexPokemonException;
 import com.pokedex.pokemonservice.repository.UserIdRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class FeignService {
     }
 
     public void removeUserId(Long id) {
-        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("UserId not found with id : "+id));
+        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("UserId not found with id : "+id));
         for (Pokemon pokemon:userId.getCatchLists()){
             userId.getCatchLists().remove(pokemon);
         }

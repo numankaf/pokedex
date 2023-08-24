@@ -5,6 +5,7 @@ import com.pokedex.authservice.auth.UserDetailsImpl;
 import com.pokedex.authservice.dto.*;
 import com.pokedex.authservice.entity.User;
 import com.pokedex.authservice.enums.UserRole;
+import com.pokedex.authservice.exception.PokedexAuthException;
 import com.pokedex.authservice.feign.UserFeignClient;
 import com.pokedex.authservice.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -15,8 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.Map;
-import java.util.Random;
 
 @Service
 public class AuthService {
@@ -54,10 +55,10 @@ public class AuthService {
 
     public Map<String, String> register(RegisterRequestDto dto) {
         if (userRepository.existsByUsername(dto.getUsername())) {
-            throw new RuntimeException("This username already exists! Try another one");
+            throw new PokedexAuthException("This username already exists! Try another one");
         }
         if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new RuntimeException("This email already exists! Try another one");
+            throw new PokedexAuthException("This email already exists! Try another one");
         }
 
         User user = modelMapper.map(dto, User.class);
@@ -76,7 +77,7 @@ public class AuthService {
     public Map<String, String> forgotPassword(ForgotPasswordDto dto) {
         User user = userRepository.findByEmail(dto.getEmail());
         if (user == null) {
-            throw new RuntimeException("User not found with email :" + dto.getEmail());
+            throw new PokedexAuthException("User not found with email :" + dto.getEmail());
         }
 
         String newPassword =generatePassword();
@@ -92,7 +93,7 @@ public class AuthService {
 
     }
     public String generatePassword() {
-        Random rnd = new Random();
+        SecureRandom rnd = new SecureRandom();
         int number = rnd.nextInt(999999);
 
         return String.format("%06d", number);

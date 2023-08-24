@@ -6,17 +6,15 @@ import com.pokedex.pokemonservice.dto.PokemonListDto;
 import com.pokedex.pokemonservice.dto.PokemonSearchDto;
 import com.pokedex.pokemonservice.entity.Pokemon;
 import com.pokedex.pokemonservice.entity.UserId;
+import com.pokedex.pokemonservice.exception.PokedexPokemonException;
 import com.pokedex.pokemonservice.feign.UserFeignClient;
 import com.pokedex.pokemonservice.repository.PokemonRepository;
 import com.pokedex.pokemonservice.repository.UserIdRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PokemonService {
@@ -44,7 +42,7 @@ public class PokemonService {
 
 
     public PokemonDetailDto updatePokemon(Long id, PokemonDetailDto dto) {
-        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new RuntimeException("Pokemon not found with id : " + id));
+        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("Pokemon not found with id : " + id));
         modelMapper.map(dto, pokemon);
         pokemonRepository.save(pokemon);
         return modelMapper.map(pokemon, PokemonDetailDto.class);
@@ -52,7 +50,7 @@ public class PokemonService {
 
     @Transactional
     public void deletePokemon(Long id, String token) {
-        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new RuntimeException("Pokemon not found with id : " + id));
+        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("Pokemon not found with id : " + id));
         for (UserId userId : pokemon.getCatchListIds()) {
             userId.getCatchLists().remove(pokemon);
         }
@@ -64,35 +62,34 @@ public class PokemonService {
     }
 
     public PokemonDetailDto getById(Long id) {
-        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new RuntimeException("Pokemon not found with id : " + id));
+        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("Pokemon not found with id : " + id));
         return modelMapper.map(pokemon, PokemonDetailDto.class);
     }
 
     public List<PokemonListDto> findAll(String token) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
-        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("UserId not found with id:" + id));
+        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("UserId not found with id:" + id));
         List<Pokemon> pokemons = pokemonRepository.findAll();
-        List<PokemonListDto> dtos = pokemons.stream().map(p -> toListDto(p, userId)).collect(Collectors.toList());
-        return dtos;
+        return pokemons.stream().map(p -> toListDto(p, userId)).toList();
     }
 
     public Page<PokemonListDto> findAll(Pageable pageable, String token) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
-        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("UserId not found with id:" + id));
+        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("UserId not found with id:" + id));
         Page<Pokemon> pokemons = pokemonRepository.findAll(pageable);
-        List<PokemonListDto> dtos = pokemons.stream().map(p ->  toListDto(p, userId)).collect(Collectors.toList());
+        List<PokemonListDto> dtos = pokemons.stream().map(p ->  toListDto(p, userId)).toList();
         return new PageImpl<>(dtos, pageable, pokemons.getTotalElements());
     }
 
     public Page<PokemonListDto> search(PokemonSearchDto dto, Pageable pageable, String token) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
-        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("UserId not found with id:" + id));
+        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("UserId not found with id:" + id));
         Pokemon examplePokemon = new Pokemon();
         examplePokemon.setName(dto.getName());
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase().withIgnorePaths("isActive").withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example<Pokemon> example = Example.of(examplePokemon, matcher);
         Page<Pokemon> pokemons = pokemonRepository.findAll(example, pageable);
-        List<PokemonListDto> dtos = pokemons.stream().map(p ->  toListDto(p, userId)).collect(Collectors.toList());
+        List<PokemonListDto> dtos = pokemons.stream().map(p ->  toListDto(p, userId)).toList();
         return new PageImpl<>(dtos, pageable, pokemons.getTotalElements());
     }
 
@@ -100,27 +97,27 @@ public class PokemonService {
     public Page<PokemonListDto> getCatchListPokemonsCurrentUser(String token, Pageable pageable) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
         Page<Pokemon> pokemons = pokemonRepository.getCatchListPokemons(id, pageable);
-        List<PokemonListDto> dtos = pokemons.stream().map(p -> modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
+        List<PokemonListDto> dtos = pokemons.stream().map(p -> modelMapper.map(p, PokemonListDto.class)).toList();
         return new PageImpl<>(dtos, pageable, pokemons.getTotalElements());
     }
 
     public Page<PokemonListDto> getWishListPokemonsCurrentUser(String token, Pageable pageable) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
         Page<Pokemon> pokemons = pokemonRepository.getWishlistPokemons(id, pageable);
-        List<PokemonListDto> dtos = pokemons.stream().map(p -> modelMapper.map(p, PokemonListDto.class)).collect(Collectors.toList());
+        List<PokemonListDto> dtos = pokemons.stream().map(p -> modelMapper.map(p, PokemonListDto.class)).toList();
         return new PageImpl<>(dtos, pageable, pokemons.getTotalElements());
     }
 
     public void addToCatchList(Long pokemonId, String token) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
-        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new RuntimeException("Pokemon not found with id: " + id));
+        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("User not found with id: " + id));
+        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new PokedexPokemonException("Pokemon not found with id: " + id));
         if (userId.getWishLists().contains(pokemon)) {
             userId.getWishLists().remove(pokemon);
             userIdRepository.save(userId);
         }
         if (userId.getCatchLists().contains(pokemon)) {
-            throw new RuntimeException("Pokemon already exist in catchlist with id: " + pokemonId);
+            throw new PokedexPokemonException("Pokemon already exist in catchlist with id: " + pokemonId);
         }
         List<Pokemon> catchListPokemons = userId.getCatchLists();
         catchListPokemons.add(pokemon);
@@ -131,8 +128,8 @@ public class PokemonService {
 
     public void removeFromCatchList(Long pokemonId, String token) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
-        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new RuntimeException("Pokemon 0not found with id: " + id));
+        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("User not found with id: " + id));
+        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new PokedexPokemonException("Pokemon 0not found with id: " + id));
         userId.getCatchLists().remove(pokemon);
         feignClient.removeFromCatchList(id, pokemonId, token);
         userIdRepository.save(userId);
@@ -140,13 +137,13 @@ public class PokemonService {
 
     public void addToWishList(Long pokemonId, String token) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
-        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new RuntimeException("Pokemon 0not found with id: " + id));
+        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("User not found with id: " + id));
+        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new PokedexPokemonException("Pokemon 0not found with id: " + id));
         if (userId.getCatchLists().contains(pokemon)) {
-            throw new RuntimeException("This pokemon is already in catch list. You can't add it to your wish list");
+            throw new PokedexPokemonException("This pokemon is already in catch list. You can't add it to your wish list");
         }
         if (userId.getWishLists().contains(pokemon)) {
-            throw new RuntimeException("Pokemon already exist in wishlist with id: " + pokemonId);
+            throw new PokedexPokemonException("Pokemon already exist in wishlist with id: " + pokemonId);
         }
         userId.getWishLists().add(pokemon);
         feignClient.addToWishList(id, pokemonId, token);
@@ -155,8 +152,8 @@ public class PokemonService {
 
     public void removeFromWishList(Long pokemonId, String token) {
         Long id = tokenProvider.getUserIdFromToken(token.substring(7));
-        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new RuntimeException("Pokemon 0not found with id: " + id));
+        UserId userId = userIdRepository.findById(id).orElseThrow(() -> new PokedexPokemonException("User not found with id: " + id));
+        Pokemon pokemon = pokemonRepository.findById(pokemonId).orElseThrow(() -> new PokedexPokemonException("Pokemon 0not found with id: " + id));
         userId.getWishLists().remove(pokemon);
         feignClient.removeFromWishList(id, pokemonId, token);
         userIdRepository.save(userId);

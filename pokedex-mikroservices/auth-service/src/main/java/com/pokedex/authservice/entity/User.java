@@ -5,11 +5,13 @@ import com.pokedex.authservice.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.io.Serializable;
+
 
 @Data
 @Entity
 @Table(name = "USERS")
-public class User extends BaseEntity{
+public class User extends BaseEntity implements Serializable {
     @Column(name = "USERNAME", length = 20, unique = true)
     private String username;
 
