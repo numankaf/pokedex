@@ -1,8 +1,5 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import {deleteCookie, setCookie} from "cookies-next";
-import {getAuthorizationHeader} from "@/utils/getAutherizationHeader";
-
 export class AuthService {
 
     constructor(url) {

@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import {getCookie} from "cookies-next";
 
 export function getAuthorizationHeader() {

@@ -1,6 +1,5 @@
 import {NextResponse} from "next/server";
-import {getTokenDecoded} from "@/utils/getTokenDecoded";
-import {protectedRoutes, publicRoutes} from "@/utils/routes";
+
 
 
 export function middleware(request) {
@@ -10,7 +9,6 @@ export function middleware(request) {
          user = JSON.parse(currentUser.value);
     }
 
-    // console.log(request.nextUrl.pathname)
     if (!currentUser &&(request.nextUrl.pathname.includes('/main/') || request.nextUrl.pathname.includes('/admin/'))) {
         return NextResponse.redirect("http://localhost:3000/auth/login")
     }

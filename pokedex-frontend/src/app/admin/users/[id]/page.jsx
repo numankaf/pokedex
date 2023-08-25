@@ -2,7 +2,6 @@
 
 import React, {useEffect, useState} from "react";
 import {userService} from "@/services";
-import {Button} from "primereact/button";
 import {InputText} from "primereact/inputtext";
 import {InputTextarea} from 'primereact/inputtextarea';
 import {useRouter} from "next/navigation";

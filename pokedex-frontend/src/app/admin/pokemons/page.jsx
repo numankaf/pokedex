@@ -2,7 +2,7 @@
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {useEffect, useRef, useState} from "react";
-import {catchListService, pokemonService, wishListService} from "@/services";
+import {pokemonService} from "@/services";
 import {Button} from 'primereact/button';
 import {Tag} from "primereact/tag";
 import PokemonTypesData from "@/utils/PokemonTypesData";
@@ -27,7 +27,6 @@ const PokemonsPage = () => {
         sortField: null,
         sortOrder: null,
     });
-    const dt = useRef(null);
     useEffect(() => {
         loadLazyData();
     }, [lazyState, name]);
@@ -77,11 +76,6 @@ const PokemonsPage = () => {
             }
         )
     };
-
-    // const onFilter = (event) => {
-    //     event['first'] = 0;
-    //     setlazyState(event);
-    // };
 
 
     const totalBodyTemplate = (rowData) => {

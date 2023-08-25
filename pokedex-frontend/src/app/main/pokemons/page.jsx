@@ -24,7 +24,6 @@ const PokemonsPage = () => {
         sortField: null,
         sortOrder: null,
     });
-    const dt = useRef(null);
     useEffect(() => {
         loadLazyData();
     }, [lazyState,name]);
@@ -76,11 +75,6 @@ const PokemonsPage = () => {
             }
         )
     };
-
-    // const onFilter = (event) => {
-    //     event['first'] = 0;
-    //     setlazyState(event);
-    // };
 
 
     const totalBodyTemplate = (rowData) => {

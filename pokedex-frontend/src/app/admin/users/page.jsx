@@ -5,8 +5,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {userService} from "@/services";
 import {Button} from 'primereact/button';
 import {Dialog} from 'primereact/dialog';
-import {usePathname} from "next/navigation";
-import {useRouter} from "next/navigation";
+import {usePathname,useRouter} from "next/navigation";
 import {InputText} from 'primereact/inputtext';
 import {ConfirmDialog, confirmDialog} from 'primereact/confirmdialog';
 import {Toast} from 'primereact/toast';
@@ -45,7 +44,6 @@ const UsersPage = () => {
         role: ''
     })
 
-    const dt = useRef(null);
     useEffect(() => {
         loadLazyData();
     }, [lazyState]);
