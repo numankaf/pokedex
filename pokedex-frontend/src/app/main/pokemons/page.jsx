@@ -1,13 +1,12 @@
 "use client"
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {catchListService, pokemonService, wishListService} from "@/services";
 import {Button} from 'primereact/button';
 import {Tag} from "primereact/tag";
 import PokemonTypesData from "@/utils/PokemonTypesData";
-import {usePathname} from "next/navigation";
-import {useRouter} from "next/navigation";
+import {usePathname,useRouter} from "next/navigation";
 import {InputText} from 'primereact/inputtext';
 
 const PokemonsPage = () => {

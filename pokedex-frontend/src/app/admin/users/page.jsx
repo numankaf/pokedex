@@ -60,10 +60,10 @@ const UsersPage = () => {
         networkTimeout = setTimeout(() => {
             const sort = lazyState.sortField ? (lazyState.sortField + ',' + (lazyState.sortOrder === 1 ? 'asc' : 'desc')) : undefined;
 
-            const isFilterTrue = lazyState.filters && ((lazyState.filters.name && lazyState.filters.name.value && lazyState.filters.name.value !== '')
-            || (lazyState.filters.surname && lazyState.filters.surname.value && lazyState.filters.surname.value !== '')
-            || (lazyState.filters.email && lazyState.filters.email.value && lazyState.filters.email.value !== '')
-            || (lazyState.filters.username && lazyState.filters.username.value && lazyState.filters.username.value !== ''));
+            const isFilterTrue = (lazyState.filters?.name?.value !== ''
+            || lazyState.filters?.surname?.value !== ''
+            || lazyState.filters?.email?.value !== ''
+            || lazyState.filters?.username?.value  !== '');
             if (isFilterTrue) {
                 const searchDto = {
                     name: lazyState.filters.name.value || '',

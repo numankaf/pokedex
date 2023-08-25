@@ -1,4 +1,3 @@
-import AppTopbar from "@/components/layout/AppTopbar";
 import MainContainer from "@/components/layout/MainContainer";
 
 export default function AdminLayout({children}) {

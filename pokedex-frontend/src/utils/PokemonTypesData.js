@@ -1,5 +1,4 @@
-let PokemonTypesData;
-export default   PokemonTypesData =  new Map([
+const PokemonTypesData =  new Map([
     ["NORMAL", "#aa9"],
     ["FIRE", "#f42"],
     ["WATER", "#39f"],
@@ -19,3 +18,5 @@ export default   PokemonTypesData =  new Map([
     ["STEEL", "#aab"],
     ["FAIRY", "#e9e"]
 ]);
+
+export default PokemonTypesData;
