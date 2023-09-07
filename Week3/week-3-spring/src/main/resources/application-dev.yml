@@ -1,8 +1,0 @@
-server:
-  port: 8080
-spring:
-  main:
-    banner-mode: console
-application:
-  title: Java Ignite -dev
-  version: 1.0.0-dev
