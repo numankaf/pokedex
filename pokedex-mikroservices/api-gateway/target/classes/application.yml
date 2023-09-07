@@ -1,0 +1,68 @@
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+        - AddResponseHeader=Access-Control-Allow-Origin, *
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/pokedex/auth/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/pokedex/users/**
+          filters:
+            - AuthenticationFilter=ADMIN
+        - id: user-feign-service
+          uri: lb://user-service
+          predicates:
+            - Path=/pokedex/feign/users/**
+          filters:
+            - AuthenticationFilter=ADMIN;TRAINER
+        - id: pokemon-feign-service
+          uri: lb://pokemon-service
+          predicates:
+            - Path=/pokedex/feign/pokemon/**
+          filters:
+            - AuthenticationFilter=ADMIN;TRAINER
+        - id: auth-feign-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/pokedex/feign/auth/**
+          filters:
+            - AuthenticationFilter=ADMIN;TRAINER
+        - id: account-service
+          uri: lb://user-service
+          predicates:
+            - Path=/pokedex/account/**
+          filters:
+            - AuthenticationFilter=ADMIN;TRAINER
+        - id: pokemon-service
+          uri: lb://pokemon-service
+          predicates:
+            - Path=/pokedex/pokemon/**
+          filters:
+            - AuthenticationFilter= TRAINER;ADMIN
+
+application:
+  jwt_secret: 551EAB3DDF696B8C3D5CCA520CED5980E79CFCEBBD15A42587983E22EBBC4E0B
+  title: Pokedex - Api Gateway
+  version: 1.0.0
+
+server:
+  port: 8080
