@@ -12,6 +12,11 @@ import com.pokedex.repository.CatchListRepository;
 import com.pokedex.repository.UserRepository;
 import com.pokedex.repository.WishListRepository;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,6 +32,7 @@ public class UserService {
     private final CatchListRepository catchListRepository;
     private final WishListRepository wishListRepository;
 
+    private static final Logger logger= LoggerFactory.getLogger(UserService.class);
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, CatchListRepository catchListRepository, WishListRepository wishListRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -58,23 +64,25 @@ public class UserService {
         return responseDto;
     }
 
+    @CachePut(cacheNames = "users", key = "#id")
     public UserDetailDto updateUser(Long id, UserUpdateRequestDto dto) {
+        logger.info("UPDATE user by id : " + id);
         User user = userRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("User not found with id :" + id));
-        user.setName(dto.getName());
-        user.setSurname(dto.getSurname());
-        user.setThumbnail(dto.getThumbnail());
-        user.setAbout(dto.getAbout());
+        modelMapper.map(dto, user);
         userRepository.save(user);
         UserDetailDto responseDto = modelMapper.map(user, UserDetailDto.class);
         return responseDto;
     }
 
+    @Cacheable(cacheNames = "users", key = "#id")
     public UserDetailDto getUserById(Long id) {
+        logger.info("GET user by id : " + id);
         User user = userRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("User not found with id :" + id));
         UserDetailDto dto = modelMapper.map(user, UserDetailDto.class);
         return dto;
     }
 
+    @CacheEvict(cacheNames = "users", key = "#id")
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
@@ -94,11 +102,7 @@ public class UserService {
 
     public Page<UserListDto> search(UserListDto dto, Pageable pageable) {
         User exampleUser = new User();
-        exampleUser.setUsername(dto.getUsername());
-        exampleUser.setName(dto.getName());
-        exampleUser.setSurname(dto.getSurname());
-        exampleUser.setEmail(dto.getEmail());
-        exampleUser.setRole(dto.getRole());
+        modelMapper.map(dto, exampleUser);
         ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase().withIgnorePaths("isActive").withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example<User> example = Example.of(exampleUser, matcher);
         Page<User> users = userRepository.findAll(example, pageable);

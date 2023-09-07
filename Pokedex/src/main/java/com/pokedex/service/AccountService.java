@@ -34,10 +34,7 @@ public class AccountService {
     public AccountDetailDto update(UserUpdateRequestDto dto){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username);
-        user.setName(dto.getName());
-        user.setSurname(dto.getSurname());
-        user.setAbout(dto.getAbout());
-        user.setThumbnail(dto.getThumbnail());
+        modelMapper.map(dto, user);
         userRepository.save(user);
         AccountDetailDto responseDto = modelMapper.map(user,AccountDetailDto.class);
         return responseDto;

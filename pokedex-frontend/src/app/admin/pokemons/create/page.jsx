@@ -1,5 +1,4 @@
 "use client"
-import {FileUpload} from 'primereact/fileupload';
 import React, {useRef, useState} from 'react';
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";

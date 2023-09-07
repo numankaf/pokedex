@@ -1,6 +1,6 @@
 import {authService} from "@/services";
-import Cookies from "js-cookie";
 import {setCookie} from "cookies-next";
+
 export const useLogin = () =>{
     const login  = async (credentials) =>{
         const user = await authService.login(credentials);

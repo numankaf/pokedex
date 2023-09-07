@@ -5,8 +5,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {userService} from "@/services";
 import {Button} from 'primereact/button';
 import {Dialog} from 'primereact/dialog';
-import {usePathname} from "next/navigation";
-import {useRouter} from "next/navigation";
+import {usePathname,useRouter} from "next/navigation";
 import {InputText} from 'primereact/inputtext';
 import {ConfirmDialog, confirmDialog} from 'primereact/confirmdialog';
 import {Toast} from 'primereact/toast';
@@ -45,7 +44,6 @@ const UsersPage = () => {
         role: ''
     })
 
-    const dt = useRef(null);
     useEffect(() => {
         loadLazyData();
     }, [lazyState]);
@@ -62,10 +60,10 @@ const UsersPage = () => {
         networkTimeout = setTimeout(() => {
             const sort = lazyState.sortField ? (lazyState.sortField + ',' + (lazyState.sortOrder === 1 ? 'asc' : 'desc')) : undefined;
 
-            const isFilterTrue = lazyState.filters && ((lazyState.filters.name && lazyState.filters.name.value && lazyState.filters.name.value !== '')
-            || (lazyState.filters.surname && lazyState.filters.surname.value && lazyState.filters.surname.value !== '')
-            || (lazyState.filters.email && lazyState.filters.email.value && lazyState.filters.email.value !== '')
-            || (lazyState.filters.username && lazyState.filters.username.value && lazyState.filters.username.value !== ''));
+            const isFilterTrue = (lazyState.filters?.name?.value !== ''
+            || lazyState.filters?.surname?.value !== ''
+            || lazyState.filters?.email?.value !== ''
+            || lazyState.filters?.username?.value  !== '');
             if (isFilterTrue) {
                 const searchDto = {
                     name: lazyState.filters.name.value || '',

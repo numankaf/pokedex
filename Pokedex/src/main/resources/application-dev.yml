@@ -8,7 +8,6 @@ spring:
         format_sql: false
         use_sql_comments: false
 
-
 application:
   title: Pokedex - dev
   version: 1.0.0 - dev

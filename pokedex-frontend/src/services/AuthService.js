@@ -1,14 +1,15 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import {deleteCookie, setCookie} from "cookies-next";
-
 export class AuthService {
 
     constructor(url) {
         this.instance = axios.create({
             baseURL: url,
             timeout: 30000,
-            timeoutErrorMessage: "Time out"
+            timeoutErrorMessage: "Time out",
+            headers: {
+                'Access-Control-Allow-Origin' : '*'
+            }
         })
     }
 

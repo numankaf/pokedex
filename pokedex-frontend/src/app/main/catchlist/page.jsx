@@ -1,10 +1,9 @@
 "use client"
 
 import {Button} from 'primereact/button';
-import {DataView, DataViewLayoutOptions} from 'primereact/dataview';
-import {Rating} from 'primereact/rating';
+import {DataView} from 'primereact/dataview';
 import {Tag} from 'primereact/tag';
-import {catchListService, pokemonService, wishListService} from "@/services";
+import {catchListService} from "@/services";
 import {useEffect, useState} from "react";
 import PokemonTypesData from "@/utils/PokemonTypesData";
 import {usePathname, useRouter} from "next/navigation";

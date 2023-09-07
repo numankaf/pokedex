@@ -1,13 +1,12 @@
 "use client"
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {catchListService, pokemonService, wishListService} from "@/services";
 import {Button} from 'primereact/button';
 import {Tag} from "primereact/tag";
 import PokemonTypesData from "@/utils/PokemonTypesData";
-import {usePathname} from "next/navigation";
-import {useRouter} from "next/navigation";
+import {usePathname,useRouter} from "next/navigation";
 import {InputText} from 'primereact/inputtext';
 
 const PokemonsPage = () => {
@@ -24,7 +23,6 @@ const PokemonsPage = () => {
         sortField: null,
         sortOrder: null,
     });
-    const dt = useRef(null);
     useEffect(() => {
         loadLazyData();
     }, [lazyState,name]);
@@ -76,11 +74,6 @@ const PokemonsPage = () => {
             }
         )
     };
-
-    // const onFilter = (event) => {
-    //     event['first'] = 0;
-    //     setlazyState(event);
-    // };
 
 
     const totalBodyTemplate = (rowData) => {
@@ -142,15 +135,15 @@ const PokemonsPage = () => {
         return <div className={"flex flex-row gap-1"}>
             <Button size="small" icon="pi pi-search" severity="info" onClick={() => goToDetail(rowData.id)}
                     tooltip={"Go to Detail"}/>
-            {!rowData.inCatchList && <Button size="small" icon="pi pi-plus" onClick={() => addToCatchList(rowData.id)}
+            {!rowData.isInCatchList && <Button size="small" icon="pi pi-plus" onClick={() => addToCatchList(rowData.id)}
                                              tooltip={"Add to Catch List"}/>}
-            {!rowData.inCatchList && !rowData.inWishList &&
+            {!rowData.isInCatchList && !rowData.isInWishList &&
                 <Button icon="pi pi-heart" onClick={() => addToWishList(rowData.id)}
                         severity="help" size="small" tooltip={"Add to Wish List"}/>}
-            {rowData.inCatchList &&
+            {rowData.isInCatchList &&
                 <Button size="small" icon="pi pi-minus" onClick={() => removeFromCatchList(rowData.id)}
                         severity="danger" tooltip={"Remove From Catch List"}/>}
-            {rowData.inWishList && <Button icon="pi pi-heart" onClick={() => removeFromWishList(rowData.id)}
+            {rowData.isInWishList && <Button icon="pi pi-heart" onClick={() => removeFromWishList(rowData.id)}
                                            severity="danger" size="small" tooltip={"Remove From Wish List"}/>}
         </div>;
     };

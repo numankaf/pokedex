@@ -12,6 +12,7 @@ import com.pokedex.exception.PokedexDatabaseException;
 import com.pokedex.repository.PokemonRepository;
 import com.pokedex.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class PokemonService {
         this.userRepository = userRepository;
     }
 
-    @Cacheable(cacheNames = "currentUser")
+
     public User getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByUsername(username);
@@ -55,19 +56,7 @@ public class PokemonService {
     public PokemonDetailDto updatePokemon(Long id, PokemonDetailDto dto) {
         logger.info("UPDATE pokemon by id : " + id);
         Pokemon pokemon = pokemonRepository.findById(id).orElseThrow(() -> new PokedexDatabaseException("Pokemon not found with id : " + id));
-        pokemon.setName(dto.getName());
-        pokemon.setThumbnail(dto.getThumbnail());
-        pokemon.setTypes(dto.getTypes());
-        pokemon.setWeight(dto.getWeight());
-        pokemon.setHeight(dto.getHeight());
-        pokemon.setSpecie(dto.getSpecie());
-        pokemon.setAbilities(dto.getAbilities());
-        pokemon.setHp(dto.getHp());
-        pokemon.setAttack(dto.getAttack());
-        pokemon.setDefense(dto.getDefense());
-        pokemon.setSpeed(dto.getSpeed());
-        pokemon.setSpecialAttack(dto.getSpecialAttack());
-        pokemon.setSpecialDefense(dto.getSpecialDefense());
+        modelMapper.map(dto, pokemon);
         pokemonRepository.save(pokemon);
         return modelMapper.map(pokemon, PokemonDetailDto.class);
     }

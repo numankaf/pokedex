@@ -1,7 +1,5 @@
 "use client"
 import MainContainer from "@/components/layout/MainContainer";
-import {getTokenDecoded} from "@/utils/getTokenDecoded";
-import {useCurrentUser} from "@/authHooks/useCurrentUser";
 import {getCookie} from "cookies-next";
 
 export default function ProfileLayout({children}) {

@@ -6,7 +6,6 @@ import {Tag} from "primereact/tag";
 import PokemonTypesData from "@/utils/PokemonTypesData";
 import {ProgressBar} from 'primereact/progressbar';
 import {useRouter} from "next/navigation";
-import { Button } from 'primereact/button';
 const PokemonDetailPage = ({params}) => {
     const id = params.id;
     const router = useRouter()

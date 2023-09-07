@@ -2,7 +2,7 @@ import {getAuthorizationHeader} from "@/utils/getAutherizationHeader";
 import axios from "axios";
 
 export class PokemonService {
-    constructor(url) {
+        constructor(url) {
         this.instance = axios.create({
             baseURL: url,
             timeout: 30000,
@@ -80,7 +80,7 @@ export class PokemonService {
     }
 
     getUsersWhoCatched = (id) => {
-        return this.instance.get( `/pokemon/catch/${id}`)
+        return this.instance.get( `/users/catched/${id}`)
             .then((res) => {
                 return res.data;
             })
@@ -90,7 +90,7 @@ export class PokemonService {
     }
 
     getUsersWhoAddedWishList = (id) => {
-        return this.instance.get( `/pokemon/wish/${id}`)
+        return this.instance.get( `/users/wished/${id}`)
             .then((res) => {
                 return res.data;
             })
