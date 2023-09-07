@@ -1,4 +1,3 @@
-
 <a name="readme-top"></a>
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -7,7 +6,6 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
 
 <br />
 <div align="center">
@@ -42,11 +40,9 @@
   </ol>
 </details>
 
-
-
 ## About The Project
 
- <img src="pokedex-frontend\public\images\landing6.png" alt="Logo">
+ <img src="pokedex-frontend\public\images\landing6.PNG" alt="Logo">
 
 A sample Pokemon Management Application that where you can add pokemons in your catchlist or wishlist , view your account, list and seach on pokemons etc. As Admin Features, you can manipulate both users and pokemons like creating, updating and deleting them.
 
@@ -73,8 +69,8 @@ To get a local copy up and running follow these simple example steps.
   ```
 - java 17+
 
-
 ### Installation
+
 For frontend:
 
 1. Clone the repo
@@ -91,35 +87,33 @@ For frontend:
    ```
 
 For backend:
-1. Choose either monolith or mikroservice backend. You can run with docker or simply use command line.  
-   
 
-3. Run the application
+1. Choose either monolith or mikroservice backend. You can run with docker or simply use command line.
+
+2. Run the application
    ```sh
    mvn spring-boot:run
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 ## Usage
 
 Here is the usage examples of project:
 
- <img src="pokedex-frontend\public\images\landing7.png" alt="Logo">
+ <img src="pokedex-frontend\public\images\landing7.PNG" alt="Logo">
  
- <img src="pokedex-frontend\public\images\landing2.png" alt="Logo">
+ <img src="pokedex-frontend\public\images\landing2.PNG" alt="Logo">
  
- <img src="pokedex-frontend\public\images\landing3.png" alt="Logo">
+ <img src="pokedex-frontend\public\images\landing3.PNG" alt="Logo">
  
- <img src="pokedex-frontend\public\images\landing4.png" alt="Logo">
+ <img src="pokedex-frontend\public\images\landing4.PNG" alt="Logo">
  
- <img src="pokedex-frontend\public\images\landing5.png" alt="Logo">
+ <img src="pokedex-frontend\public\images\landing5.PNG" alt="Logo">
  
- <img src="pokedex-frontend\public\images\landing1.png" alt="Logo">
+ <img src="pokedex-frontend\public\images\landing1.PNG" alt="Logo">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 ## Contributing
 
@@ -136,35 +130,31 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 ## Contact
 
-Numan Kafadar  - numankafadar97@gmail.com
+Numan Kafadar - numankafadar97@gmail.com
 
 Project Link: [https://github.com/numankaf/pokedex](https://github.com/numankaf/pokedex)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/numankaf/pokedex.svg?style=for-the-badge
 [contributors-url]: https://github.com/numankaf/pokedex/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/numankaf/pokedex.svg?style=for-the-badge
 [forks-url]: https://github.com/numankaf/pokedex/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/numankaf/pokedex.svg?style=for-the-badge
 [stars-url]: https://github.com/numankaf/pokedex/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/numankaf/pokedex.svg?style=for-the-badge
 [issues-url]: https://github.com/numankaf/pokedex/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/numankaf/pokedex.svg?style=for-the-badge
 [license-url]: https://github.com/numankaf/pokedex/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/numan-kafadar-5b05bb22a/
